@@ -63,6 +63,7 @@ Your code is organized that way :
       - <code>*className*.class.h</code> *: class implementation and method declaration*
       - <code>*className*.test.cpp</code> *: class unit test*
       - <code>*className*.test.dependencies</code> *: className*.test.cpp *compilation dependencies*
-      - *optional* someOtherUnitTests.test.cpp always with their someOtherUnitTests.test.dependencies
-  - config/ : contains 2 files
-    - macros.h ->
+      - *optional* `someOtherUnitTests.test.cpp` always with their `someOtherUnitTests.test.dependencies`
+  - `config/` : contains 2 files
+    - `macros.h` -> preprocessor macros
+    - `constants.h` -> preprocessor constants
