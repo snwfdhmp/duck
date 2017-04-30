@@ -82,8 +82,6 @@ Your code is organized that way :
 
   - `config/` : contains 2 files
 
-    `macros.h`
-
-      - preprocessor macros
+    `macros.h` -> preprocessor macros
 
     `constants.h` -> preprocessor constants
