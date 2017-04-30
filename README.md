@@ -58,7 +58,7 @@ Your code is organized that way :
 - `src/`
   - Your `main.cpp` : main file
   - `classes/` *: contains all your classes organized as :*
-    - `*className*/`
+    - <code>*className*/</code>
       - `*className*.class.cpp` *: class method implementation*
       - `*className*.class.h` *: class implementation and method declaration*
       - `*className*.test.cpp` *: class unit test*
