@@ -10,8 +10,22 @@ function usage() {
     echo ""
     echo "Available options :"
     echo ""
-    echo "tag   name         usage"
-    echo "-c    create       duck create <type> <name>"
+    echo "name    |            usage"
+    echo "---------------------------------------"
+    echo "create    duck create <type> <name>"
+    echo "compile   duck compile [version-prefix]"
+}
+
+function project_version_usage() {
+    echo "usage: duck pv <options> "
+    echo ""
+    echo "Available options :"
+    echo ""
+    echo "name |           usage            |              description               "
+    echo "---------------------------------------------------------------------------"
+    echo "show   duck pv                      show actual project version"
+    echo "set    duck pv set <version>        set project major version"
+    echo "inc    (beta)duck pv inc [amount]   increments actual project major version"
 }
 
 if [ -z "$1" ];then
@@ -21,19 +35,46 @@ fi
 
 while [ "$1" != "" ]; do
     case $1 in
-        create | -c | --create )action="create"
-shift
-type=$1
-shift
-name=$1
-;;
--h | --help )           usage
-exit
-;;
-* )                     usage
-exit 1
-esac
-shift
+        create )                action="create"
+                                shift
+                                type=$1
+                                shift
+                                name=$1
+                                ;;
+        compile | -c)           action="compile"
+                                shift
+                                version_env=$1
+                                ;;
+        run | -r)               action="run"
+                                shift
+                                target=$1
+                                ;;
+        project-version | pv)   shift
+                                case $1 in
+                                            set)    action="project_version_set"
+                                                    shift
+                                                    set_version=$1
+                                                    ;;
+                                            inc)    action="project_version_inc"
+                                                    shift
+                                                    amount=$1
+                                                    ;;
+                                            show|"")     action="project_version_show"
+                                                    ;;
+                                            *)      project_version_usage
+                                                    exit 1
+                                                    ;;
+                                esac
+                                ;;
+        tar | -t) action="source_archive"
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+        esac
+        shift
 done
 
 function createUsage() {
@@ -133,6 +174,127 @@ int main(int argc, char const *argv[])
 
 
     echo "Successfully created $type $name"
+    exit 0
+}
+
+function compile() {
+    if [ -z "$version_env" ]; then
+        export COMPILE_ENV="dev"
+    else
+        export COMPILE_ENV=$version_env
+    fi
+
+    dir_build="build"
+
+    rm ./.DS_Store 2> /dev/null
+    rm */.DS_Store 2> /dev/null
+    rm */*/.DS_Store 2> /dev/null
+    rm */*/*/.DS_Store 2> /dev/null
+
+    version=$(cat config/compile_version_base)
+    suffix=$(cat config/compile_version_suffix)
+    suffix=$(($suffix+1))
+    log_compile_path="logs/compile.logs"
+
+    echo "Compilation de '$dir_build/$COMPILE_ENV-$version.$suffix.exe'..."
+    echo "[$(date)] ++ Compilation de '$dir_build/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
+
+    g++ src/main.cpp src/classes/*/*.class.cpp -o $dir_build/$COMPILE_ENV-$version.$suffix.exe -Wall
+
+    if [ $? -eq 0 ]; then
+        echo $suffix > config/compile_version_suffix
+        echo "$COMPILE_ENV-$version.$suffix.exe" > config/last_version
+        echo "Compilation réussie"
+    fi
+
+    git add $log_compile_path $dir_build/$COMPILE_ENV-$version.$suffix.exe > /dev/null 2> /dev/null
+    git commit -m "Compilation de '$dir_build/dev-$version.$suffix.exe' ..." > /dev/null 2> /dev/null
+    git push > /dev/null 2> /dev/null &
+    echo "Commit & push to git in background"
+    exit 0
+}
+
+function run() {
+    if [ -z $target ]; then
+        echo "No target specified, taking last version by default."
+        cat config/last_version > /dev/null 2> /dev/null
+        if [ ! $? -eq 0 ]; then
+            echo "Error : No last version found. (looking in config/last_version)"
+            exit 1
+        else
+            target="$(cat config/last_version)"
+            ls $target > /dev/null 2> /dev/null
+            if [ ! $? -eq 0 ]; then
+                echo "Error : last version ($target as set in config/last_version) doesn't seem to exist."
+                exit 1
+            fi
+        fi
+    else
+        ls build/*-$target.exe >/dev/null 2> /dev/null
+        if [ ! $? -eq 0 ];then
+            echo "$target : targetted version not found. (ls build/*-$target.exe returned errors)"
+            exit 1
+        else
+            target=$(ls build/*-$target.exe)
+        fi
+    fi
+    echo "Running '$target' ..."
+    echo ""
+    $target
+    exit 0
+}
+
+function project_version_set() {
+    actual_version=$(cat config/compile_version_base)
+    # TODO solve this (: integer expression expected (for if [ -lt ] ))
+    #if [ $set_version -lt $actual_version ];then
+    #    echo "Warning ! Changing version from $actual_version to earlier $set_version."
+    #    echo "This may cause troubles in versioning."
+    #    echo "Do you wish to continue ? [y/N]"
+    #    prompt yesorno
+    #    case $yesorno in
+    #        yY) echo "Continuing"
+    #            ;;
+    #        *) exit 1
+    #            ;;
+    #    esac
+    #fi
+
+    echo $set_version > config/compile_version_base
+    echo "-1" > config/compile_version_suffix
+    echo "Version succesfully changed."
+    echo "Next compile version : $set_version.0"
+    exit 0
+}
+
+function project_version_inc() {
+    echo "Warning ! This function may not work properly. Please use 'duck pv set' instead."
+    if [ -z $amount ]; then
+        echo "No amount specified, taking 0.1 by default"
+        amount=0.1
+    fi
+    actual_version="$(cat config/compile_version_base)"
+    
+    echo -n "Project version : $actual_version -> "
+    actual_version="$(echo "$actual_version+$amount"|bc)"
+    if [ $(echo $actual_version |grep ".*") = $actual_version ]; then
+        actual_version="0$actual_version"
+    fi
+    echo "$actual_version"
+    echo "$actual_version" > config/compile_version_base
+    exit 0
+}
+
+function project_version_show() {
+    cat config/compile_version_base
+    exit 0
+}
+
+function source_archive() {
+    mkdir "backups" 2> /dev/null
+    path="backups/$(cat config/compile_version_base).$(cat config/compile_version_suffix).$(date "+%d-%m-%y.%Hh%M").tar"
+    echo "Archiving source code to $path"
+    tar -cf $path src
     exit 0
 }
 
