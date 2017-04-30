@@ -190,7 +190,7 @@ git commit -m "$commit_msg"
 echo -n "Pushing local code to remote ..."
 git remote add origin https://github.com/$username/$repo_name.git > /dev/null 2>&1
 git push -u origin master > /dev/null 2>&1
-echo "Pushed successfully."
+echo "Pushed successfully."	
 
 
 cd $user_pwd

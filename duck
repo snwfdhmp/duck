@@ -1,0 +1,139 @@
+#!/bin/bash
+project_root="."
+project_name="$(basename $(pwd))"
+dir_src="src"
+create=0
+action="exit"
+
+function usage() {
+    echo "usage: duck <options> "
+    echo ""
+    echo "Available options :"
+    echo ""
+    echo "tag   name         usage"
+    echo "-c    create       duck create <type> <name>"
+}
+
+if [ -z "$1" ];then
+    usage
+    exit 1
+fi
+
+while [ "$1" != "" ]; do
+    case $1 in
+        create | -c | --create )action="create"
+shift
+type=$1
+shift
+name=$1
+;;
+-h | --help )           usage
+exit
+;;
+* )                     usage
+exit 1
+esac
+shift
+done
+
+function createUsage() {
+    echo "usage: duck create <type> <name> "
+    echo ""
+    echo "Available types :"
+    echo ""
+    echo "name         description"
+    echo "class        c++ class"
+}
+
+function create() {
+    if [ -z "$type" ] || [ -z "$name" ] || [ ! "$type" = "class" ];then
+        createUsage
+        exit 1
+    fi
+    if [ $type = "class" ]; then
+        createClass
+    fi
+}
+
+function createClass() {
+    mkdir $project_root/$dir_src/classes/$name
+    touch $project_root/$dir_src/classes/$name/$name.class.cpp
+    touch $project_root/$dir_src/classes/$name/$name.class.hpp
+    touch $project_root/$dir_src/classes/$name/$name.test.cpp
+    for i in $project_root/$dir_src/classes/$name/*; do
+        echo "// Project $project_name [duck managed]" >> $i
+        echo "// Class $name ($dir_src/classes/$name/$(basename $i))" >> $i
+    done
+    name_upper=$(echo "$name" | awk '{print toupper($0)}')
+    echo >> $project_root/$dir_src/classes/$name/$name.class.cpp\
+    "#ifndef ${name_upper}_CLASS_CPP
+#define ${name_upper}_CLASS_CPP
+
+//$name class methods implementation
+
+#include \"$name.class.hpp\"
+
+//class constructor
+$name::$name() {
+    // object initialization
+}
+
+#endif"
+
+    echo >> $project_root/$dir_src/classes/$name/$name.class.hpp\
+    "#ifndef ${name_upper}_CLASS_HPP
+#define ${name_upper}_CLASS_HPP
+    
+//$name class definition
+
+class $name
+{
+public:
+    $name(); //class constructor
+    ~$name();
+        
+};
+
+#endif"
+
+    echo >> $project_root/$dir_src/classes/$name/$name.test.cpp\
+    "#ifndef ${name_upper}_TEST_CPP
+#define ${name_upper}_TEST_CPP
+
+//$name class unit test
+
+#include <iostream>
+#include \"$name.class.hpp\"
+#include \"../../config/UnitTests.hpp\"
+
+int main(int argc, char const *argv[])
+{
+    unsigned int err = 0;
+    $name a;
+
+    /*
+        unit tests here
+        use macro SHOULD_BE_TRUE(expression) and SHOULD_BE_FALSE(expression)
+        to increment err when errors
+    */
+        
+    if(err) {
+        cout << 'Test failed with ' << err << ' errors.' << endl;
+        return -1;
+    }
+
+    cout << 'Test executed successfully' << endl;
+    return 0;
+}
+
+#endif"
+
+    echo >> $project_root/$dir_src/classes/$name/$name.test.dep\
+    "$dir_src/classes/$name/$name.class.cpp"
+
+
+    echo "Successfully created $type $name"
+    exit 0
+}
+
+$action
