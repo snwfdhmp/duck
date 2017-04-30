@@ -12,30 +12,22 @@ to this
 
 ## Usage
 
+<code>
 usage: duck <options> 
 
 Available options :
 
-
 name             usage                      description
-
 ---------------  -------------------------  ---------------------------------
-
 class            duck class <action> [opt]  tools for classes
-
 compile          duck compile [env]         project compiler
-
 run              duck run [target-version]  run project (no arg->last version)
-
 project-version  duck pv [show|set|inc]     configuration for project version
-
 tar              duck tar                   backup 'src/' dir into a tarball
-
 quick-commit     duck qc [custom-msg]       alias git add *, commit, push
-
 help             duck help                  shows this message
-
-doc              duck doc [command]         shows command's help message
+doc              duck doc [command]         shows command's help message"
+</code>
 
 ## Duck architecture
 
