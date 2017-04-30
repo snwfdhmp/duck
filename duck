@@ -10,14 +10,16 @@ function usage() {
     echo ""
     echo "Available options :"
     echo ""
-    echo "name              usage                          description"
-    echo "---------------   -----------------------------  ---------------------------------"
-    echo "class             duck class <action> [options]  tools for classes"
-    echo "compile           duck compile [version-prefix]  project compiler"
-    echo "run               duck run [target-version]      run project (no arg->last version)"
-    echo "project-version   duck pv <show|set|inc>         configuration for project version"
-    echo "tar               duck tar                       backup 'src/' dir into a tarball"
-    echo "quick-commit      duck qc                        alias git add *, commit, push"
+    echo "name             usage                      description"
+    echo "---------------  -------------------------  ---------------------------------"
+    echo "class            duck class <action> [opt]  tools for classes"
+    echo "compile          duck compile [env]         project compiler"
+    echo "run              duck run [target-version]  run project (no arg->last version)"
+    echo "project-version  duck pv [show|set|inc]     configuration for project version"
+    echo "tar              duck tar                   backup 'src/' dir into a tarball"
+    echo "quick-commit     duck qc [custom-msg]       alias git add *, commit, push"
+    echo "help             duck help                  shows this message"
+    echo "doc              duck doc [command]         shows command's help message"
 }
 
 function classUsage() {
@@ -106,7 +108,24 @@ while [ "$1" != "" ]; do
                                 ;;
         tar | -t)               action="source_archive"
                                 ;;
-        help | -h | --help )    usage
+ doc | help | -h | --help )     shift
+                                if [ -z "$1" ]; then
+                                    usage
+                                    exit 0
+                                fi
+                                case $1 in
+                                    class)              classUsage
+                                                        exit 0
+                                                        ;;
+                                    pv|project-version) project_version_usage
+                                                        exit 0
+                                                        ;;
+                                    *)                  echo "No help section for $1"
+                                                        usage
+                                                        exit 1
+                                                        ;;
+                                esac
+                                usage
                                 exit
                                 ;;
         * )                     usage
