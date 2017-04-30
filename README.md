@@ -16,39 +16,39 @@ to this
 
   Creates folders for your project including :
 
-  *build*
+  build
   
     - all your app builds
   
-  *config*
+  config
   
     - some configuration variables
   
-  *doc*
+  doc
   
     - documentations
   
-  *junk*
+  junk
   
     - for junk code
   
-  *logs*
+  logs
   
     - logs for compilation, unit test, versioning, etc
   
-  *src*
+  src
   
     - contains your source code
   
-  *compile*
+  compile
   
     - compilation file
   
-  *runtest*
+  runtest
   
     - unit test central
   
-  *run*
+  run
   
     - run the last build of your project
 
