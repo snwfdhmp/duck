@@ -62,20 +62,28 @@ Your code is organized that way :
 
   - `classes/` *: contains all your classes organized as :*
 
-    - <code>*className*/</code>
+    <code>*className*/</code>
 
-      - <code>*className*.class.cpp</code> *: class method implementation*
+      <code>*className*.class.cpp</code>
 
-      - <code>*className*.class.h</code> *: class implementation and method declaration*
+        - *: class method implementation*
 
-      - <code>*className*.test.cpp</code> *: class unit test*
+      <code>*className*.class.h</code>
 
-      - <code>*className*.test.dependencies</code> *: className*.test.cpp *compilation dependencies*
+        - *class implementation and method declaration*
+
+      <code>*className*.test.cpp</code>
+
+        - *class unit test*
+
+      <code>*className*.test.dependencies</code> *: className*.test.cpp *compilation dependencies*
 
       - *optional* `someOtherUnitTests.test.cpp` always with their `someOtherUnitTests.test.dependencies`
 
-  - `config/` : contains 2 files
+  `config/` : contains 2 files
 
-    - `macros.h` -> preprocessor macros
+    `macros.h`
 
-    - `constants.h` -> preprocessor constants
+      - preprocessor macros
+
+    `constants.h` -> preprocessor constants
