@@ -64,7 +64,7 @@ Your code is organized that way :
 
     <code>*className*/</code>
 
-      <code>*className*.class.cpp</code>
+      - <code>*className*.class.cpp</code>
 
         - *: class method implementation*
 
