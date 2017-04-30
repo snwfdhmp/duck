@@ -12,7 +12,7 @@ to this
 
 ## Commands
 
-<code>duck create *project-name*</code>
+`duck create *project-name*`
 
   Creates folders for your project including :
 
@@ -48,21 +48,21 @@ to this
   
     - unit test central
   
-  ```run``
+  `run`
   
     - run the last build of your project
 
 ##Organization
 
 Your code is organized that way :
-- src/
+- `src/`
   - Your `main.cpp` : main file
-  - classes/ *: contains all your classes organized as :*
-    - *className*/
-      - *className*.class.cpp *: class method implementation*
-      - *className*.class.h *: class implementation and method declaration*
-      - *className*.test.cpp *: class unit test*
-      - *className*.test.dependencies *: className*.test.cpp *compilation dependencies*
+  - `classes/` *: contains all your classes organized as :*
+    - `*className*/`
+      - `*className*.class.cpp` *: class method implementation*
+      - `*className*.class.h` *: class implementation and method declaration*
+      - `*className*.test.cpp` *: class unit test*
+      - `*className*.test.dependencies` *: className*.test.cpp *compilation dependencies*
       - *optional* someOtherUnitTests.test.cpp always with their someOtherUnitTests.test.dependencies
   - config/ : contains 2 files
     - macros.h ->
