@@ -55,15 +55,27 @@ to this
 ##Organization
 
 Your code is organized that way :
+
 - `src/`
+
   - Your `main.cpp` : main file
+
   - `classes/` *: contains all your classes organized as :*
+
     - <code>*className*/</code>
+
       - <code>*className*.class.cpp</code> *: class method implementation*
+
       - <code>*className*.class.h</code> *: class implementation and method declaration*
+
       - <code>*className*.test.cpp</code> *: class unit test*
+
       - <code>*className*.test.dependencies</code> *: className*.test.cpp *compilation dependencies*
+
       - *optional* `someOtherUnitTests.test.cpp` always with their `someOtherUnitTests.test.dependencies`
+
   - `config/` : contains 2 files
+
     - `macros.h` -> preprocessor macros
+
     - `constants.h` -> preprocessor constants
