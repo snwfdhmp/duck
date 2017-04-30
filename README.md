@@ -62,23 +62,23 @@ Your code is organized that way :
 
   - `classes/` : contains all your classes organized in their *className* dir as
 
-        <code>*className*.class.cpp</code>
+      <code>*className*.class.cpp</code>
 
-          - class method implementation
+        - class method implementation
 
-       <code>*className*.class.h</code>
+      <code>*className*.class.h</code>
 
-         - class implementation and method declaration
+        - class implementation and method declaration
 
-       <code>*className*.test.cpp</code>
+      <code>*className*.test.cpp</code>
 
-          - class unit test
+        - class unit test
 
-        <code>*className*.test.dependencies</code>
+      <code>*className*.test.dependencies</code>
 
-          - '*className*.test.cpp' compilation dependencies
+        - '*className*.test.cpp' compilation dependencies
 
-        + *optional* `someOtherUnitTests.test.cpp` always with their `someOtherUnitTests.test.dependencies`
+      + *optional* `someOtherUnitTests.test.cpp` always with their `someOtherUnitTests.test.dependencies`
 
   - `config/` : contains 2 files
 
