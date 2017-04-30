@@ -10,10 +10,33 @@ function usage() {
     echo ""
     echo "Available options :"
     echo ""
-    echo "name    |            usage"
-    echo "---------------------------------------"
-    echo "create    duck create <type> <name>"
-    echo "compile   duck compile [version-prefix]"
+    echo "name              usage                          description"
+    echo "---------------   -----------------------------  ---------------------------------"
+    echo "class             duck class <action> [options]  tools for classes"
+    echo "compile           duck compile [version-prefix]  project compiler"
+    echo "run               duck run [target-version]      run project (no arg->last version)"
+    echo "project-version   duck pv <show|set|inc>         configuration for project version"
+    echo "tar               duck tar                       backup 'src/' dir into a tarball"
+    echo "quick-commit      duck qc                        alias git add *, commit, push"
+}
+
+function classUsage() {
+    echo "usage: duck class <action> [option] "
+    echo ""
+    echo "Available types :"
+    echo ""
+    echo "name         description"
+    echo "------       ------------------------------------"
+    echo "create       creates a c++ class (with unit test)"
+    echo "rm           removes a c++ class (move to junk/)"
+    echo "list         list project's c++ classes"
+}
+
+function classCreateUsage() {
+    echo "usage: duck class create <name> "
+}
+function classDelUsage() {
+    echo "usage: duck class rm <name> "
 }
 
 function project_version_usage() {
@@ -21,8 +44,8 @@ function project_version_usage() {
     echo ""
     echo "Available options :"
     echo ""
-    echo "name |           usage            |              description               "
-    echo "---------------------------------------------------------------------------"
+    echo "name   usage                        description"
+    echo "----   --------------------------   ---------------------------------------"
     echo "show   duck pv                      show actual project version"
     echo "set    duck pv set <version>        set project major version"
     echo "inc    (beta)duck pv inc [amount]   increments actual project major version"
@@ -35,11 +58,26 @@ fi
 
 while [ "$1" != "" ]; do
     case $1 in
-        create )                action="create"
+        qc | quick-commit)      action="quick_commit"
                                 shift
-                                type=$1
-                                shift
-                                name=$1
+                                msg=$1
+                                ;;
+        class )                 shift
+                                case $1 in
+                                            create)     shift
+                                                        name=$1
+                                                        action="classCreate"
+                                                        ;;
+                                            list| l)    action="classList"
+                                                        ;;
+                                            rm | del)   action="classDel"
+                                                        shift
+                                                        name=$1
+                                                        ;;
+                                            *)          classUsage
+                                                        exit 1
+                                                        ;;
+                                esac
                                 ;;
         compile | -c)           action="compile"
                                 shift
@@ -66,9 +104,9 @@ while [ "$1" != "" ]; do
                                                     ;;
                                 esac
                                 ;;
-        tar | -t) action="source_archive"
+        tar | -t)               action="source_archive"
                                 ;;
-        -h | --help )           usage
+        help | -h | --help )    usage
                                 exit
                                 ;;
         * )                     usage
@@ -77,26 +115,61 @@ while [ "$1" != "" ]; do
         shift
 done
 
-function createUsage() {
-    echo "usage: duck create <type> <name> "
-    echo ""
-    echo "Available types :"
-    echo ""
-    echo "name         description"
-    echo "class        c++ class"
-}
-
-function create() {
-    if [ -z "$type" ] || [ -z "$name" ] || [ ! "$type" = "class" ];then
-        createUsage
+function quick_commit() {
+    if [ -z $msg ]; then
+        msg="Quick commit"
+        echo "Using default commit message '$msg'"
+    fi
+    git add *
+    if [ ! $? -eq 0 ]; then
+        echo "error during 'git add'."
         exit 1
     fi
-    if [ $type = "class" ]; then
-        createClass
+    git commit -m "Quick commit"
+    if [ ! $? -eq 0 ]; then
+        echo "error during 'git commit'."
+        exit 1
     fi
+    git push > /dev/null 2> /dev/null &
+    echo "Committed successfully, pushing in background"
+    exit 0
 }
 
-function createClass() {
+function classList() {
+    for i in src/classes/*
+    do
+        echo "$(basename $i)"
+    done
+    exit 0
+}
+
+function classDel() {
+    if [ -z $name ]; then
+        classDelUsage
+        exit 1
+    fi
+    if [ ! -d "$dir_src/classes/$name" ];then
+        echo "error : no such class '$name' (looking in $dir_src/classes/)"
+        classDelUsage
+        exit 1
+    fi
+    echo -n "You will delete '$dir_src/classes/$name/*'. Confirm ? [y/n] "
+    read confirm
+    case $confirm in
+        y|Y) ;;
+        *) exit 1;;
+    esac
+    mv $dir_src/classes/$name junk/
+    echo "Class $name moved to junk"
+    exit 0
+}
+
+function classCreate() {
+    if [ -z "$name" ];then
+        classCreateUsage
+        exit 1
+    fi
+
     mkdir $project_root/$dir_src/classes/$name
     touch $project_root/$dir_src/classes/$name/$name.class.cpp
     touch $project_root/$dir_src/classes/$name/$name.class.hpp
@@ -286,7 +359,7 @@ function project_version_inc() {
 }
 
 function project_version_show() {
-    cat config/compile_version_base
+    echo "$(cat config/compile_version_base).$(cat config/compile_version_suffix)"
     exit 0
 }
 
