@@ -1,0 +1,258 @@
+[Sam 29 avr 2017 14:16:35 CEST] => src/classes/MovePlan/MovePlan.test.cpp%.test.cpp : Run test success.
+[Sam 29 avr 2017 14:17:09 CEST] => src/classes/MovePlan/MovePlan.test.cpp%.test.cpp : Run test success.
+[Sam 29 avr 2017 14:17:44 CEST] => src/classes/MovePlan/MovePlan.test.cpp%.test.cpp : Run test success.
+[Sam 29 avr 2017 14:18:18 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:18:39 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:19:33 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:29:30 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:29:50 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:30:11 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:30:53 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:32:16 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:36:14 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:44:30 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:47:55 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:49:08 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:51:38 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:53:08 CEST] => MovePlan.test.cpp : Run test success.
+[Sam 29 avr 2017 14:54:26 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:55:24 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:56:17 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:56:37 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:56:46 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:57:44 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:58:27 CEST] =>  : Run test success.
+[Sam 29 avr 2017 14:59:14 CEST] => src/classes/MovePlan/MovePlan : Run test success.
+[Sam 29 avr 2017 14:59:25 CEST] => MovePlan : Run test success.
+[Sam 29 avr 2017 14:59:36 CEST] => MovePlan : Run test success.
+[Sam 29 avr 2017 15:00:17 CEST] => MovePlan : Run test success.
+[Sam 29 avr 2017 18:24:54 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:05:18 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:08:58 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:09:23 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:10:22 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:10:49 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:11:46 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:12:10 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:12:27 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:12:57 CEST] -- MovePlan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:19:33 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:19:40 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:19:51 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:25:12 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:26:03 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:30:49 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:30:50 CEST] -- Plan : Run test failed. (error code : 127)
+[Sam 29 avr 2017 21:31:30 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:31:30 CEST] -- Plan : Run test failed. (error code : 255)
+[Sam 29 avr 2017 21:36:16 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:36:16 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:36:17 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:36:17 CEST] -- Plan : Run test failed. (error code : 255)
+[Sam 29 avr 2017 21:36:42 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:36:42 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:36:42 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:36:42 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:36:53 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:36:53 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:36:53 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:36:53 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:37:33 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:37:33 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:37:33 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:37:33 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:37:44 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:37:44 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:37:44 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:37:44 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:38:14 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:38:14 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:38:14 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:38:14 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:38:18 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:38:18 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:38:19 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:38:19 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 21:41:59 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 21:41:59 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 21:41:59 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 21:41:59 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 22:18:55 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:18:55 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:18:55 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:18:55 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 22:19:24 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:19:24 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:19:24 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:19:24 CEST] ++ Plan : Run test success.
+[Sam 29 avr 2017 22:19:58 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:19:58 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:19:58 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:19:58 CEST] -- Plan : Run test failed. (error code : 255)
+[Sam 29 avr 2017 22:20:07 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:20:07 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:20:07 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:20:07 CEST] -- Plan : Run test failed. (error code : 255)
+[Sam 29 avr 2017 22:21:17 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:21:17 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:21:17 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:21:17 CEST] -- Plan : Run test failed. (Plan.test.cpp returns 255)
+[Sam 29 avr 2017 22:21:35 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:21:35 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:21:35 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:21:35 CEST] -- Plan : Run test failed. (Plan.test.cpp returns 255)
+[Sam 29 avr 2017 22:26:06 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:26:06 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:26:06 CEST] -- Plan : Compilation success.
+[Sam 29 avr 2017 22:26:06 CEST] -- Plan : Run test failed. (Plan.test.cpp returns 255)
+[Sam 29 avr 2017 22:40:05 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:40:05 CEST] -- MovePlan : Run test failed. (MovePlan.test.cpp returns 127)
+[Sam 29 avr 2017 22:40:05 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:40:05 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:40:27 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:40:27 CEST] -- MovePlan : Run test failed. (MovePlan.test.cpp returns 127)
+[Sam 29 avr 2017 22:40:27 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:40:27 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:40:53 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:40:53 CEST] -- MovePlan : Run test failed. (MovePlan.test.cpp returns 127)
+[Sam 29 avr 2017 22:40:54 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:40:54 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:41:15 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:41:15 CEST] -- MovePlan : Run test failed. (MovePlan.test.cpp returns 127)
+[Sam 29 avr 2017 22:41:15 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:41:15 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:41:21 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:41:21 CEST] -- MovePlan : Run test failed. (MovePlan.test.cpp returns 127)
+[Sam 29 avr 2017 22:41:21 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:41:21 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:41:49 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:41:49 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:41:50 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:41:50 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:42:03 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:42:03 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:42:03 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:42:03 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:43:22 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:43:22 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:43:23 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:43:23 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:43:57 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:43:57 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:43:57 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:43:57 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:44:03 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:44:03 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:44:04 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:44:04 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:44:20 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:44:20 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:44:21 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:44:21 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:46:01 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:46:01 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:46:02 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:49:24 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:49:24 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:49:24 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:49:24 CEST] -- PlayerIA : Run test failed. (PlayerIA.test.cpp returns 127)
+[Sam 29 avr 2017 22:49:51 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:49:51 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:49:52 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:50:05 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:50:05 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:50:05 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:50:39 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:50:39 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:50:40 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:51:07 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:51:07 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:51:08 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:51:52 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:51:52 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:51:52 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:52:20 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:52:20 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:52:20 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:52:40 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:52:40 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:52:41 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:53:08 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:53:08 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:53:09 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:53:32 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:53:32 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:53:33 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:53:45 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:53:45 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:53:45 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:54:08 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:54:08 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:54:09 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:55:00 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:00 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:01 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:55:01 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 22:55:12 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:12 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:13 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:55:21 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:21 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:22 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:55:22 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 22:55:26 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:26 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:27 CEST] -- PlayerIA : Compilation failed.
+[Sam 29 avr 2017 22:55:33 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:33 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:34 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:55:34 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 22:55:55 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:55:55 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:55:56 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:55:56 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 22:57:41 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 22:57:41 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 22:57:42 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 22:57:42 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:10:54 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:10:54 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:10:55 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:10:55 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:12:05 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:12:05 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:12:06 CEST] -- Player : Compilation failed.
+[Sam 29 avr 2017 23:12:07 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:12:07 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:13:01 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:13:01 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:13:01 CEST] -- Player : Compilation failed.
+[Sam 29 avr 2017 23:13:02 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:13:02 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:14:19 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:14:19 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:14:19 CEST] -- Player : Compilation failed.
+[Sam 29 avr 2017 23:14:20 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:14:20 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:14:47 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:14:47 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:14:47 CEST] -- Player : Compilation failed.
+[Sam 29 avr 2017 23:14:48 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:14:48 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:15:21 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:15:21 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:15:22 CEST] -- Player : Compilation failed.
+[Sam 29 avr 2017 23:15:23 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:15:23 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:15:40 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:15:40 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:15:41 CEST] -- Player : Compilation success.
+[Sam 29 avr 2017 23:15:41 CEST] ++ Player : Run test success.
+[Sam 29 avr 2017 23:15:42 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:15:42 CEST] ++ PlayerIA : Run test success.
+[Sam 29 avr 2017 23:15:56 CEST] -- MovePlan : Compilation success.
+[Sam 29 avr 2017 23:15:56 CEST] ++ MovePlan : Run test success.
+[Sam 29 avr 2017 23:15:57 CEST] -- Player : Compilation success.
+[Sam 29 avr 2017 23:15:57 CEST] ++ Player : Run test success.
+[Sam 29 avr 2017 23:15:58 CEST] -- PlayerIA : Compilation success.
+[Sam 29 avr 2017 23:15:58 CEST] ++ PlayerIA : Run test success.
