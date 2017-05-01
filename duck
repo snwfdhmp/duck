@@ -1,9 +1,111 @@
 #!/bin/bash
-project_root="."
-project_name="$(basename $(pwd))"
-dir_src="src"
-create=0
-action="exit"
+storage="/etc" #default mac app storage
+if [ ! -d "$storage" ]; then
+    storage="/var/lib"
+    if [ ! -d "$storage" ]; then
+        echo "No configuration dir found"
+        exit 1
+    fi
+fi
+
+storage="$storage/duck"
+
+if [ ! -d $storage ]; then
+    echo "No configuration folder found. Creating one at $storage (permissions : 750)"
+    sudo mkdir $storage
+    sudo chmod 777 $storage
+fi
+
+if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+    echo "No duck configuration file found in $storage (duck.conf). Creating one (permissions : 750)"
+    echo
+    echo "Enter a name for this project : "
+    read project_name
+    echo "Enter the path for this project : "
+    read project_path
+    echo "#!/bin/bash" > $storage/duck.conf
+    echo "duck_storage_path=$(pwd)" >> $storage/duck.conf
+    echo 'build_dir=build' >> $storage/duck.conf
+    echo 'backups_dir=backups' >> $storage/duck.conf
+    echo 'config_dir=config' >> $storage/duck.conf
+    echo 'doc_dir=doc' >> $storage/duck.conf
+    echo 'junk_dir=junk' >> $storage/duck.conf
+    echo 'logs_dir=logs' >> $storage/duck.conf
+    echo 'src_dir=src' >> $storage/duck.conf
+    echo 'classes_dir=classes' >> $storage/duck.conf
+    echo 'tests_dir=tests' >> $storage/duck.conf
+    echo 'source_config_dir=config' >> $storage/duck.conf
+    echo 'class_extension=class' >> $storage/duck.conf
+    echo 'code_extension=cpp' >> $storage/duck.conf
+    echo 'header_extension=hpp' >> $storage/duck.conf
+    echo 'dependencies_extension=dep' >> $storage/duck.conf
+    echo 'base_version=0.1' >> $storage/duck.conf
+    echo 'base_suffix=-1' >> $storage/duck.conf
+    echo "project_name=$project_name" >> $storage/duck.conf
+    echo "project_path=$project_path" >> $storage/duck.conf
+
+    chmod 750 $storage/duck.conf
+fi
+
+function create_project_conf() {
+    cp $storage/duck.conf $project_storage/duck.conf
+    chmod 750 $project_storage/duck.conf
+}
+
+function init() {
+    project_storage=".duck"
+
+    if [ ! -d "$project_storage" ]; then
+        if [ "$action" = "init" ]; then
+            mkdir 750 .duck
+        fi
+        project_storage="../$project_storage"
+        if [ ! -d "$project_storage"]; then
+            project_storage="../$project_storage"
+            if [ ! -d "$project_storage"]; then
+                project_storage="../$project_storage"
+            else
+                echo "Cannot find .duck storage. Try repairing with 'duck repair'"
+            fi
+        fi
+    fi
+
+
+
+    if [ ! $(ls "$project_storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+        if [ ! "$action" = "init" ]; then
+         echo "No project configuration file found in $project_storage (duck.conf). Creating one (permissions : 750)"
+     fi
+     create_project_conf
+ fi
+
+ . $storage/duck.conf
+ . $project_storage/duck.conf
+
+ if [ -z "$project_name" ]; then
+    if [ ! "$action" = "init" ]; then
+        echo "No name has been set for this projet yet."
+    fi
+    echo "Enter a name : "
+    read project_name
+    echo "project_name=$project_name" >> $storage/duck.conf
+fi
+
+}
+
+function deploy() {
+    init
+
+    mkdir $project_path/$build_dir $project_path/$backups_dir $project_path/$config_dir $project_path/$doc_dir $project_path/$junk_dir $project_path/$logs_dir $project_path/$src_dir $project_path/$src_dir/$classes_dir $project_path/$src_dir/$source_config_dir $project_path/$src_dir/$tests_dir
+    chmod 750 $project_path/*
+    
+    name="ClassName"
+    classCreate
+    echo "$version_base" > $project_storage/version_base
+    echo "$version_suffix" > $project_storage/version_suffix
+}
+
+
 
 function usage() {
     echo "usage: duck <options> "
@@ -12,6 +114,8 @@ function usage() {
     echo ""
     echo "name             usage                      description"
     echo "---------------  -------------------------  ---------------------------------"
+    echo "init             duck init <name> [opt]     initialize a new duck project"
+    echo "deploy           duck deploy [opt]          deploy duck architecture"
     echo "class            duck class <action> [opt]  tools for classes"
     echo "compile          duck compile [env]         project compiler"
     echo "run              duck run [target-version]  run project (no arg->last version)"
@@ -53,87 +157,6 @@ function project_version_usage() {
     echo "inc    (beta)duck pv inc [amount]   increments actual project major version"
 }
 
-if [ -z "$1" ];then
-    usage
-    exit 1
-fi
-
-while [ "$1" != "" ]; do
-    case $1 in
-        qc | quick-commit)      action="quick_commit"
-                                shift
-                                msg=$1
-                                ;;
-        class )                 shift
-                                case $1 in
-                                            create)     shift
-                                                        name=$1
-                                                        action="classCreate"
-                                                        ;;
-                                            list| l)    action="classList"
-                                                        ;;
-                                            rm | del)   action="classDel"
-                                                        shift
-                                                        name=$1
-                                                        ;;
-                                            *)          classUsage
-                                                        exit 1
-                                                        ;;
-                                esac
-                                ;;
-        compile | -c)           action="compile"
-                                shift
-                                version_env=$1
-                                ;;
-        run | -r)               action="run"
-                                shift
-                                target=$1
-                                ;;
-        project-version | pv)   shift
-                                case $1 in
-                                            set)    action="project_version_set"
-                                                    shift
-                                                    set_version=$1
-                                                    ;;
-                                            inc)    action="project_version_inc"
-                                                    shift
-                                                    amount=$1
-                                                    ;;
-                                            show|"")     action="project_version_show"
-                                                    ;;
-                                            *)      project_version_usage
-                                                    exit 1
-                                                    ;;
-                                esac
-                                ;;
-        tar | -t)               action="source_archive"
-                                ;;
- doc | help | -h | --help )     shift
-                                if [ -z "$1" ]; then
-                                    usage
-                                    exit 0
-                                fi
-                                case $1 in
-                                    class)              classUsage
-                                                        exit 0
-                                                        ;;
-                                    pv|project-version) project_version_usage
-                                                        exit 0
-                                                        ;;
-                                    *)                  echo "No help section for $1"
-                                                        usage
-                                                        exit 1
-                                                        ;;
-                                esac
-                                usage
-                                exit
-                                ;;
-        * )                     usage
-                                exit 1
-        esac
-        shift
-done
-
 function quick_commit() {
     if [ -z "$msg" ]; then
         msg="Quick commit"
@@ -155,7 +178,7 @@ function quick_commit() {
 }
 
 function classList() {
-    for i in src/classes/*
+    for i in $src_dir/$classes_dir/*
     do
         echo "$(basename $i)"
     done
@@ -167,20 +190,20 @@ function classDel() {
         classDelUsage
         exit 1
     fi
-    if [ ! -d "$dir_src/classes/$name" ];then
-        echo "error : no such class '$name' (looking in $dir_src/classes/)"
+    if [ ! -d "$src_dir/classes/$name" ];then
+        echo "error : no such class '$name' (looking in $src_dir/classes/)"
         classDelUsage
         exit 1
     fi
-    echo -n "You will delete '$dir_src/classes/$name/*'. Confirm ? [y/n] "
+    echo -n "You will delete '$src_dir/classes/$name/*'. Confirm ? [y/n] "
     read confirm
     case $confirm in
         y|Y) ;;
-        *) exit 1;;
-    esac
-    mv $dir_src/classes/$name junk/
-    echo "Class $name moved to junk"
-    exit 0
+*) exit 1;;
+esac
+mv $src_dir/classes/$name junk/
+echo "Class $name moved to junk"
+exit 0
 }
 
 function classCreate() {
@@ -189,80 +212,80 @@ function classCreate() {
         exit 1
     fi
 
-    mkdir $project_root/$dir_src/classes/$name
-    touch $project_root/$dir_src/classes/$name/$name.class.cpp
-    touch $project_root/$dir_src/classes/$name/$name.class.hpp
-    touch $project_root/$dir_src/classes/$name/$name.test.cpp
-    for i in $project_root/$dir_src/classes/$name/*; do
+    mkdir $project_root/$src_dir/classes/$name
+    touch $project_root/$src_dir/classes/$name/$name.class.cpp
+    touch $project_root/$src_dir/classes/$name/$name.class.hpp
+    touch $project_root/$src_dir/classes/$name/$name.test.cpp
+    for i in $project_root/$src_dir/classes/$name/*; do
         echo "// Project $project_name [duck managed]" >> $i
-        echo "// Class $name ($dir_src/classes/$name/$(basename $i))" >> $i
+        echo "// Class $name ($src_dir/classes/$name/$(basename $i))" >> $i
     done
     name_upper=$(echo "$name" | awk '{print toupper($0)}')
-    echo >> $project_root/$dir_src/classes/$name/$name.class.cpp\
+    echo >> $project_root/$src_dir/classes/$name/$name.class.cpp\
     "#ifndef ${name_upper}_CLASS_CPP
-#define ${name_upper}_CLASS_CPP
+    #define ${name_upper}_CLASS_CPP
 
-//$name class methods implementation
+    //$name class methods implementation
 
-#include \"$name.class.hpp\"
+    #include \"$name.class.hpp\"
 
-//class constructor
-$name::$name() {
-    // object initialization
-}
+    //class constructor
+    $name::$name() {
+        // object initialization
+    }
 
-#endif"
+    #endif"
 
-    echo >> $project_root/$dir_src/classes/$name/$name.class.hpp\
+    echo >> $project_root/$src_dir/classes/$name/$name.class.hpp\
     "#ifndef ${name_upper}_CLASS_HPP
-#define ${name_upper}_CLASS_HPP
+    #define ${name_upper}_CLASS_HPP
     
-//$name class definition
+    //$name class definition
 
-class $name
-{
-public:
-    $name(); //class constructor
-    ~$name();
+    class $name
+    {
+        public:
+        $name(); //class constructor
+        ~$name();
         
-};
+    };
 
-#endif"
+    #endif"
 
-    echo >> $project_root/$dir_src/classes/$name/$name.test.cpp\
+    echo >> $project_root/$src_dir/classes/$name/$name.test.cpp\
     "#ifndef ${name_upper}_TEST_CPP
-#define ${name_upper}_TEST_CPP
+    #define ${name_upper}_TEST_CPP
 
-//$name class unit test
+    //$name class unit test
 
-#include <iostream>
-#include \"$name.class.hpp\"
-#include \"../../config/UnitTests.hpp\"
+    #include <iostream>
+    #include \"$name.class.hpp\"
+    #include \"../../config/UnitTests.hpp\"
 
-int main(int argc, char const *argv[])
-{
-    unsigned int err = 0;
-    $name a;
+    int main(int argc, char const *argv[])
+    {
+        unsigned int err = 0;
+        $name a;
 
-    /*
+        /*
         unit tests here
         use macro SHOULD_BE_TRUE(expression) and SHOULD_BE_FALSE(expression)
         to increment err when errors
-    */
+        */
         
-    if(err) {
-        cout << 'Test failed with ' << err << ' errors.' << endl;
-        return -1;
+        if(err) {
+            cout << 'Test failed with ' << err << ' errors.' << endl;
+            return -1;
+        }
+
+        cout << 'Test executed successfully' << endl;
+        return 0;
     }
 
-    cout << 'Test executed successfully' << endl;
-    return 0;
-}
+    #endif"
 
-#endif"
-
-    echo >> $project_root/$dir_src/classes/$name/$name.test.dep\
-    "$dir_src/classes/$name/$name.class.cpp"
+    echo >> $project_root/$src_dir/classes/$name/$name.test.dep\
+    "$src_dir/classes/$name/$name.class.cpp"
 
 
     echo "Successfully created $type $name"
@@ -389,5 +412,94 @@ function source_archive() {
     tar -cf $path src
     exit 0
 }
+
+if [ -z "$1" ];then
+    usage
+    exit 1
+fi
+
+while [ "$1" != "" ]; do
+    case $1 in
+        deploy)                 action="deploy"
+                                ;;
+        init)                   action="init"
+                                shift
+                                project_name=$1
+                                ;;
+        qc | quick-commit)      action="quick_commit"
+                                shift
+                                msg=$1
+                                ;;
+    class )                     shift
+                                case $1 in
+                                            create)     shift
+                                                        name=$1
+                                                        action="classCreate"
+                                                        ;;
+                                            list| l)    action="classList"
+                                                        ;;
+                                                        rm | del)   action="classDel"
+                                                        shift
+                                                        name=$1
+                                                        ;;
+                                            *)          classUsage  
+                                                        exit 1
+                                                        ;;
+                                esac
+                                ;;
+    compile | -c)               action="compile"
+                                shift
+                                version_env=$1
+                                ;;
+    run | -r)                   action="run"
+                                shift
+                                target=$1
+                                ;;
+    project-version | pv)       shift
+                                case $1 in
+                                    set)                        action="project_version_set"
+                                                                shift
+                                                                set_version=$1
+                                                                ;;
+                                    inc)                        action="project_version_inc"
+                                                                shift
+                                                                amount=$1
+                                                                ;;
+                                    show|"")                    action="project_version_show"
+                                                                ;;
+                                    *)                          project_version_usage
+                                                                exit 1
+                                                                ;;
+                                esac
+                                ;;
+    tar | -t)                   action="source_archive"
+                                ;;
+    doc | help | -h | --help )  shift
+                                if [ -z "$1" ]; then
+                                    usage
+                                    exit 0
+                                fi
+                                case $1 in
+                                    class)              classUsage
+                                                        exit 0
+                                                        ;;
+                                    pv|project-version) project_version_usage
+                                                        exit 0
+                                                        ;;
+                                    *)                  echo "No help section for $1"
+                                                        usage
+                                                        exit 1
+                                                        ;;
+                                esac
+                                usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+                                ;;
+    esac
+    shift
+done
+
 
 $action

@@ -35,7 +35,7 @@ quick-commit     duck qc [custom-msg]       alias git add *, commit, push
 
 help             duck help                  shows this message
 
-doc              duck doc [command]         shows command's help message"
+doc              duck doc [command]         shows command's help message
 
 ```
 
