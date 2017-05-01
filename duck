@@ -39,8 +39,11 @@ if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo 'code_extension=cpp' >> $storage/duck.conf
     echo 'header_extension=hpp' >> $storage/duck.conf
     echo 'dependencies_extension=dep' >> $storage/duck.conf
+    echo 'test_extension=test' >> $storage/duck.conf
     echo 'base_version=0.1' >> $storage/duck.conf
     echo 'base_suffix=-1' >> $storage/duck.conf
+    echo 'default_env=dev' >> $storage/duck.conf
+    echo 'default_qc_message="Quick commit"' >> $storage/duck.conf
     echo "project_name=$project_name" >> $storage/duck.conf
     echo "project_path=$project_path" >> $storage/duck.conf
 
@@ -57,15 +60,15 @@ function init() {
 
     if [ ! -d "$project_storage" ]; then
         if [ "$action" = "init" ]; then
-            mkdir 750 .duck
+            mkdir .duck
+            chmod 750 .duck
         fi
         project_storage="../$project_storage"
-        if [ ! -d "$project_storage"]; then
+        if [ ! -d "$project_storage" ]; then
             project_storage="../$project_storage"
-            if [ ! -d "$project_storage"]; then
-                project_storage="../$project_storage"
-            else
+            if [ ! -d "$project_storage" ]; then
                 echo "Cannot find .duck storage. Try repairing with 'duck repair'"
+                exit 1
             fi
         fi
     fi
@@ -96,13 +99,31 @@ fi
 function deploy() {
     init
 
+    if [ -z $project_path ]; then
+        project_path="."
+    fi
+
     mkdir $project_path/$build_dir $project_path/$backups_dir $project_path/$config_dir $project_path/$doc_dir $project_path/$junk_dir $project_path/$logs_dir $project_path/$src_dir $project_path/$src_dir/$classes_dir $project_path/$src_dir/$source_config_dir $project_path/$src_dir/$tests_dir
     chmod 750 $project_path/*
     
+    touch $src_dir/$source_config_dir/UnitTests.$header_extension
+    touch $src_dir/$source_config_dir/Constants.$header_extension
+
     name="ClassName"
     classCreate
     echo "$version_base" > $project_storage/version_base
     echo "$version_suffix" > $project_storage/version_suffix
+
+    if [ ! $(ls "$project_storage/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+        echo "#$project_name" > $project_path/README.md
+        echo >> $project_path/README.md
+        echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_path/README.md
+    fi
+
+    echo ".duck" > $project_path/.gitignore
+    echo ".DS_Store" > $project_path/.gitignore
+
+    git init
 }
 
 
@@ -158,9 +179,10 @@ function project_version_usage() {
 }
 
 function quick_commit() {
+    init
     if [ -z "$msg" ]; then
-        msg="Quick commit"
-        echo "Using default commit message '$msg'"
+        msg=$default_qc_message
+        echo "Using default quick-commit message '$default_qc_message'"
     fi
     git add *
     if [ ! $? -eq 0 ]; then
@@ -178,6 +200,7 @@ function quick_commit() {
 }
 
 function classList() {
+    init
     for i in $src_dir/$classes_dir/*
     do
         echo "$(basename $i)"
@@ -186,48 +209,54 @@ function classList() {
 }
 
 function classDel() {
+    init
     if [ -z $name ]; then
         classDelUsage
         exit 1
     fi
-    if [ ! -d "$src_dir/classes/$name" ];then
-        echo "error : no such class '$name' (looking in $src_dir/classes/)"
+    if [ ! -d "$src_dir/$classes_dir/$name" ];then
+        echo "error : no such class '$name' (looking in $src_dir/$classes_dir/)"
         classDelUsage
         exit 1
     fi
-    echo -n "You will delete '$src_dir/classes/$name/*'. Confirm ? [y/n] "
+    echo -n "You will delete '$src_dir/$classes_dir/$name/*'. Confirm ? [y/n] "
     read confirm
     case $confirm in
         y|Y) ;;
 *) exit 1;;
 esac
-mv $src_dir/classes/$name junk/
+mv $src_dir/$classes_dir/$name junk/
 echo "Class $name moved to junk"
 exit 0
 }
 
 function classCreate() {
+    init
     if [ -z "$name" ];then
         classCreateUsage
         exit 1
     fi
 
-    mkdir $project_root/$src_dir/classes/$name
-    touch $project_root/$src_dir/classes/$name/$name.class.cpp
-    touch $project_root/$src_dir/classes/$name/$name.class.hpp
-    touch $project_root/$src_dir/classes/$name/$name.test.cpp
-    for i in $project_root/$src_dir/classes/$name/*; do
+    mkdir $project_path/$src_dir/$classes_dir/$name
+    touch $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    touch $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    touch $project_path/$src_dir/$classes_dir/$name/$name.$test_extension.$code_extension
+    for i in $project_path/$src_dir/$classes_dir/$name/*; do
         echo "// Project $project_name [duck managed]" >> $i
-        echo "// Class $name ($src_dir/classes/$name/$(basename $i))" >> $i
+        echo "// Class $name ($src_dir/$classes_dir/$name/$(basename $i))" >> $i
     done
     name_upper=$(echo "$name" | awk '{print toupper($0)}')
-    echo >> $project_root/$src_dir/classes/$name/$name.class.cpp\
-    "#ifndef ${name_upper}_CLASS_CPP
-    #define ${name_upper}_CLASS_CPP
+    class_upper=$(echo "$class_extension" | awk '{print toupper($0)}')
+    code_upper=$(echo "$code_extension" | awk '{print toupper($0)}')
+    header_upper=$(echo "$header_extension" | awk '{print toupper($0)}')
+    test_upper=$(echo "$test_extension" | awk '{print toupper($0)}')
+    echo >> $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension\
+    "   #ifndef ${name_upper}_${class_upper}_${code_upper}
+    #define ${name_upper}_${class_upper}_${code_upper}
 
     //$name class methods implementation
 
-    #include \"$name.class.hpp\"
+    #include \"$name.$class_extension.$header_extension\"
 
     //class constructor
     $name::$name() {
@@ -236,9 +265,9 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_root/$src_dir/classes/$name/$name.class.hpp\
-    "#ifndef ${name_upper}_CLASS_HPP
-    #define ${name_upper}_CLASS_HPP
+    echo >> $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension\
+    "#ifndef ${name_upper}_${class_upper}_${header_upper}
+    #define ${name_upper}_${class_upper}_${header_upper}
     
     //$name class definition
 
@@ -252,15 +281,15 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_root/$src_dir/classes/$name/$name.test.cpp\
-    "#ifndef ${name_upper}_TEST_CPP
-    #define ${name_upper}_TEST_CPP
+    echo >> $project_path/$src_dir/$classes_dir/$name/$name.test.cpp\
+    "#ifndef ${name_upper}_${class_upper}_${code_upper}
+    #define ${name_upper}_${test_upper}_${code_upper}
 
     //$name class unit test
 
     #include <iostream>
-    #include \"$name.class.hpp\"
-    #include \"../../config/UnitTests.hpp\"
+    #include \"$name.$class_extension.$header_extension\"
+    #include \"../../$source_config_dir/UnitTests.$header_extension\"
 
     int main(int argc, char const *argv[])
     {
@@ -284,73 +313,75 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_root/$src_dir/classes/$name/$name.test.dep\
-    "$src_dir/classes/$name/$name.class.cpp"
+    echo >> $project_path/$src_dir/$classes_dir/$name/$name.test.dep\
+    "$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension"
 
 
-    echo "Successfully created $type $name"
+    echo "Successfully created class $name"
     exit 0
 }
 
 function compile() {
+    init
+
     if [ -z "$version_env" ]; then
-        export COMPILE_ENV="dev"
+        export COMPILE_ENV=$default_env
     else
         export COMPILE_ENV=$version_env
     fi
 
-    dir_build="build"
 
     rm ./.DS_Store 2> /dev/null
     rm */.DS_Store 2> /dev/null
     rm */*/.DS_Store 2> /dev/null
     rm */*/*/.DS_Store 2> /dev/null
 
-    version=$(cat config/compile_version_base)
-    suffix=$(cat config/compile_version_suffix)
+    version=$(cat $project_storage/version_base)
+    suffix=$(cat $project_storage/compile_version_suffix)
     suffix=$(($suffix+1))
-    log_compile_path="logs/compile.logs"
+    log_compile_path="$logs_dir/compile.logs"
 
-    echo "Compilation de '$dir_build/$COMPILE_ENV-$version.$suffix.exe'..."
-    echo "[$(date)] ++ Compilation de '$dir_build/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
+    echo "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe'..."
+    echo "[$(date)] ++ Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
 
-    g++ src/main.cpp src/classes/*/*.class.cpp -o $dir_build/$COMPILE_ENV-$version.$suffix.exe -Wall
+    g++ src/main.cpp src/$classes_dir/*/*.$class_extension.cpp -o $build_dir/$COMPILE_ENV-$version.$suffix.exe -Wall
 
     if [ $? -eq 0 ]; then
-        echo $suffix > config/compile_version_suffix
-        echo "$COMPILE_ENV-$version.$suffix.exe" > config/last_version
+        echo $suffix > $project_storage/compile_version_suffix
+        echo "$COMPILE_ENV-$version.$suffix.exe" > $project_storage/last_version
         echo "Compilation réussie"
     fi
 
-    git add $log_compile_path $dir_build/$COMPILE_ENV-$version.$suffix.exe > /dev/null 2> /dev/null
-    git commit -m "Compilation de '$dir_build/dev-$version.$suffix.exe' ..." > /dev/null 2> /dev/null
+    git add $log_compile_path $build_dir/$COMPILE_ENV-$version.$suffix.exe > /dev/null 2> /dev/null
+    git commit -m "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." > /dev/null 2> /dev/null
     git push > /dev/null 2> /dev/null &
     echo "Commit & push to git in background"
     exit 0
 }
 
 function run() {
+    init 
     if [ -z $target ]; then
         echo "No target specified, taking last version by default."
-        cat config/last_version > /dev/null 2> /dev/null
+        cat $project_storage/last_version > /dev/null 2> /dev/null
         if [ ! $? -eq 0 ]; then
-            echo "Error : No last version found. (looking in config/last_version)"
+            echo "Error : No last version found. (looking in $project_storage/last_version)"
             exit 1
         else
-            target="$(cat config/last_version)"
+            target="$(cat $project_storage/last_version)"
             ls $target > /dev/null 2> /dev/null
             if [ ! $? -eq 0 ]; then
-                echo "Error : last version ($target as set in config/last_version) doesn't seem to exist."
+                echo "Error : last version ($target as set in $project_storage/last_version) doesn't seem to exist."
                 exit 1
             fi
         fi
     else
-        ls build/*-$target.exe >/dev/null 2> /dev/null
+        ls $build_dir/*-$target.exe >/dev/null 2> /dev/null
         if [ ! $? -eq 0 ];then
-            echo "$target : targetted version not found. (ls build/*-$target.exe returned errors)"
+            echo "$target : targetted version not found. (ls $build_dir/*-$target.exe returned errors)"
             exit 1
         else
-            target=$(ls build/*-$target.exe)
+            target=$(ls $build_dir/*-$target.exe)
         fi
     fi
     echo "Running '$target' ..."
@@ -360,7 +391,8 @@ function run() {
 }
 
 function project_version_set() {
-    actual_version=$(cat config/compile_version_base)
+    init
+    actual_version=$(cat $project_storage/version_base)
     # TODO solve this (: integer expression expected (for if [ -lt ] ))
     #if [ $set_version -lt $actual_version ];then
     #    echo "Warning ! Changing version from $actual_version to earlier $set_version."
@@ -375,20 +407,23 @@ function project_version_set() {
     #    esac
     #fi
 
-    echo $set_version > config/compile_version_base
-    echo "-1" > config/compile_version_suffix
+    echo $set_version > $project_storage/version_base
+    echo "-1" > $project_storage/version_suffix
     echo "Version succesfully changed."
     echo "Next compile version : $set_version.0"
     exit 0
 }
 
 function project_version_inc() {
+    init
     echo "Warning ! This function may not work properly. Please use 'duck pv set' instead."
+    echo "Error. We decided to disable this function for now"
+    exit 1
     if [ -z $amount ]; then
         echo "No amount specified, taking 0.1 by default"
         amount=0.1
     fi
-    actual_version="$(cat config/compile_version_base)"
+    actual_version="$(cat $project_storage/version_base)"
     
     echo -n "Project version : $actual_version -> "
     actual_version="$(echo "$actual_version+$amount"|bc)"
@@ -396,20 +431,27 @@ function project_version_inc() {
         actual_version="0$actual_version"
     fi
     echo "$actual_version"
-    echo "$actual_version" > config/compile_version_base
+    echo "$actual_version" > $project_storage/version_base
     exit 0
 }
 
 function project_version_show() {
-    echo "$(cat config/compile_version_base).$(cat config/compile_version_suffix)"
+    init
+    echo "$(cat $project_storage/version_base).$(cat $project_storage/version_suffix)"
     exit 0
 }
 
 function source_archive() {
-    mkdir "backups" 2> /dev/null
-    path="backups/$(cat config/compile_version_base).$(cat config/compile_version_suffix).$(date "+%d-%m-%y.%Hh%M").tar"
+    init
+
+    if [ ! -d $project_path/$backups_dir ]; then
+        echo "No backup dir found, creating one ($backups_dir/)"
+        mkdir $project_path/$backups_dir > /dev/null 2> /dev/null
+    fi
+
+    path="$backups_dir/$(cat $project_storage/version_base).$(cat $project_storage/version_suffix).$(date "+%d-%m-%y.%Hh%M").tar"
     echo "Archiving source code to $path"
-    tar -cf $path src
+    tar -cf $project_path/$path $project_path/$src_dir
     exit 0
 }
 
