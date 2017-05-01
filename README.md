@@ -1,10 +1,12 @@
 # Duck
 
+TODO write README.md
+
 ## Presentation
 
 Duck is what makes your project go from this
 
-[IMAGE junk code]
+
 
 to this
 
