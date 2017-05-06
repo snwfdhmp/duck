@@ -6,6 +6,18 @@ TODO write README.md
 
 Duck is what makes your project go from this
 
+## Configuration
+
+# Paths:
+
+Duck configuration folder
+variable : $duck_conf_dir
+default : /etc/.duck
+
+Project root
+variable $project_root
+default : '.' when user call 'duck init'
+
 
 
 to this

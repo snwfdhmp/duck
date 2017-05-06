@@ -19,12 +19,9 @@ fi
 if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo "No duck configuration file found in $storage (duck.conf). Creating one (permissions : 750)"
     echo
-    echo "Enter a name for this project : "
-    read project_name
-    echo "Enter the path for this project : "
-    read project_path
+
     echo "#!/bin/bash" > $storage/duck.conf
-    echo "duck_storage_path=$(pwd)" >> $storage/duck.conf
+    echo "(project_storage)=$(pwd)" >> $storage/duck.conf
     echo 'build_dir=build' >> $storage/duck.conf
     echo 'backups_dir=backups' >> $storage/duck.conf
     echo 'config_dir=config' >> $storage/duck.conf
@@ -45,28 +42,58 @@ if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo 'default_env=dev' >> $storage/duck.conf
     echo 'default_qc_message="Quick commit"' >> $storage/duck.conf
     echo "project_name=$project_name" >> $storage/duck.conf
-    echo "project_path=$project_path" >> $storage/duck.conf
+    echo "project_root=$project_root" >> $storage/duck.conf
 
     chmod 750 $storage/duck.conf
 fi
 
-function create_project_conf() {
-    cp $storage/duck.conf $project_storage/duck.conf
-    chmod 750 $project_storage/duck.conf
+function project_storage() {
+    echo "$project_root/.duck"
+}
+
+function configInit() {
+
+    if [ ! -d $(project_storage) ]; then
+        echo "Error : cannot find project_storage (is not at $(project_storage))"
+        echo "type 'duck repair' for more informations"
+        exit 1
+    fi
+
+    default_conf=$storage/duck.conf
+
+    if [ ! -z "$new_config_path" ];then
+        if [ $(ls $new_config_path |echo $?) -eq 0 ]; then
+            echo "$new_config_path : no such file."
+            exit 1
+        fi
+        default_conf=new_config_path
+    fi
+
+    cp $default_conf $(project_storage)/duck.conf
+
+    if [ -z "$project_name" ]; then 
+        echo "Enter a name for this project : "
+        read project_name
+    fi
+    if [ -z "$project_root" ]; then
+        echo "Enter the path for this project : ."
+        read project_root
+    fi
+    chmod 750 $(project_storage)/duck.conf
 }
 
 function init() {
-    project_storage=".duck"
+    project_root="."
 
-    if [ ! -d "$project_storage" ]; then
+    if [ ! -d "$(project_storage)" ]; then
         if [ "$action" = "init" ]; then
             mkdir .duck
             chmod 750 .duck
         fi
-        project_storage="../$project_storage"
-        if [ ! -d "$project_storage" ]; then
-            project_storage="../$project_storage"
-            if [ ! -d "$project_storage" ]; then
+        project_root="../$project_root"
+        if [ ! -d "$project_root/.duck" ]; then
+            project_root="../$project_root"
+            if [ ! -d "$project_root/.duck" ]; then
                 echo "Cannot find .duck storage. Try repairing with 'duck repair'"
                 exit 1
             fi
@@ -74,24 +101,32 @@ function init() {
     fi
 
 
-
-    if [ ! $(ls "$project_storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+    if [ ! $(ls "$(project_storage)/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
         if [ ! "$action" = "init" ]; then
-         echo "No project configuration file found in $project_storage (duck.conf). Creating one (permissions : 750)"
+         echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
      fi
-     create_project_conf
+     configInit
  fi
 
  . $storage/duck.conf
- . $project_storage/duck.conf
+ . $(project_storage)/duck.conf
 
  if [ -z "$project_name" ]; then
     if [ ! "$action" = "init" ]; then
         echo "No name has been set for this projet yet."
     fi
-    echo "Enter a name : "
+    default_name=$(basename $(pwd))
+    echo "Enter a name [ENTER for '$default_name'] : "
     read project_name
+    if [ -z "$project_name" || $project_name = "" ]; then
+        project_name=default_name
+    fi
     echo "project_name=$project_name" >> $storage/duck.conf
+fi
+
+if [ -z "$project_root" ]; then
+    echo "No project path"
+    exit 1
 fi
 
 }
@@ -99,29 +134,29 @@ fi
 function deploy() {
     init
 
-    if [ -z $project_path ]; then
-        project_path="."
+    if [ -z $project_root ]; then
+        project_root="."
     fi
 
-    mkdir $project_path/$build_dir $project_path/$backups_dir $project_path/$config_dir $project_path/$doc_dir $project_path/$junk_dir $project_path/$logs_dir $project_path/$src_dir $project_path/$src_dir/$classes_dir $project_path/$src_dir/$source_config_dir $project_path/$src_dir/$tests_dir
-    chmod 750 $project_path/*
+    mkdir $project_root/$build_dir $project_root/$backups_dir $project_root/$config_dir $project_root/$doc_dir $project_root/$junk_dir $project_root/$logs_dir $project_root/$src_dir $project_root/$src_dir/$classes_dir $project_root/$src_dir/$source_config_dir $project_root/$src_dir/$tests_dir
+    chmod 750 $project_root/*
     
     touch $src_dir/$source_config_dir/UnitTests.$header_extension
     touch $src_dir/$source_config_dir/Constants.$header_extension
 
     name="ClassName"
     classCreate
-    echo "$version_base" > $project_storage/version_base
-    echo "$version_suffix" > $project_storage/version_suffix
+    echo "$version_base" > $(project_storage)/version_base
+    echo "$version_suffix" > $(project_storage)/version_suffix
 
-    if [ ! $(ls "$project_storage/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
-        echo "#$project_name" > $project_path/README.md
-        echo >> $project_path/README.md
-        echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_path/README.md
+    if [ ! $(ls "$(project_storage)/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+        echo "#$project_name" > $project_root/README.md
+        echo >> $project_root/README.md
+        echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_root/README.md
     fi
 
-    echo ".duck" > $project_path/.gitignore
-    echo ".DS_Store" > $project_path/.gitignore
+    echo ".duck" > $project_root/.gitignore
+    echo ".DS_Store" > $project_root/.gitignore
 
     git init
 }
@@ -137,14 +172,15 @@ function usage() {
     echo "---------------  -------------------------  ---------------------------------"
     echo "init             duck init <name> [opt]     initialize a new duck project"
     echo "deploy           duck deploy [opt]          deploy duck architecture"
+    echo "config           duck config <action> [opt] project configuration tools"
     echo "class            duck class <action> [opt]  tools for classes"
-    echo "compile          duck compile [env]         project compiler"
+    echo "compile          duck compile [env]         run project compiler"
     echo "run              duck run [target-version]  run project (no arg->last version)"
     echo "project-version  duck pv [show|set|inc]     configuration for project version"
     echo "tar              duck tar                   backup 'src/' dir into a tarball"
     echo "quick-commit     duck qc [custom-msg]       alias git add *, commit, push"
-    echo "help             duck help                  shows this message"
     echo "doc              duck doc [command]         shows command's help message"
+    echo "help             duck help                  shows this message"
 }
 
 function classUsage() {
@@ -183,13 +219,15 @@ function quick_commit() {
     if [ -z "$msg" ]; then
         msg=$default_qc_message
         echo "Using default quick-commit message '$default_qc_message'"
+    else
+        echo "Using chosen commit message : '$msg'"
     fi
     git add *
     if [ ! $? -eq 0 ]; then
         echo "error during 'git add'."
         exit 1
     fi
-    git commit -m "Quick commit"
+    git commit -m "$msg"
     if [ ! $? -eq 0 ]; then
         echo "error during 'git commit'."
         exit 1
@@ -237,11 +275,11 @@ function classCreate() {
         exit 1
     fi
 
-    mkdir $project_path/$src_dir/$classes_dir/$name
-    touch $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
-    touch $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
-    touch $project_path/$src_dir/$classes_dir/$name/$name.$test_extension.$code_extension
-    for i in $project_path/$src_dir/$classes_dir/$name/*; do
+    mkdir $project_root/$src_dir/$classes_dir/$name
+    touch $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    touch $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    touch $project_root/$src_dir/$classes_dir/$name/$name.$test_extension.$code_extension
+    for i in $project_root/$src_dir/$classes_dir/$name/*; do
         echo "// Project $project_name [duck managed]" >> $i
         echo "// Class $name ($src_dir/$classes_dir/$name/$(basename $i))" >> $i
     done
@@ -250,7 +288,7 @@ function classCreate() {
     code_upper=$(echo "$code_extension" | awk '{print toupper($0)}')
     header_upper=$(echo "$header_extension" | awk '{print toupper($0)}')
     test_upper=$(echo "$test_extension" | awk '{print toupper($0)}')
-    echo >> $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension\
+    echo >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension\
     "   #ifndef ${name_upper}_${class_upper}_${code_upper}
     #define ${name_upper}_${class_upper}_${code_upper}
 
@@ -265,7 +303,7 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_path/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension\
+    echo >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension\
     "#ifndef ${name_upper}_${class_upper}_${header_upper}
     #define ${name_upper}_${class_upper}_${header_upper}
     
@@ -281,7 +319,7 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_path/$src_dir/$classes_dir/$name/$name.test.cpp\
+    echo >> $project_root/$src_dir/$classes_dir/$name/$name.test.cpp\
     "#ifndef ${name_upper}_${class_upper}_${code_upper}
     #define ${name_upper}_${test_upper}_${code_upper}
 
@@ -313,7 +351,7 @@ function classCreate() {
 
     #endif"
 
-    echo >> $project_path/$src_dir/$classes_dir/$name/$name.test.dep\
+    echo >> $project_root/$src_dir/$classes_dir/$name/$name.test.dep\
     "$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension"
 
 
@@ -330,25 +368,37 @@ function compile() {
         export COMPILE_ENV=$version_env
     fi
 
+    linkAddOn=""
+
+    if [ ! -z "$option" ]; then
+        case $option in
+            sdl) linkAddOn="-lSDL2"
+                 ;;
+            *) echo "Incorrect option"
+                ;;
+        esac
+    fi
+
 
     rm ./.DS_Store 2> /dev/null
     rm */.DS_Store 2> /dev/null
     rm */*/.DS_Store 2> /dev/null
     rm */*/*/.DS_Store 2> /dev/null
 
-    version=$(cat $project_storage/version_base)
-    suffix=$(cat $project_storage/compile_version_suffix)
+    version=$(cat $(project_storage)/version_base)
+    suffix=$(cat $(project_storage)/version_suffix)
     suffix=$(($suffix+1))
     log_compile_path="$logs_dir/compile.logs"
 
     echo "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe'..."
     echo "[$(date)] ++ Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
 
-    g++ src/main.cpp src/$classes_dir/*/*.$class_extension.cpp -o $build_dir/$COMPILE_ENV-$version.$suffix.exe -Wall
+    g++ src/main.cpp src/$classes_dir/*/*.$class_extension.cpp -o $build_dir/$COMPILE_ENV-$version.$suffix.exe -Wall $linkAddOn
 
     if [ $? -eq 0 ]; then
-        echo $suffix > $project_storage/compile_version_suffix
-        echo "$COMPILE_ENV-$version.$suffix.exe" > $project_storage/last_version
+        chmod 710 $build_dir/$COMPILE_ENV-$version.$suffix.exe
+        echo $suffix > "$(project_storage)/version_suffix"
+        echo "$COMPILE_ENV-$version.$suffix.exe" > $(project_storage)/last_version
         echo "Compilation réussie"
     fi
 
@@ -363,15 +413,15 @@ function run() {
     init 
     if [ -z $target ]; then
         echo "No target specified, taking last version by default."
-        cat $project_storage/last_version > /dev/null 2> /dev/null
+        cat $(project_storage)/last_version > /dev/null 2> /dev/null
         if [ ! $? -eq 0 ]; then
-            echo "Error : No last version found. (looking in $project_storage/last_version)"
+            echo "Error : No last version found. (looking in $(project_storage)/last_version)"
             exit 1
         else
-            target="$(cat $project_storage/last_version)"
+            target="$build_dir/$(cat $(project_storage)/last_version)"
             ls $target > /dev/null 2> /dev/null
             if [ ! $? -eq 0 ]; then
-                echo "Error : last version ($target as set in $project_storage/last_version) doesn't seem to exist."
+                echo "Error : last version ($target as set in $(project_storage)/last_version) doesn't seem to exist."
                 exit 1
             fi
         fi
@@ -392,7 +442,7 @@ function run() {
 
 function project_version_set() {
     init
-    actual_version=$(cat $project_storage/version_base)
+    actual_version=$(cat $(project_storage)/version_base)
     # TODO solve this (: integer expression expected (for if [ -lt ] ))
     #if [ $set_version -lt $actual_version ];then
     #    echo "Warning ! Changing version from $actual_version to earlier $set_version."
@@ -407,8 +457,8 @@ function project_version_set() {
     #    esac
     #fi
 
-    echo $set_version > $project_storage/version_base
-    echo "-1" > $project_storage/version_suffix
+    echo $set_version > $(project_storage)/version_base
+    echo "-1" > $(project_storage)/version_suffix
     echo "Version succesfully changed."
     echo "Next compile version : $set_version.0"
     exit 0
@@ -423,7 +473,7 @@ function project_version_inc() {
         echo "No amount specified, taking 0.1 by default"
         amount=0.1
     fi
-    actual_version="$(cat $project_storage/version_base)"
+    actual_version="$(cat $(project_storage)/version_base)"
     
     echo -n "Project version : $actual_version -> "
     actual_version="$(echo "$actual_version+$amount"|bc)"
@@ -431,28 +481,62 @@ function project_version_inc() {
         actual_version="0$actual_version"
     fi
     echo "$actual_version"
-    echo "$actual_version" > $project_storage/version_base
+    echo "$actual_version" > $(project_storage)/version_base
     exit 0
 }
 
 function project_version_show() {
     init
-    echo "$(cat $project_storage/version_base).$(cat $project_storage/version_suffix)"
+    echo "$(cat $(project_storage)/version_base).$(cat $(project_storage)/version_suffix)"
     exit 0
 }
 
 function source_archive() {
     init
 
-    if [ ! -d $project_path/$backups_dir ]; then
+    if [ ! -d $project_root/$backups_dir ]; then
         echo "No backup dir found, creating one ($backups_dir/)"
-        mkdir $project_path/$backups_dir > /dev/null 2> /dev/null
+        mkdir $project_root/$backups_dir > /dev/null 2> /dev/null
     fi
 
-    path="$backups_dir/$(cat $project_storage/version_base).$(cat $project_storage/version_suffix).$(date "+%d-%m-%y.%Hh%M").tar"
+    path="$backups_dir/$(cat $(project_storage)/version_base).$(cat $(project_storage)/version_suffix).$(date "+%d-%m-%y.%Hh%M").tar"
     echo "Archiving source code to $path"
-    tar -cf $project_path/$path $project_path/$src_dir
+    tar -cf $project_root/$path $project_root/$src_dir
     exit 0
+}
+
+
+
+
+#
+#show)       action="configShow"
+#edit)       action="configEdit"
+#init)       action="configInit"
+#set)        action="configSet"
+#            new_config_path=$1
+#
+
+function configShow() {
+    cat $(project_storage)/duck.conf
+    exit 0
+}
+
+function configEdit() {
+    nano $(project_storage)/duck.conf
+    exit 0
+}
+
+function configUsage() {
+    echo "usage: duck config <action> [option]"
+    echo ""
+    echo "Available actions :"
+    echo ""
+    echo "name         description"
+    echo "------       ------------------------------------"
+    echo "show         show current project configuration"
+    echo "init         reset configuration file to default"
+    echo "set <path>   set new configuration file"
+    echo "edit         open configuration file with nano"
 }
 
 if [ -z "$1" ];then
@@ -467,6 +551,21 @@ while [ "$1" != "" ]; do
         init)                   action="init"
                                 shift
                                 project_name=$1
+                                ;;
+        config)                 shift
+                                case $1 in
+                    get | view | show)          action="configShow"
+                                                ;;
+                            edit | nano)        action="configEdit"
+                                                ;;
+                                    init | set) action="configInit"
+                                                shift
+                                                new_config_path=$1
+                                                ;;
+                                    *)          configUsage
+                                                exit 1
+                                                ;;
+                                esac
                                 ;;
         qc | quick-commit)      action="quick_commit"
                                 shift
@@ -489,15 +588,34 @@ while [ "$1" != "" ]; do
                                                         ;;
                                 esac
                                 ;;
-    compile | -c)               action="compile"
+    compile )                   action="compile"
                                 shift
                                 version_env=$1
+                                shift
+                                option=$1
+                                ;;
+    -c )                        action="compile"
+                                shift
+                                version_env=""
+                                option=$1
                                 ;;
     run | -r)                   action="run"
                                 shift
                                 target=$1
                                 ;;
     project-version | pv)       shift
+                                if [ ! $(cat $(project_storage)/version_base 2>/dev/null > /dev/null |echo $?) -eq 0 ]; then
+                                    echo "No project version found."
+                                    echo "Do you want to initialize it to $version_base.$version_suffix ? [yn]"
+                                    read yesorno
+                                    case $yesorno in
+                                        yY) echo $version_base > $(project_storage)/version_base
+                                            echo $version_suffix > $(project_storage)/version_suffix
+                                            ;;
+                                        *)  exit 1
+                                            ;;
+                                    esac
+                                fi
                                 case $1 in
                                     set)                        action="project_version_set"
                                                                 shift
