@@ -64,9 +64,15 @@ All your builds compiled with `duck compile` are stored in `build/` as *tag*-*ve
 
 Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
 
-Versioning is managed automatically by duck. You can see last compiled version by running `duck pv`.
+### Version
+
+Versioning is managed automatically by duck.
+
+You can see last compiled version by running `duck pv`.
 
 You can set next compiled version by running `duck pv set <version>` (example : `duck pv set 1.5`).
+
+### Tag
 
 The tag is choosen when using `duck compile [tag]` (example `duck compile beta`)
 
