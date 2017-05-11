@@ -184,11 +184,11 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 ---
 ---
 
-# Author
+# [Author]()
 
 [snwfdhmp](http://github.com/snwfdhmp) - Visit my other repos, leave a star if you like one ;)
 
-# License
+# [License]()
 
 You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/master/LICENSE.txt)
 
