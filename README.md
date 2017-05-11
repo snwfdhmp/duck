@@ -10,9 +10,9 @@ This is still early development phase, but the tool is already ready to be used.
 
   - **Easy to configure** [more informations *(incomming)*](#)
 
-  - **Class management** *(create, delete, list)*
+  - **Class management** (create, delete, list)
 
-  - **Code organization** (using Duck architecture) [more informations](#Duck-architecture)
+  - **Code organization** (Duck architecture) [more informations](#Duck-architecture)
 
   - **Junk code management**
 
