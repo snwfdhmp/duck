@@ -1,6 +1,4 @@
-[logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
-
-# [Duck]() ![logo][logo-sm]
+# [Duck]() ![logo][logo-xs]
 
 
 # [Introduction](#introduction)
@@ -67,7 +65,7 @@ help             duck help                  shows this message
 
 ```
 
-# [How does Duck work ?]() ![logo][logo-sm]
+# [How does Duck work ?]() ![logo][logo-xs]
 
 ## [Introduction]()
 
@@ -143,7 +141,7 @@ Your code is organized that way :
     `constants.h` -> preprocessor constants
 
 
-# Configure ![logo][logo-sm]
+# Configure ![logo][logo-xs]
 
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
@@ -151,3 +149,6 @@ Duck location | Duck's storage path | `$duck_conf_dir` | `/etc/.duck` (Mac) | ex
 Project path | Your project's root folder. | `$project_root` | user's actual directory when 'duck init' is called
 Project name | Used in logs, class creation, unit testing. | `$project_root` | project root folder name when 'duck init' is called
 *Folder* name | Rename Duck architecture's folders. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
+
+[logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
+[logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-sm.png "Logo"
