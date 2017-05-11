@@ -40,7 +40,7 @@ usage: duck <options>
 Available options :
 
 name             usage                      description
-----             -----                      -----------
+---------------  -------------------------  -----------
 init             duck init <name> [opt]     initialize a new duck project
 deploy           duck deploy [opt]          deploy duck architecture
 config           duck config <action> [opt] project configuration tools
