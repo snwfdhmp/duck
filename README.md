@@ -128,10 +128,12 @@ Your code is organized that way :
 
 - Duck configuration folder
 
-variable : `$duck_conf_dir`
-default_value : `/etc/.duck`
+  variable : `$duck_conf_dir`
+
+  default_value : `/etc/.duck`
 
 - Project root
 
-variable : `$project_root`
-default_value : `actual directory when 'duck init' is called `
+  variable : `$project_root`
+  
+  default_value : `actual directory when 'duck init' is called `
