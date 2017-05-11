@@ -126,7 +126,7 @@ Your code is organized that way :
 
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
-Used to store default configurations for your projects. | `$duck_conf_dir` | `/etc/.duck` | other value example : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
+Duck storage Location | Used to store default configurations for your projects. | `$duck_conf_dir` | `/etc/.duck` | other value example : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
 
 - **Duck storage location**
 
