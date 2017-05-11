@@ -181,8 +181,6 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 
 ---
 ---
----
----
 
 # [Author]()
 
