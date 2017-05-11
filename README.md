@@ -130,9 +130,9 @@ Duck storage location | Used to store default configurations for your projects. 
 Project root | Used to perform actions on your project. Having an invalid root path will disable many Duck features. | `$project_root` | `actual directory when 'duck init' is called`
 
 
-- **Duck storage location**
+- **Duck location**
 
-  Used to store default configurations for your projects.
+  Used to **store** default configurations for your projects.
 
   variable : `$duck_conf_dir`
 
@@ -140,9 +140,9 @@ Project root | Used to perform actions on your project. Having an invalid root p
 
   other value example : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
 
-- **Project root**
+- **Project location**
 
-  Used to perform actions on your project. Having an invalid root path will disable many Duck features.
+  Used to **locate your project**. Having an invalid root path will disable many Duck features.
 
   variable : `$project_root`
 
