@@ -2,7 +2,7 @@
 
 ![logo][logo-lg]
 
-# [Introduction](#introduction)
+# [Introduction]()
 
 [Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
 
@@ -10,19 +10,18 @@ This is still early *development phase*, but the tool is **already ready to be u
 
 # Table of contents
 
-* [Introduction](#introduction)
+* [Introduction](#)
 * [Presentation](#presentation)
   * [Features](#features)
   * [Command usage](#command-usage)
-* [How does Duck work ?](#how-does-duck-work--)
+* [How does it works ?](#how-does-duck-work--)
   * [Duck architecture](#duck-architecture)
-    * [What ?](#what--)
-    * [Why ?](#why--)
+  * [Project organization ?](#what--)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
-  * [Code](#code)
+  * [How is my code organized ?](#how-is-my-code-organized--)
   * [Compile](#compile)
   * [Builds](#builds)
-  * [Versioning](#versioning)
+  * [A little bit about versioning](#a-little-bit-about-versioning)
   * [Run](#run)
   * [Unit tests](#unit-tests)
   * [Logs](#logs)
@@ -65,15 +64,15 @@ help             duck help                  shows this message
 
 ```
 
-# [How does Duck work ?]() ![logo][logo-xs]
+# [How does it works ?]() ![logo][logo-xs]
 
-## [Introduction]()
+## [Duck architecture]()
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
 If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work--) to organize your source code, ressources, builds, unit tests, classes, or whatever.
 
-## [Project root directory]()
+## [Project organization]()
 
 Name | Description
 --- | ---
@@ -89,28 +88,12 @@ Name | Description
 
 You can simply *deploy* **Duck architecture** by running `duck deploy`
 
-# [Builds]()
 
-**All your builds** compiled with `duck compile` are **stored** in `build/` as *tag*-*version*.*suffix*
+# [How is my code organized ?]()
 
-Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
+Your source code in placed in the `src/` directory (in the root project dir).
 
-# [About versioning]()
-
-Versioning is **managed automatically** by duck.
-
-You can **show last compiled version** by running `duck pv`.
-
-You can **set next compiled version** by running `duck pv set <version>` (example : `duck pv set 1.5`).
-
-You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
-
-
-## [How is my code organized ?]()
-
-Your code is organized that way :
-
-- `src/`
+Let's see what he contains :
 
   - Your `main.cpp` : main file
 
@@ -139,6 +122,24 @@ Your code is organized that way :
     `macros.h` -> preprocessor macros
 
     `constants.h` -> preprocessor constants
+
+
+
+# [Builds]()
+
+**All your builds** compiled with `duck compile` are **stored** in `build/` as *tag*-*version*.*suffix*
+
+Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
+
+## [A little bit about versioning]()
+
+Versioning is **managed automatically** by duck.
+
+You can **show last compiled version** by running `duck pv`.
+
+You can **set next compiled version** by running `duck pv set <version>` (example : `duck pv set 1.5`).
+
+You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
 
 
 # [Let's configure]() ![logo][logo-xs]
