@@ -12,7 +12,7 @@
 
 * [How does Duck work ?](#how-does-duck-work)
 
-  * [Project organization](#project-organization)
+  * [Duck architecture](#duck-architecture)
 
     * [What ?](#what)
 
@@ -48,7 +48,7 @@ This is still early development phase, but the tool is already ready to be used.
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
-## Usage
+## Command usage
 
 ```
 usage: duck <options> 
@@ -71,18 +71,20 @@ help             duck help                  shows this message
 
 ```
 
+# How does Duck work ?
+
 # Duck architecture
 
-  You can deploy Duck's architecture by running `duck deploy`
+You can deploy Duck's architecture by running `duck deploy`
 
-  Name | Description
-  --- | ---
-  `build` | app builds
-  `config` | configuration files
-  `doc` | documentation
-  `junk` | trash
-  `logs` | logs for compilation, unit test, versioning, etc 
-  `src` | source code
+Name | Description
+--- | ---
+`build` | app builds
+`config` | configuration files
+`doc` | documentation
+`junk` | trash
+`logs` | logs for compilation, unit test, versioning, etc 
+`src` | source code
 
 ## App builds
 
