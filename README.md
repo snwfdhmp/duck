@@ -1,4 +1,4 @@
-[logo]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo.png "Logo"
+[logo]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-sm.png "Logo"
 
 # ![logo][logo] Duck
 
