@@ -16,7 +16,7 @@ This is still early development phase, but the tool is already ready to be used.
 
   - **Junk code management**
 
-  - **Versioning** (prefix-tag) *example : beta-0.1.4 release-1.2*
+  - **Versioning** (tag-version) *example : beta-0.1.4 release-1.2*
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
@@ -45,22 +45,33 @@ help             duck help                  shows this message
 
 ```
 
-## Duck architecture
+# Duck architecture
 
-`duck deploy`
-
-  Deploy duck architecture in project dir :
+  You can deploy Duck's architecture by running `duck deploy`
 
   Name | Description
   --- | ---
-  `build` | **app builds**
-  `config` | **configuration files**
-  `doc` | **documentation**
-  `junk` | whatever : tests, trash, tmp
-  `logs` | **logs** for compilation, unit test, versioning, etc 
-  `src` | **source code**
+  `build` | app builds
+  `config` | configuration files
+  `doc` | documentation
+  `junk` | trash
+  `logs` | logs for compilation, unit test, versioning, etc 
+  `src` | source code
 
-## Organization
+## App builds
+
+All your builds compiled with `duck compile` are stored in `build/` as *tag*-*version*.*suffix*
+
+Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
+
+Versioning is managed automatically by duck. You can see last compiled version by running `duck pv`.
+
+You can set next compiled version by running `duck pv set <version>` (example : `duck pv set 1.5`).
+
+The tag is choosen when using `duck compile [tag]` (example `duck compile beta`)
+
+
+## Source code
 
 Your code is organized that way :
 
