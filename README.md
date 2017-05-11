@@ -18,6 +18,7 @@ This is still early *development phase*, but the tool is **already ready to be u
   * [Duck architecture](#duck-architecture)
     * [What ?](#what--)
     * [Why ?](#why--)
+  * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
   * [Code](#code)
   * [Compile](#compile)
   * [Builds](#builds)
@@ -84,17 +85,17 @@ Name | Description
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
 
-## Deploy
+# [Deploy the Duck architecture]()
 
-You can *deploy* **Duck architecture** by running `duck deploy`
+You can simply *deploy* **Duck architecture** by running `duck deploy`
 
-# Builds
+# [Builds]()
 
 **All your builds** compiled with `duck compile` are **stored** in `build/` as *tag*-*version*.*suffix*
 
 Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
 
-# Versioning
+# [About versioning]()
 
 Versioning is **managed automatically** by duck.
 
@@ -105,7 +106,7 @@ You can **set next compiled version** by running `duck pv set <version>` (exampl
 You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
 
 
-## Code
+## [How is my code organized ?]()
 
 Your code is organized that way :
 
@@ -140,7 +141,9 @@ Your code is organized that way :
     `constants.h` -> preprocessor constants
 
 
-# Configure ![logo][logo-xs]
+# [Let's configure]() ![logo][logo-xs]
+
+Duck can be easily configured using the `duck.conf` file located in the `.duck` at the root of all projects managed by duck (run `duck init` to create it if it doesn't exists.
 
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
