@@ -103,7 +103,7 @@ doc              duck doc [command]         shows command's help message
   
     - run the last build of your project
 
-##Organization
+## Organization
 
 Your code is organized that way :
 
