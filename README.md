@@ -12,11 +12,11 @@ This is still early development phase, but the tool is already ready to be used.
 
   - **Class management** (create, delete, list)
 
-  - **Code organization** (Duck architecture) [more informations](#Duck-architecture)
+  - **Code organization** (Duck architecture) [more informations](#duck-architecture)
 
   - **Junk code management**
 
-  - **Versioning** (version tag+prefix) *example : beta-0.1.4 release-1.2*
+  - **Versioning** (prefix-tag) *example : beta-0.1.4 release-1.2*
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
