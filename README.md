@@ -17,7 +17,7 @@ This is still early *development phase*, but the tool is **already ready to be u
 * [How does it works ?](#how-does-it-works--)
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
-  * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
+  * [Deploy the Duck Architecture](#deploy-the-duck-architecture--)
   * [How is my code organized ?](#how-is-my-code-organized-)
   * [Compiling your project](#compiling-your-project)
   * [Project builds](#project-builds)
@@ -85,7 +85,7 @@ Name | Description
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
 
-# [Deploy the Duck architecture]()
+# [Deploy the Duck architecture]() ![logo][logo-xs]
 
 You can simply *deploy* **Duck architecture** by running `duck deploy`
 
