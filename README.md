@@ -16,7 +16,7 @@ This is still early *development phase*, but the tool is **already ready to be u
   * [Command usage](#command-usage)
 * [How does it works ?](#how-does-duck-work--)
   * [Duck architecture](#duck-architecture)
-  * [Project organization ?](#what--)
+  * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
   * [How is my code organized ?](#how-is-my-code-organized--)
   * [Compile](#compile)
