@@ -2,31 +2,31 @@
 
 # Table of contents
 
-* [Presentation](#)
+* [Presentation](#presentation)
 
-  * [Description](#)
+  * [Description](#description)
 
-  * [Features](#)
+  * [Features](#features)
 
-  * [Command usage](#)
+  * [Command usage](#command-usage)
 
-* [How does Duck work ?](#)
+* [How does Duck work ?](#how-does-duck-work)
 
-  * [Project organization](#)
+  * [Project organization](#project-organization)
 
-    * [What ?](#)
+    * [What ?](#what)
 
-    * [Why ?](#)
+    * [Why ?](#why)
 
-  * [Code](#)
+  * [Code](#code)
 
-  * [Compile](#)
+  * [Compile](#compile)
 
-  * [Run](#)
+  * [Run](#run)
 
-  * [Unit tests](#)
+  * [Unit tests](#unit-tests)
 
-  * [Logs](#)
+  * [Logs](#logs)
 
 ## Presentation
 
