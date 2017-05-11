@@ -9,6 +9,8 @@
     1.2 [Features](#12-features)
 
     1.3 [Command usage](#13-command-usage)
+
+---
    
 2. [How does Duck work ?](#2-how-does-duck-work)
    
