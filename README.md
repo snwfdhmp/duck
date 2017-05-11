@@ -8,9 +8,9 @@ This is still early development phase, but the tool is already ready to be used.
 
 ## Features
 
-  - Easy to configure [*more informations* (incomming)](#)
+  - **Easy to configure** [*more informations* (incomming)](#)
 
-  - Class management (create, delete, list) 
+  - **Class management** *(create, delete, list)*
 
   - Code organization (using Duck architecture) [*more informations*](#Duck-architecture)
 
