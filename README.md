@@ -152,4 +152,3 @@ Project name | Used in logs, class creation, unit testing. | `$project_root` | p
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
-[logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-sm.png "Logo"
