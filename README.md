@@ -127,9 +127,6 @@ Your code is organized that way :
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
 Duck location | Used to **store** default configurations for your projects. | `$duck_conf_dir` | `/etc/.duck` (Mac) | examples : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
-
 Project root | Used to **locate your project**. Having an invalid root path will disable many Duck features. | `$project_root` | user's actual directory when 'duck init' is called
-
 Project name | Used in logs, class creation, unit testing. | `$project_root` | user's actual directory name when 'duck init' is called
-
 *Folder* name | Rename Duck architecture's folders. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Availaible for names : `build | backups | config | doc | junk | logs | src | classes | tests`
