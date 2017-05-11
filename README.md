@@ -7,7 +7,7 @@
 
 This is still early *development phase*, but the tool is **already ready to be used**.
 
-![logo][logo-xs]
+![logo][logo-sm]
 
 # [Table of contents]()
 
