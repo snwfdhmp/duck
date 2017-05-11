@@ -10,7 +10,7 @@
 
   * [Command usage](#)
 
-*[How does Duck work ?](#)
+* [How does Duck work ?](#)
 
   * [Project organization](#)
 
