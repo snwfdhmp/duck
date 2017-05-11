@@ -21,13 +21,13 @@
   * [Unit tests](#unit-tests)
   * [Logs](#logs)
 
-## Presentation
+## [Presentation]
 
 Duck provides short syntax to shortcut common actions on your C++ projects.
 
 This is still early development phase, but the tool is already ready to be used.
 
-## Features
+## [Features]
 
   - **Easy to configure** [more informations](#configure)
 
