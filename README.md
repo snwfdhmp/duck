@@ -1,12 +1,20 @@
 [logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 
-# Duck ![logo][logo-sm]
+# [Duck]() ![logo][logo-sm]
 
 
-# Table of contents
+# [Introduction](#introduction)
 
+[Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
+
+This is still early *development phase*, but the tool is **already ready to be used**.
+
+![logo][logo-xs]
+
+# [Table of contents]()
+
+* [Introduction](#introduction)
 * [Presentation](#presentation)
-  * [Description](#description)
   * [Features](#features)
   * [Command usage](#command-usage)
 * [How does Duck work ?](#how-does-duck-work--)
@@ -21,13 +29,8 @@
   * [Unit tests](#unit-tests)
   * [Logs](#logs)
 
-## [Presentation]()
-
-Duck provides short syntax to shortcut common actions on your C++ projects.
-
-This is still early development phase, but the tool is already ready to be used.
-
-## [Features]()
+## [Presentation](#presentation)
+## [Features](#features)
 
   - **Easy to configure** [more informations](#configure)
 
