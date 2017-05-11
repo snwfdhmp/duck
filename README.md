@@ -51,41 +51,17 @@ help             duck help                  shows this message
 
   Deploy duck architecture in project dir :
 
-  `build`
-  
-    - all your app builds
-  
-  `config`
-  
-    - some configuration variables
-  
-  `doc`
-  
-    - documentations
-  
-  `junk`
-  
-    - for junk code
-  
-  `logs`
-  
-    - logs for compilation, unit test, versioning, etc
-  
-  `src`
-  
-    - contains your source code
-  
-  `compile`
-  
-    - compilation file
-  
-  `runtest`
-  
-    - unit test central
-  
-  `run`
-  
-    - run the last build of your project
+  Name | Description
+  --- | ---
+  `build` | all your app builds 
+  `config` | some configuration variables 
+  `doc` | documentations 
+  `junk` | for junk code 
+  `logs` | logs for compilation, unit test, versioning, etc 
+  `src` | contains your source code 
+  `compile` | compilation file 
+  `runtest` | unit test central 
+  `run` | run the last build of your project
 
 ## Organization
 
