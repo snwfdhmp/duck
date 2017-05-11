@@ -37,32 +37,21 @@ default : '.' when user call 'duck init'
 ```
 usage: duck <options> 
 
-
 Available options :
-
 
 name             usage                      description
 ----             -----                      -----------
 
 init             duck init <name> [opt]     initialize a new duck project
 deploy           duck deploy [opt]          deploy duck architecture
-
 config           duck config <action> [opt] project configuration tools
-
 class            duck class <action> [opt]  tools for classes
-
 compile          duck compile [env]         run project compiler
-
 run              duck run [target-version]  run project (no arg->last version)
-
 project-version  duck pv [show|set|inc]     configuration for project version
-
 tar              duck tar                   backup 'src/' dir into a tarball
-
 quick-commit     duck qc [custom-msg]       alias git add *, commit, push
-
 doc              duck doc [command]         shows command's help message
-
 help             duck help                  shows this message
 
 ```
