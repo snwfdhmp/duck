@@ -1,13 +1,12 @@
 # [Duck]() ![logo][logo-xs]
 
+![logo][logo-lg]
 
 # Introduction
 
 [Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
 
 This is still early *development phase*, but the tool is **already ready to be used**.
-
-![logo][logo-lg]
 
 # [Table of contents]()
 
