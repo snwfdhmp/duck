@@ -102,7 +102,7 @@ You can **show last compiled version** by running `duck pv`.
 
 You can **set next compiled version** by running `duck pv set <version>` (example : `duck pv set 1.5`).
 
-You can **choose the compile tag** when using `duck compile [tag]` (example `duck compile beta`)
+You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
 
 
 ## Code
