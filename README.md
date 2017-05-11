@@ -6,33 +6,19 @@
 # Table of contents
 
 * [Presentation](#presentation)
-
   * [Description](#description)
-
   * [Features](#features)
-
   * [Command usage](#command-usage)
-
 * [How does Duck work ?](#how-does-duck-work)
-
   * [Duck architecture](#duck-architecture)
-
     * [What ?](#what)
-
     * [Why ?](#why)
-
   * [Code](#code)
-
   * [Compile](#compile)
-
   * [Builds](#builds)
-
   * [Versioning](#versioning)
-
   * [Run](#run)
-
   * [Unit tests](#unit-tests)
-
   * [Logs](#logs)
 
 ## Presentation
