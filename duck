@@ -6,6 +6,8 @@
 # Under MIT License
 # Please include a link to my repo when you share
 
+DUCK_VERSION="0.7"
+
 storage="/etc" #default mac app storage
 if [ ! -d "$storage" ]; then
     storage="/var/lib"
@@ -639,7 +641,8 @@ while [ "$1" != "" ]; do
                                 ;;
     tar | -t)                   action="source_archive"
                                 ;;
-    doc | help | -h | --help )  shift
+    doc | help | -h | --help )  echo "Using duck $DUCK_VERSION"
+                                shift
                                 if [ -z "$1" ]; then
                                     usage
                                     exit 0

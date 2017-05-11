@@ -67,6 +67,12 @@ help             duck help                  shows this message
 
 ```
 
+# [How to use duck ?]()
+
+1. Create a folder for your project if you don't have one already.
+
+![logo][gif-mkdir]
+
 # [How does it works ?]() ![logo][logo-xs]
 
 ## [Duck architecture]()
@@ -194,3 +200,4 @@ You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/mast
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
+[gif-mkdir]: https://media.giphy.com/media/l0Iy6LjzWVxvxN42c/giphy.gif "mkdir projet"
