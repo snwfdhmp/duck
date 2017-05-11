@@ -7,7 +7,7 @@
 
 This is still early *development phase*, but the tool is **already ready to be used**.
 
-![logo][logo-sm]
+![logo][logo-lg]
 
 # [Table of contents]()
 
@@ -151,4 +151,5 @@ Project name | Used in logs, class creation, unit testing. | `$project_root` | p
 *Folder* name | Rename Duck architecture's folders. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
+[logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
 [logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-sm.png "Logo"
