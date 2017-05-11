@@ -34,7 +34,7 @@ default : '.' when user call 'duck init'
 
 ## Usage
 
-```
+<code>
 usage: duck <options> 
 
 Available options :
@@ -53,7 +53,7 @@ quick-commit     duck qc *[custom-msg]*       alias git add *, commit, push
 doc              duck doc *[command]*         shows command's help message
 help             duck help                  shows this message
 
-```
+</code>
 
 ## Duck architecture
 
