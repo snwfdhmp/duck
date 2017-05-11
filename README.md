@@ -70,7 +70,7 @@ help             duck help                  shows this message
 
 ## What ?
   
-**Duck** provides a *complete* and *easy-to-install* **Duck's architecture**.
+**Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
 ## Project root directory
 
@@ -84,7 +84,11 @@ Name | Description
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
 
-# Deploy
+## Why ?
+
+If you currently aren't using any architecture for your project, you may want to deploy **Duck architecture** to organize your source code, ressources, builds, unit tests, classes, or whatever.
+
+## Deploy
 
 You can deploy Duck's architecture by running `duck deploy`
 
