@@ -53,15 +53,12 @@ help             duck help                  shows this message
 
   Name | Description
   --- | ---
-  `build` | all your app builds 
-  `config` | some configuration variables 
-  `doc` | documentations 
-  `junk` | for junk code 
-  `logs` | logs for compilation, unit test, versioning, etc 
-  `src` | contains your source code 
-  `compile` | compilation file 
-  `runtest` | unit test central 
-  `run` | run the last build of your project
+  `build` | **app builds**
+  `config` | **configuration files**
+  `doc` | **documentation**
+  `junk` | whatever : tests, trash, tmp
+  `logs` | **logs** for compilation, unit test, versioning, etc 
+  `src` | **source code**
 
 ## Organization
 
