@@ -20,6 +20,33 @@ This is still early development phase, but the tool is already ready to be used.
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
+# Table of contents
+
+[1. Presentation](#)
+
+[1.1 Description](#)
+
+[1.2 Features](#)
+
+[1.3 Command usage](#)
+
+[2. How does Duck work ?](#)
+
+[2.1 Project organization](#)
+
+[2.1.1 What ?](#)
+
+[2.1.2 Why ?](#)
+
+[2.2 Code](#)
+
+[2.3 Compile](#)
+
+[2.4 Run](#)
+
+[2.5 Unit tests](#)
+
+[2.6 Logs](#)
 
 
 ## Usage
