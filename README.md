@@ -1,6 +1,6 @@
 [logo]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-sm.png "Logo"
 
-# Duck ![logo][logo]
+# ![logo][logo] Duck ![logo][logo]
 
 
 # Table of contents
