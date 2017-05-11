@@ -14,7 +14,7 @@ This is still early *development phase*, but the tool is **already ready to be u
 * [Presentation](#presentation)
   * [Features](#features)
   * [Command usage](#command-usage)
-* [How does it works ?](#how-does-duck-work--)
+* [How does it works ?](#how-does-it-works--)
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
