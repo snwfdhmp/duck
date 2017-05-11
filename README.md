@@ -1,25 +1,5 @@
 # Duck
 
-## Presentation
-
-Duck provides short syntax to shortcut common actions on your C++ projects.
-
-This is still early development phase, but the tool is already ready to be used.
-
-## Features
-
-  - **Easy to configure** [more informations](#configure)
-
-  - **Class management** (create, delete, list)
-
-  - **Code organization** (Duck architecture) [more informations](#duck-architecture)
-
-  - **Junk code management**
-
-  - **Versioning** (tag-version) *example : beta-0.1.4 release-1.2*
-
-  - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
-
 # Table of contents
 
 [1. Presentation](#)
@@ -49,7 +29,29 @@ This is still early development phase, but the tool is already ready to be used.
 [2.6 Logs](#)
 
 
-## Usage
+# 1. Presentation
+
+## 1.1 Description
+
+Duck provides short syntax to shortcut common actions on your C++ projects.
+
+This is still early development phase, but the tool is already ready to be used.
+
+## 1.2 Features
+
+  - **Easy to configure** [more informations](#configure)
+
+  - **Class management** (create, delete, list)
+
+  - **Code organization** (Duck architecture) [more informations](#duck-architecture)
+
+  - **Junk code management**
+
+  - **Versioning** (tag-version) *example : beta-0.1.4 release-1.2*
+
+  - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
+
+## 1.3 Usage
 
 ```
 usage: duck <options> 
