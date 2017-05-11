@@ -153,15 +153,15 @@ You can **set next compiled version** by running `duck pv set <version>` (exampl
 
 You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
 
-#[Run](#run)
+# [Run](#run)
 
 This section is not available yet.
 
-#[Unit tests](#unit-tests)
+# [Unit tests](#unit-tests)
 
 This section is not available yet.
 
-#[Logs](#logs)
+# [Logs](#logs)
 
 This section is not available yet.
 

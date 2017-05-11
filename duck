@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# Duck - Project management
+# Developed and maintained by Martin Joly (https://github.com/snwfdhmp/)
+# Project repo : https://github.com/snwfdhmp/duck
+# Under MIT License
+# Please include a link to my repo when you share
+
 storage="/etc" #default mac app storage
 if [ ! -d "$storage" ]; then
     storage="/var/lib"
