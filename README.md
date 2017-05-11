@@ -9,10 +9,10 @@
   * [Description](#description)
   * [Features](#features)
   * [Command usage](#command-usage)
-* [How does Duck work ?](#how-does-duck-work)
+* [How does Duck work ?](#how-does-duck-work--)
   * [Duck architecture](#duck-architecture)
-    * [What ?](#what)
-    * [Why ?](#why)
+    * [What ?](#what--)
+    * [Why ?](#why--)
   * [Code](#code)
   * [Compile](#compile)
   * [Builds](#builds)
@@ -70,7 +70,7 @@ help             duck help                  shows this message
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
-If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work) to organize your source code, ressources, builds, unit tests, classes, or whatever.
+If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work--) to organize your source code, ressources, builds, unit tests, classes, or whatever.
 
 ## Project root directory
 
