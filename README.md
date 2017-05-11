@@ -70,7 +70,7 @@ help             duck help                  shows this message
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
-If you currently aren't using any architecture/managing tool for your project, you may want to deploy **Duck architecture** to organize your source code, ressources, builds, unit tests, classes, or whatever.
+If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work) to organize your source code, ressources, builds, unit tests, classes, or whatever.
 
 ## Project root directory
 
@@ -90,13 +90,13 @@ You can *deploy* **Duck architecture** by running `duck deploy`
 
 # Builds
 
-All your builds compiled with `duck compile` are stored in `build/` as *tag*-*version*.*suffix*
+**All your builds** compiled with `duck compile` are **stored** in `build/` as *tag*-*version*.*suffix*
 
 Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
 
 # Versioning
 
-Versioning is managed automatically by duck.
+Versioning is **managed automatically** by duck.
 
 You can **show last compiled version** by running `duck pv`.
 
