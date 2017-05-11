@@ -8,17 +8,17 @@ This is still early development phase, but the tool is already ready to be used.
 
 ## Features
 
-  - **Easy to configure** [more informations (incomming)](#)
+  - **Easy to configure** [more informations *(incomming)*](#)
 
   - **Class management** *(create, delete, list)*
 
-  - Code organization (using Duck architecture) [*more informations*](#Duck-architecture)
+  - **Code organization** (using Duck architecture) [more informations](#Duck-architecture)
 
-  - Junk code management
+  - **Junk code management**
 
-  - Versioning (version tag+prefix) *example : beta-0.1.4 release-1.2*
+  - **Versioning** (version tag+prefix) *example : beta-0.1.4 release-1.2*
 
-  - (incomming) Unit tests automation (dependencies management, class-test, specialised tests)
+  - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
 ## Configuration
 
