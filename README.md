@@ -41,7 +41,7 @@ This is still early development phase, but the tool is already ready to be used.
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
-## Command usage
+## [Command usage]()
 
 ```
 usage: duck <options> 
@@ -64,15 +64,15 @@ help             duck help                  shows this message
 
 ```
 
-# How does Duck work ? ![logo][logo-sm]
+# [How does Duck work ?]() ![logo][logo-sm]
 
-## Introduction
+## [Introduction]()
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
 If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work--) to organize your source code, ressources, builds, unit tests, classes, or whatever.
 
-## Project root directory
+## [Project root directory]()
 
 Name | Description
 --- | ---
