@@ -4,9 +4,9 @@
 
 1. [Presentation](#1-presentation)
 
-  1.1 [Description](#11-description)
+  1.1[Description](#11-description)
 
-[1.2 Features](#12-features)
+  1.2 [1.2 Features](#12-features)
 
 [1.3 Command usage](#13-command-usage)
 
