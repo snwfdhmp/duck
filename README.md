@@ -44,8 +44,7 @@ Available options :
 
 
 name             usage                      description
-
----------------  -------------------------  ---------------------------------
+----             -----                      -----------
 
 init             duck init <name> [opt]     initialize a new duck project
 
