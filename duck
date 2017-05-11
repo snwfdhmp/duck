@@ -86,7 +86,8 @@ function init() {
     project_root="."
 
     if [ ! -d "$(project_storage)" ]; then
-        if [ "$action" = "init" ]; then
+        if [ $action = "init" ]; then
+            echo "New project : creation of .duck storage"
             mkdir .duck
             chmod 750 .duck
         fi
@@ -288,68 +289,60 @@ function classCreate() {
     code_upper=$(echo "$code_extension" | awk '{print toupper($0)}')
     header_upper=$(echo "$header_extension" | awk '{print toupper($0)}')
     test_upper=$(echo "$test_extension" | awk '{print toupper($0)}')
-    echo >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension\
-    "   #ifndef ${name_upper}_${class_upper}_${code_upper}
-    #define ${name_upper}_${class_upper}_${code_upper}
-
-    //$name class methods implementation
-
-    #include \"$name.$class_extension.$header_extension\"
-
-    //class constructor
-    $name::$name() {
-        // object initialization
-    }
-
-    #endif"
-
-    echo >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension\
-    "#ifndef ${name_upper}_${class_upper}_${header_upper}
-    #define ${name_upper}_${class_upper}_${header_upper}
+    echo "#ifndef ${name_upper}_${class_upper}_${code_upper}" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "#define ${name_upper}_${class_upper}_${code_upper}" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "//$name class methods implementation" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "#include \"$name.$class_extension.$header_extension\" " >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "//class constructor" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "$name::$name() {" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "    // object initialization" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "}" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
+    echo "#endif" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension
     
-    //$name class definition
+    echo "#ifndef ${name_upper}_${class_upper}_${header_upper}" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "#define ${name_upper}_${class_upper}_${header_upper}" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "//$name class definition" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "class $name" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "{" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "    public:" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "    $name(); //class constructor" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "    ~$name();" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "};" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
+    echo "#endif" >> $project_root/$src_dir/$classes_dir/$name/$name.$class_extension.$header_extension
 
-    class $name
-    {
-        public:
-        $name(); //class constructor
-        ~$name();
-        
-    };
-
-    #endif"
-
-    echo >> $project_root/$src_dir/$classes_dir/$name/$name.test.cpp\
-    "#ifndef ${name_upper}_${class_upper}_${code_upper}
-    #define ${name_upper}_${test_upper}_${code_upper}
-
-    //$name class unit test
-
-    #include <iostream>
-    #include \"$name.$class_extension.$header_extension\"
-    #include \"../../$source_config_dir/UnitTests.$header_extension\"
-
-    int main(int argc, char const *argv[])
-    {
-        unsigned int err = 0;
-        $name a;
-
-        /*
-        unit tests here
-        use macro SHOULD_BE_TRUE(expression) and SHOULD_BE_FALSE(expression)
-        to increment err when errors
-        */
-        
-        if(err) {
-            cout << 'Test failed with ' << err << ' errors.' << endl;
-            return -1;
-        }
-
-        cout << 'Test executed successfully' << endl;
-        return 0;
-    }
-
-    #endif"
+    echo "#ifndef ${name_upper}_${class_upper}_${code_upper}">> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "#define ${name_upper}_${test_upper}_${code_upper}" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo " " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "//$name class unit test" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "  " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "#include <iostream>" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "#include \"$name.$class_extension.$header_extension\"" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "#include \"../../$source_config_dir/UnitTests.$header_extension\"" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "  " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "int main(int argc, char const *argv[])" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "{" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    unsigned int err = 0;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    $name a;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "  " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    /*" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    unit tests here" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    use macro SHOULD_BE_TRUE(expression) and SHOULD_BE_FALSE(expression)" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    to increment err when errors" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    */" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    if(err) {" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "        cout << 'Test failed with ' << err << ' errors.' << endl;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "        return -1;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    }" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "  " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    cout << 'Test executed successfully' << endl;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "    return 0;" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "}" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "  " >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
+    echo "#endif" >> $project_root/$src_dir/$classes_dir/$name/$name.test.$code_extension
 
     echo >> $project_root/$src_dir/$classes_dir/$name/$name.test.dep\
     "$src_dir/$classes_dir/$name/$name.$class_extension.$code_extension"
@@ -539,6 +532,11 @@ function configUsage() {
     echo "edit         open configuration file with nano"
 }
 
+function open_source_in_editor() {
+    subl $(which duck)
+    exit 0
+}
+
 if [ -z "$1" ];then
     usage
     exit 1
@@ -653,6 +651,8 @@ while [ "$1" != "" ]; do
                                 esac
                                 usage
                                 exit
+                                ;;
+edit-src )                      action="open_source_in_editor"
                                 ;;
         * )                     usage
                                 exit 1

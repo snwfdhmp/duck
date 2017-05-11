@@ -1,10 +1,24 @@
 # Duck
 
-TODO write README.md
-
 ## Presentation
 
-Duck is what makes your project go from this
+Duck provides short syntax to shortcut common actions on your C++ projects.
+
+This is still early development phase, but the tool is already ready to be used.
+
+## Features
+
+  - Easy to configure [*more informations (incomming)*](#)
+
+  - Class management (create, delete, list) 
+
+  - Code organization (using Duck architecture) [*more informations*](#Duck-architecture)
+
+  - Junk code management
+
+  - Versioning (version tag+prefix) *example : beta-0.1.4 release-1.2*
+
+  - (incomming) Unit tests automation (dependencies management, class-test, specialised tests)
 
 ## Configuration
 
@@ -17,12 +31,6 @@ default : /etc/.duck
 Project root
 variable $project_root
 default : '.' when user call 'duck init'
-
-
-
-to this
-
-[IMAGE organized repo]
 
 ## Usage
 
