@@ -68,16 +68,27 @@ help             duck help                  shows this message
 
 # Duck architecture
 
-You can deploy Duck's architecture by running `duck deploy`
+## What ?
+  
+Duck provides a complete easy-to-install Duck's architecture.
+
+## Project root directory
 
 Name | Description
 --- | ---
+`.duck` | project preferences
 `build` | app builds
 `config` | configuration files
 `doc` | documentation
 `junk` | trash
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
+
+# Deploy
+
+You can deploy Duck's architecture by running `duck deploy`
+
+
 
 ## Builds
 
@@ -98,7 +109,7 @@ You can set next compiled version by running `duck pv set <version>` (example : 
 The tag is choosen when using `duck compile [tag]` (example `duck compile beta`)
 
 
-## Source code
+## Code
 
 Your code is organized that way :
 
