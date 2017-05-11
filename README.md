@@ -1,6 +1,6 @@
-[logo]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
+[logo-sm]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 
-# Duck ![logo][logo]
+# Duck ![logo][logo-sm]
 
 
 # Table of contents
@@ -64,7 +64,7 @@ help             duck help                  shows this message
 
 ```
 
-# How does Duck work ?
+# How does Duck work ? ![logo][logo-sm]
 
 # Duck architecture
 
@@ -133,7 +133,7 @@ Your code is organized that way :
     `constants.h` -> preprocessor constants
 
 
-# Configure
+# Configure ![logo][logo-sm]
 
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
