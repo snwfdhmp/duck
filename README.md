@@ -66,11 +66,11 @@ help             duck help                  shows this message
 
 # How does Duck work ? ![logo][logo-sm]
 
-# Duck architecture
+## Introduction
 
-## What ?
-  
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
+
+If you currently aren't using any architecture/managing tool for your project, you may want to deploy **Duck architecture** to organize your source code, ressources, builds, unit tests, classes, or whatever.
 
 ## Project root directory
 
@@ -84,33 +84,25 @@ Name | Description
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
 
-## Why ?
-
-If you currently aren't using any architecture for your project, you may want to deploy **Duck architecture** to organize your source code, ressources, builds, unit tests, classes, or whatever.
-
 ## Deploy
 
-You can deploy Duck's architecture by running `duck deploy`
+You can *deploy* **Duck architecture** by running `duck deploy`
 
-
-
-## Builds
+# Builds
 
 All your builds compiled with `duck compile` are stored in `build/` as *tag*-*version*.*suffix*
 
 Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
 
-## Versioning
+# Versioning
 
 Versioning is managed automatically by duck.
 
-You can see last compiled version by running `duck pv`.
+You can **show last compiled version** by running `duck pv`.
 
-You can set next compiled version by running `duck pv set <version>` (example : `duck pv set 1.5`).
+You can **set next compiled version** by running `duck pv set <version>` (example : `duck pv set 1.5`).
 
----
-
-The tag is choosen when using `duck compile [tag]` (example `duck compile beta`)
+You can **choose the compile tag** when using `duck compile [tag]` (example `duck compile beta`)
 
 
 ## Code
