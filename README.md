@@ -2,44 +2,39 @@
 
 # Table of contents
 
-1. [Presentation](#1-presentation)
+* [Presentation](#)
 
-    1.1 [Description](#11-description)
+  * [Description](#)
 
-    1.2 [Features](#12-features)
+  * [Features](#)
 
-    1.3 [Command usage](#13-command-usage)
+  * [Command usage](#)
 
----
-   
-2. [How does Duck work ?](#2-how-does-duck-work)
-   
-    2.1 [Project organization](#21-project-organization)
-   
-        2.1.1 [What ?](#211-what)
-   
-        2.1.2 [Why ?](#212-what)
-   
-    2.2 [Code](#22-code)
-   
-    2.3 [Compile](#23-compile)
-   
-    2.4 [Run](#24-run)
-   
-    2.5 [Unit tests](#25-unit-tests)
-   
-    2.6 [Logs](#26-logs)
+*[How does Duck work ?](#)
 
+  * [Project organization](#)
 
-# 1. Presentation
+    * [What ?](#)
 
-## 1.1 Description
+    * [Why ?](#)
+
+  * [Code](#)
+
+  * [Compile](#)
+
+  * [Run](#)
+
+  * [Unit tests](#)
+
+  * [Logs](#)
+
+## Presentation
 
 Duck provides short syntax to shortcut common actions on your C++ projects.
 
 This is still early development phase, but the tool is already ready to be used.
 
-## 1.2 Features
+## Features
 
   - **Easy to configure** [more informations](#configure)
 
@@ -53,7 +48,7 @@ This is still early development phase, but the tool is already ready to be used.
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
-## 1.3 Usage
+## Usage
 
 ```
 usage: duck <options> 
