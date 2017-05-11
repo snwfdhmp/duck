@@ -70,7 +70,7 @@ help             duck help                  shows this message
 
 ## What ?
   
-Duck provides a complete easy-to-install Duck's architecture.
+**Duck** provides a *complete* and *easy-to-install* **Duck's architecture**.
 
 ## Project root directory
 
