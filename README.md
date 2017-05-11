@@ -1,4 +1,8 @@
+[logo]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo.png "Logo"
+
 # Duck
+
+![logo][logo]
 
 # Table of contents
 
@@ -21,6 +25,10 @@
   * [Code](#code)
 
   * [Compile](#compile)
+
+  * [Builds](#builds)
+
+  * [Versioning](#versioning)
 
   * [Run](#run)
 
@@ -86,13 +94,13 @@ Name | Description
 `logs` | logs for compilation, unit test, versioning, etc 
 `src` | source code
 
-## App builds
+## Builds
 
 All your builds compiled with `duck compile` are stored in `build/` as *tag*-*version*.*suffix*
 
 Examples : `dev-0.1.0` `beta-0.2.7` `release-2.4.1`
 
-### 1. Version
+## Versioning
 
 Versioning is managed automatically by duck.
 
@@ -100,7 +108,7 @@ You can see last compiled version by running `duck pv`.
 
 You can set next compiled version by running `duck pv set <version>` (example : `duck pv set 1.5`).
 
-### 2. Tag
+---
 
 The tag is choosen when using `duck compile [tag]` (example `duck compile beta`)
 
