@@ -14,17 +14,18 @@ This is still early *development phase*, but the tool is **already ready to be u
 * [Presentation](#presentation)
   * [Features](#features)
   * [Command usage](#command-usage)
-* [How does it works ?](#how-does-it-works-)
+* [How does it works ?](#how-does-it-works--)
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture)
   * [How is my code organized ?](#how-is-my-code-organized-)
-  * [Compile](#compile)
-  * [Builds](#builds)
+  * [Compiling your project](#compiling-your-project)
+  * [Project builds](#project-builds)
   * [A little bit about versioning](#a-little-bit-about-versioning)
   * [Run](#run)
   * [Unit tests](#unit-tests)
   * [Logs](#logs)
+  * [Let's configure](#lets-configure-)
 
 ## [Presentation](#presentation)
 ## [Features](#features)
@@ -124,8 +125,17 @@ Let's see what he contains :
     `constants.h` -> preprocessor constants
 
 
+# [Compiling your project]()
 
-# [Builds]()
+You can **compile your project** with `duck compile [tag]`.
+
+Duck will **automatically compile** your `main.cpp` and all files in `src/classes/*` folders with extension `.class.cpp` *(by default)*.
+
+You can **compile quickly** with tag *dev* by running `duck -c`
+
+***Warning!* Duck do not provides external library linking for now**. You can still modify the `compile()` function in `duck.sh` if needed.
+
+# [Project builds]()
 
 **All your builds** compiled with `duck compile` are **stored** in `build/` as *tag*-*version*.*suffix*
 
