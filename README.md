@@ -154,14 +154,16 @@ You can **choose the compile tag** when using `duck compile [tag]`. Default is `
 
 # [Let's configure]() ![logo][logo-xs]
 
-Duck can be easily configured using the `duck.conf` file located in the `.duck` at the root of all projects managed by duck (run `duck init` to create it if it doesn't exists.
+Duck is **easily configurable** using the `duck.conf`.
+
+This file is located in the `.duck` directory in your project folder (run `duck init` to create it if it doesn't exists).
 
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
-Duck location | Duck's storage path | `$duck_conf_dir` | `/etc/.duck` (Mac) | examples : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
-Project path | Your project's root folder. | `$project_root` | user's actual directory when 'duck init' is called
-Project name | Used in logs, class creation, unit testing. | `$project_root` | project root folder name when 'duck init' is called
-*Folder* name | Rename Duck architecture's folders. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
+Duck location | Duck's **storage path** | `$duck_conf_dir` | `/etc/.duck` (Mac) | examples : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
+Project path | Your **project's root folder**. | `$project_root` | user's actual directory when 'duck init' is called
+Project name | Your **project name** is used in logs, class creation, unit testing. | `$project_root` | project root folder name when 'duck init' is called
+*Folder* name | **Rename Duck architecture's folders**. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
