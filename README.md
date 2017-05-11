@@ -2,31 +2,31 @@
 
 # Table of contents
 
-[1. Presentation](#1-Presentation)
+[1. Presentation](#1-presentation)
 
-[1.1 Description](#11-Description)
+[1.1 Description](#11-description)
 
-[1.2 Features](#12-Features)
+[1.2 Features](#12-features)
 
 [1.3 Command usage](#13-command-usage)
 
-[2. How does Duck work ?](#2-how-does-Duck-work)
+[2. How does Duck work ?](#2-how-does-duck-work)
 
 [2.1 Project organization](#21-project-organization)
 
-[2.1.1 What ?](#)
+[2.1.1 What ?](#211-what)
 
-[2.1.2 Why ?](#)
+[2.1.2 Why ?](#212-what)
 
-[2.2 Code](#2.2 Code)
+[2.2 Code](#22-code)
 
-[2.3 Compile](#2.3 Compile)
+[2.3 Compile](#23-compile)
 
-[2.4 Run](#2.4 Run)
+[2.4 Run](#24-run)
 
 [2.5 Unit tests](#25-unit-tests)
 
-[2.6 Logs](#2.6 Logs)
+[2.6 Logs](#26-logs)
 
 
 # 1. Presentation
