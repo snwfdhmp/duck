@@ -180,6 +180,9 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 *Folder* name | **Rename Duck architecture's folders**. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
 
 ---
+---
+---
+---
 
 # Author
 
