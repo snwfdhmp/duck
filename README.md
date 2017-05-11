@@ -153,7 +153,8 @@ Your code is organized that way :
 - ***Folder* name**
   
   Rename Duck architecture's folders.
-  This option was written for special case uses, even if you don't have to, you should prefer default configuration.
+
+  **This option was written for special case uses, even if you don't have to, you should prefer default configuration.**
 
   variable : `$name_dir`
 
