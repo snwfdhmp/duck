@@ -127,6 +127,8 @@ Your code is organized that way :
 Name | Description | Variable | Default Value | Notes
 --- | --- | --- | --- | ---
 Duck storage location | Used to store default configurations for your projects. | `$duck_conf_dir` | `/etc/.duck` | examples : `/home/user/.duck`, `/var/.duck`, `/usr/share/.duck`
+Project root | Used to perform actions on your project. Having an invalid root path will disable many Duck features. | `$project_root` | `actual directory when 'duck init' is called`
+
 
 - **Duck storage location**
 
@@ -142,7 +144,7 @@ Duck storage location | Used to store default configurations for your projects. 
 
   Used to perform actions on your project. Having an invalid root path will disable many Duck features.
 
-  variable : `  $project_root`
+  variable : `$project_root`
 
   default_value : `actual directory when 'duck init' is called`
 
