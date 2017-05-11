@@ -26,6 +26,8 @@ This is still early *development phase*, but the tool is **already ready to be u
   * [Unit tests](#unit-tests)
   * [Logs](#logs)
   * [Let's configure](#lets-configure-)
+* [Author](#author)
+* [License](#license)
 
 ## [Presentation](#presentation)
 ## [Features](#features)
@@ -151,6 +153,18 @@ You can **set next compiled version** by running `duck pv set <version>` (exampl
 
 You can **choose the compile tag** when using `duck compile [tag]`. Default is `dev (example `duck compile beta`)
 
+#[Run](#run)
+
+This section is not available yet.
+
+#[Unit tests](#unit-tests)
+
+This section is not available yet.
+
+#[Logs](#logs)
+
+This section is not available yet.
+
 
 # [Let's configure]() ![logo][logo-xs]
 
@@ -164,6 +178,18 @@ Duck location | Duck's **storage path** | `$duck_conf_dir` | `/etc/.duck` (Mac) 
 Project path | Your **project's root folder**. | `$project_root` | user's actual directory when 'duck init' is called
 Project name | Your **project name** is used in logs, class creation, unit testing. | `$project_root` | project root folder name when 'duck init' is called
 *Folder* name | **Rename Duck architecture's folders**. ***WARNING!*** This option was written for special case uses, even if you don't have to, you should prefer default configuration. |`$name_dir` | `name` | Available for names `build, backups, config, doc, junk, logs, src, classes, tests`
+
+---
+
+# Author
+
+[snwfdhmp](http://github.com/snwfdhmp) - Visit my other repos, leave a star if you like one ;)
+
+# License
+
+You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/master/LICENSE.txt)
+
+
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
