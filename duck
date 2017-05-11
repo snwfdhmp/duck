@@ -6,7 +6,7 @@
 # Under MIT License
 # Please include a link to my repo when you share
 
-DUCK_VERSION="0.7.1"
+DUCK_VERSION="0.7"
 
 storage="/etc" #default mac app storage
 if [ ! -d "$storage" ]; then
