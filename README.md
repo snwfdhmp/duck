@@ -8,7 +8,7 @@ This is still early development phase, but the tool is already ready to be used.
 
 ## Features
 
-  - **Easy to configure** [more informations *(incomming)*](#)
+  - **Easy to configure** [more informations](#configure)
 
   - **Class management** (create, delete, list)
 
@@ -20,17 +20,7 @@ This is still early development phase, but the tool is already ready to be used.
 
   - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
 
-## Configuration
 
-# Paths:
-
-Duck configuration folder
-variable : $duck_conf_dir
-default : /etc/.duck
-
-Project root
-variable $project_root
-default : '.' when user call 'duck init'
 
 ## Usage
 
@@ -130,3 +120,18 @@ Your code is organized that way :
     `macros.h` -> preprocessor macros
 
     `constants.h` -> preprocessor constants
+
+
+# Configure
+
+## Paths
+
+- Duck configuration folder
+
+```variable : $duck_conf_dir
+default : /etc/.duck```
+
+- Project root
+
+```variable $project_root
+default : '.' when user call 'duck init'```
