@@ -6,7 +6,7 @@
 # Under MIT License
 # Please include a link to my repo when you share
 
-DUCK_VERSION="0.7"
+DUCK_VERSION="0.7.1"
 
 storage="/etc" #default mac app storage
 if [ ! -d "$storage" ]; then
@@ -99,29 +99,35 @@ function init() {
             echo "New project : creation of .duck storage"
             mkdir .duck
             chmod 750 .duck
-        fi
-        project_root="../$project_root"
-        if [ ! -d "$project_root/.duck" ]; then
+        else
             project_root="../$project_root"
             if [ ! -d "$project_root/.duck" ]; then
-                echo "Cannot find .duck storage. Try repairing with 'duck repair'"
-                exit 1
+                project_root="../$project_root"
+                if [ ! -d "$project_root/.duck" ]; then
+                    echo "Cannot find .duck storage. Try repairing with 'duck repair'"
+                    exit 1
+                fi
             fi
         fi
     fi
 
+    old_pwd=$(pwd)
+    cd $project_root
+    project_root=$(pwd)
+    cd "$old_pwd"
+
 
     if [ ! $(ls "$(project_storage)/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
         if [ ! "$action" = "init" ]; then
-         echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
-     fi
-     configInit
- fi
+           echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
+       fi
+       configInit
+   fi
 
- . $storage/duck.conf
- . $(project_storage)/duck.conf
+   . $storage/duck.conf
+   . $(project_storage)/duck.conf
 
- if [ -z "$project_name" ]; then
+   if [ -z "$project_name" ]; then
     if [ ! "$action" = "init" ]; then
         echo "No name has been set for this projet yet."
     fi
@@ -151,15 +157,15 @@ function deploy() {
     mkdir $project_root/$build_dir $project_root/$backups_dir $project_root/$config_dir $project_root/$doc_dir $project_root/$junk_dir $project_root/$logs_dir $project_root/$src_dir $project_root/$src_dir/$classes_dir $project_root/$src_dir/$source_config_dir $project_root/$src_dir/$tests_dir
     chmod 750 $project_root/*
     
-    touch $src_dir/$source_config_dir/UnitTests.$header_extension
-    touch $src_dir/$source_config_dir/Constants.$header_extension
+    touch $project_root/$src_dir/$source_config_dir/UnitTests.$header_extension
+    touch $project_root/$src_dir/$source_config_dir/Constants.$header_extension
 
-    name="ClassName"
-    classCreate
-    echo "$version_base" > $(project_storage)/version_base
-    echo "$version_suffix" > $(project_storage)/version_suffix
+    name="Example"
+    classCreate > /dev/null
+    echo "$version_base" > "$(project_storage)/version_base"
+    echo "$version_suffix" > "n$(project_storage)/version_suffix"
 
-    if [ ! $(ls "$(project_storage)/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+    if [ ! $(ls "$(project_root)/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
         echo "#$project_name" > $project_root/README.md
         echo >> $project_root/README.md
         echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_root/README.md
@@ -167,8 +173,10 @@ function deploy() {
 
     echo ".duck" > $project_root/.gitignore
     echo ".DS_Store" > $project_root/.gitignore
-
+    
     git init
+
+    echo "duck: Succesfully deployed architecture for project $project_name"
 }
 
 
@@ -375,40 +383,40 @@ function compile() {
     if [ ! -z "$option" ]; then
         case $option in
             sdl) linkAddOn="-lSDL2"
-                 ;;
-            *) echo "Incorrect option"
-                ;;
-        esac
-    fi
+;;
+*) echo "Incorrect option"
+;;
+esac
+fi
 
 
-    rm ./.DS_Store 2> /dev/null
-    rm */.DS_Store 2> /dev/null
-    rm */*/.DS_Store 2> /dev/null
-    rm */*/*/.DS_Store 2> /dev/null
+rm ./.DS_Store 2> /dev/null
+rm */.DS_Store 2> /dev/null
+rm */*/.DS_Store 2> /dev/null
+rm */*/*/.DS_Store 2> /dev/null
 
-    version=$(cat $(project_storage)/version_base)
-    suffix=$(cat $(project_storage)/version_suffix)
-    suffix=$(($suffix+1))
-    log_compile_path="$logs_dir/compile.logs"
+version=$(cat $(project_storage)/version_base)
+suffix=$(cat $(project_storage)/version_suffix)
+suffix=$(($suffix+1))
+log_compile_path="$logs_dir/compile.logs"
 
-    echo "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe'..."
-    echo "[$(date)] ++ Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
+echo "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe'..."
+echo "[$(date)] ++ Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." >> $log_compile_path
 
-    g++ src/main.cpp src/$classes_dir/*/*.$class_extension.cpp -o $build_dir/$COMPILE_ENV-$version.$suffix.exe -Wall $linkAddOn
+g++ src/main.cpp src/$classes_dir/*/*.$class_extension.cpp -o $build_dir/$COMPILE_ENV-$version.$suffix.exe -Wall $linkAddOn
 
-    if [ $? -eq 0 ]; then
-        chmod 710 $build_dir/$COMPILE_ENV-$version.$suffix.exe
-        echo $suffix > "$(project_storage)/version_suffix"
-        echo "$COMPILE_ENV-$version.$suffix.exe" > $(project_storage)/last_version
-        echo "Compilation réussie"
-    fi
+if [ $? -eq 0 ]; then
+    chmod 710 $build_dir/$COMPILE_ENV-$version.$suffix.exe
+    echo $suffix > "$(project_storage)/version_suffix"
+    echo "$COMPILE_ENV-$version.$suffix.exe" > $(project_storage)/last_version
+    echo "Compilation réussie"
+fi
 
-    git add $log_compile_path $build_dir/$COMPILE_ENV-$version.$suffix.exe > /dev/null 2> /dev/null
-    git commit -m "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." > /dev/null 2> /dev/null
-    git push > /dev/null 2> /dev/null &
-    echo "Commit & push to git in background"
-    exit 0
+git add $log_compile_path $build_dir/$COMPILE_ENV-$version.$suffix.exe > /dev/null 2> /dev/null
+git commit -m "Compilation de '$build_dir/$COMPILE_ENV-$version.$suffix.exe' ..." > /dev/null 2> /dev/null
+git push > /dev/null 2> /dev/null &
+echo "Commit & push to git in background"
+exit 0
 }
 
 function run() {
@@ -554,121 +562,121 @@ fi
 while [ "$1" != "" ]; do
     case $1 in
         deploy)                 action="deploy"
-                                ;;
-        init)                   action="init"
-                                shift
-                                project_name=$1
-                                ;;
-        config)                 shift
-                                case $1 in
-                    get | view | show)          action="configShow"
-                                                ;;
-                            edit | nano)        action="configEdit"
-                                                ;;
-                                    init | set) action="configInit"
-                                                shift
-                                                new_config_path=$1
-                                                ;;
-                                    *)          configUsage
-                                                exit 1
-                                                ;;
-                                esac
-                                ;;
-        qc | quick-commit)      action="quick_commit"
-                                shift
-                                msg=$1
-                                ;;
-    class )                     shift
-                                case $1 in
-                                            create)     shift
-                                                        name=$1
-                                                        action="classCreate"
-                                                        ;;
-                                            list| l)    action="classList"
-                                                        ;;
-                                                        rm | del)   action="classDel"
-                                                        shift
-                                                        name=$1
-                                                        ;;
-                                            *)          classUsage  
-                                                        exit 1
-                                                        ;;
-                                esac
-                                ;;
-    compile )                   action="compile"
-                                shift
-                                version_env=$1
-                                shift
-                                option=$1
-                                ;;
-    -c )                        action="compile"
-                                shift
-                                version_env=""
-                                option=$1
-                                ;;
-    run | -r)                   action="run"
-                                shift
-                                target=$1
-                                ;;
-    project-version | pv)       shift
-                                if [ ! $(cat $(project_storage)/version_base 2>/dev/null > /dev/null |echo $?) -eq 0 ]; then
-                                    echo "No project version found."
-                                    echo "Do you want to initialize it to $version_base.$version_suffix ? [yn]"
-                                    read yesorno
-                                    case $yesorno in
-                                        yY) echo $version_base > $(project_storage)/version_base
-                                            echo $version_suffix > $(project_storage)/version_suffix
-                                            ;;
-                                        *)  exit 1
-                                            ;;
-                                    esac
-                                fi
-                                case $1 in
-                                    set)                        action="project_version_set"
-                                                                shift
-                                                                set_version=$1
-                                                                ;;
-                                    inc)                        action="project_version_inc"
-                                                                shift
-                                                                amount=$1
-                                                                ;;
-                                    show|"")                    action="project_version_show"
-                                                                ;;
-                                    *)                          project_version_usage
-                                                                exit 1
-                                                                ;;
-                                esac
-                                ;;
-    tar | -t)                   action="source_archive"
-                                ;;
-    doc | help | -h | --help )  echo "Using duck $DUCK_VERSION"
-                                shift
-                                if [ -z "$1" ]; then
-                                    usage
-                                    exit 0
-                                fi
-                                case $1 in
-                                    class)              classUsage
-                                                        exit 0
-                                                        ;;
-                                    pv|project-version) project_version_usage
-                                                        exit 0
-                                                        ;;
-                                    *)                  echo "No help section for $1"
-                                                        usage
-                                                        exit 1
-                                                        ;;
-                                esac
-                                usage
-                                exit
-                                ;;
+;;
+init)                   action="init"
+shift
+project_name=$1
+;;
+config)                 shift
+case $1 in
+    get | view | show)          action="configShow"
+;;
+edit | nano)        action="configEdit"
+;;
+init | set) action="configInit"
+shift
+new_config_path=$1
+;;
+*)          configUsage
+exit 1
+;;
+esac
+;;
+qc | quick-commit)      action="quick_commit"
+shift
+msg=$1
+;;
+class )                     shift
+case $1 in
+    create)     shift
+name=$1
+action="classCreate"
+;;
+list| l)    action="classList"
+;;
+rm | del)   action="classDel"
+shift
+name=$1
+;;
+*)          classUsage  
+exit 1
+;;
+esac
+;;
+compile )                   action="compile"
+shift
+version_env=$1
+shift
+option=$1
+;;
+-c )                        action="compile"
+shift
+version_env=""
+option=$1
+;;
+run | -r)                   action="run"
+shift
+target=$1
+;;
+project-version | pv)       shift
+if [ ! $(cat $(project_storage)/version_base 2>/dev/null > /dev/null |echo $?) -eq 0 ]; then
+    echo "No project version found."
+    echo "Do you want to initialize it to $version_base.$version_suffix ? [yn]"
+    read yesorno
+    case $yesorno in
+        yY) echo $version_base > $(project_storage)/version_base
+echo $version_suffix > $(project_storage)/version_suffix
+;;
+*)  exit 1
+;;
+esac
+fi
+case $1 in
+    set)                        action="project_version_set"
+shift
+set_version=$1
+;;
+inc)                        action="project_version_inc"
+shift
+amount=$1
+;;
+show|"")                    action="project_version_show"
+;;
+*)                          project_version_usage
+exit 1
+;;
+esac
+;;
+tar | -t)                   action="source_archive"
+;;
+doc | help | -h | --help )  echo "Using duck $DUCK_VERSION"
+shift
+if [ -z "$1" ]; then
+    usage
+    exit 0
+fi
+case $1 in
+    class)              classUsage
+exit 0
+;;
+pv|project-version) project_version_usage
+exit 0
+;;
+*)                  echo "No help section for $1"
+usage
+exit 1
+;;
+esac
+usage
+exit
+;;
 edit-src )                      action="open_source_in_editor"
-                                ;;
-        * )                     usage
-                                exit 1
-                                ;;
-    esac
-    shift
+;;
+* )                     usage
+exit 1
+;;
+esac
+shift
 done
 
 
