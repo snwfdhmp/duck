@@ -2,9 +2,9 @@
 
 # Table of contents
 
-[1. Presentation](#1-presentation)
+1. [Presentation](#1-presentation)
 
-[1.1 Description](#11-description)
+  1.1 [Description](#11-description)
 
 [1.2 Features](#12-features)
 
