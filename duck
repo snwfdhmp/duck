@@ -166,7 +166,7 @@ function deploy() {
     echo "$version_suffix" > "$(project_storage)/version_suffix"
     touch "$project_root/$src_dir/main.$code_extension"
 
-    if [ ! $(ls "$project_root/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+    if [ ! $(ls "$project_root/README.md" > /dev/null 2> /dev/null;echo $?) = "0" ]; then
         echo "#$project_name" > $project_root/README.md
         echo >> $project_root/README.md
         echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_root/README.md
@@ -175,7 +175,11 @@ function deploy() {
     echo ".duck" > $project_root/.gitignore
     echo ".DS_Store" > $project_root/.gitignore
     
-    git init
+    if [ ! "$(git init > /dev/null;echo $?)" = "0" ]; then
+        echo "Error creating GitHub repository"
+    else
+        echo "git: Created repository"
+    fi
 
     echo "duck: Succesfully deployed architecture for project $project_name"
 }
