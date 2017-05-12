@@ -67,9 +67,18 @@ help             duck help                  shows this message
 
 # [How to use duck ?]()
 
-1. Create a folder for your project if you don't have one already.
+1. Create a folder for your project if you don't have one already. (and place yourself in)
 
 ![logo][gif-mkdir]
+
+2. Let's initialize a new [duck]() project with `duck init`
+
+
+3. Now we will deploy **Duck Architecture** using `duck deploy`
+
+
+
+4. Let's code !
 
 # [How does it work ?]() ![logo][logo-xs]
 
@@ -196,6 +205,6 @@ You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/mast
 
 
 [duck-overview]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/duck-overview.png "Duck overview"
+[gif-mkdir]:https://media.giphy.com/media/xUA7aPiK83YvGsx9ni/giphy.gif "mkdir MyProject"
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
-[gif-mkdir]: https://media.giphy.com/media/l0Iy6LjzWVxvxN42c/giphy.gif "mkdir projet"

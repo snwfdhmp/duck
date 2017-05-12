@@ -79,7 +79,6 @@ function configInit() {
     fi
 
     cp $default_conf $(project_storage)/duck.conf
-
     if [ -z "$project_name" ]; then 
         echo "Enter a name for this project : "
         read project_name
