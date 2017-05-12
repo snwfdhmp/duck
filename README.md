@@ -1,8 +1,8 @@
 ![logo][duck-overview]
 
-# [Introduction]()
+# ![logo][logo-xs] [Introduction]()
 
-![logo][logo-xs] [Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
+[Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
 
 This is still early *development phase*, but the tool is **already ready to be used**.
 
@@ -27,7 +27,7 @@ This is still early *development phase*, but the tool is **already ready to be u
 * [Author](#author)
 * [License](#license)
 
-## [Presentation](#presentation)
+# [Presentation](#presentation)
 ## [Features](#features)
 
   - **Easy to configure** [more informations](#configure)
