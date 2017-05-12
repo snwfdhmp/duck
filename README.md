@@ -1,7 +1,5 @@
 ![logo][duck-overview]
 
-# [Duck]() ![logo][logo-xs]
-
 # [Introduction]()
 
 [Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
