@@ -204,7 +204,7 @@ You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/mast
 
 
 [duck-overview]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/duck-overview.png "Duck overview"
-[gif-mkdir]:https://media.giphy.com/media/xUA7aPiK83YvGsx9ni/giphy.gif "mkdir MyProject;cd MyProject"
+[gif-mkdir]:http://media.giphy.com/gifs/xUPGcKV7oHQQQSsueA/giphy.gif "mkdir MyProject;cd MyProject"
 [gif-init]:https://media.giphy.com/media/3ohzdVWd3EokFkgoRG/giphy.gif "duck init"
 [gif-deploy]:http://media.giphy.com/media/3o7buga6yul9wJI8jm/giphy.gif "duck deploy"
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
