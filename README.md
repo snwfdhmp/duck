@@ -81,6 +81,15 @@ help             duck help                  shows this message
 
 4. **Let's code !**
 
+You can now begin coding. Yes, it's as easy. Let's recap :
+
+```shell
+mkdir MyProject
+cd MyProject
+duck init
+duck deploy
+```
+
 ## [Duck architecture]()
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
