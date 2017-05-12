@@ -12,7 +12,7 @@ This is still *development phase*, but the tool is **already ready to be used**.
 * [Presentation](#presentation)
   * [Features](#features)
   * [Command usage](#command-usage)
-* [How does it work ?](#how-does-it-work--)
+* [Get started](#how-does-it-work--)
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture--)
@@ -65,7 +65,7 @@ help             duck help                  shows this message
 
 ```
 
-# [How to use duck ?]()
+# [Get started]() ![logo][logo-xs]
 
 1. Create a folder for your project if you don't have one already. (and place yourself in)
 
@@ -80,8 +80,6 @@ help             duck help                  shows this message
 ![logo][gif-deploy]
 
 4. Let's code !
-
-# [How does it work ?]() ![logo][logo-xs]
 
 ## [Duck architecture]()
 
