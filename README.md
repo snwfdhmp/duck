@@ -81,9 +81,9 @@ help             duck help                  shows this message
 
 4. **Let's code !**
 
-You can now begin coding. Yes, it's as easy. Let's recap :
+You can now begin coding. Yes, it's as simple. Let's recap :
 
-```bash
+```
 mkdir MyProject
 cd MyProject
 duck init
@@ -94,7 +94,7 @@ duck deploy
 
 **Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
 
-If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to deploy [**Duck architecture**](#how-does-duck-work--) to organize your source code, ressources, builds, unit tests, classes, or whatever.
+If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to **deploy [Duck architecture](#how-does-duck-work--)** to ***organize*** your **source code**, **ressources**, **builds**, **unit tests**, **classes**, or whatever.
 
 ## [Project organization]()
 
