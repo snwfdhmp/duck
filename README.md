@@ -1,6 +1,6 @@
-# [Duck]() ![logo][logo-xs]
-
 ![logo][duck-overview]
+
+# [Duck]() ![logo][logo-xs]
 
 # [Introduction]()
 
