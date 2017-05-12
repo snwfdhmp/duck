@@ -1,6 +1,6 @@
 # [Duck]() ![logo][logo-xs]
 
-![logo][logo-lg]
+![logo][duck-overview]
 
 # [Introduction]()
 
@@ -197,7 +197,7 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/master/LICENSE.txt)
 
 
-
+[duck-overview]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/duck-overview.png "Duck overview"
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
 [logo-lg]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-lg.png "Logo"
 [gif-mkdir]: https://media.giphy.com/media/l0Iy6LjzWVxvxN42c/giphy.gif "mkdir projet"

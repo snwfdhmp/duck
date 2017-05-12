@@ -162,10 +162,12 @@ function deploy() {
 
     name="Example"
     classCreate > /dev/null
-    echo "$version_base" > "$(project_storage)/version_base"
-    echo "$version_suffix" > "n$(project_storage)/version_suffix"
 
-    if [ ! $(ls "$(project_root)/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
+    echo "$version_base" > "$(project_storage)/version_base"
+    echo "$version_suffix" > "$(project_storage)/version_suffix"
+    touch "$project_root/$src_dir/main.$code_extension"
+
+    if [ ! $(ls "$project_root/README.md" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
         echo "#$project_name" > $project_root/README.md
         echo >> $project_root/README.md
         echo "This project uses duck architecture and is managed with [duck](https://github.com/snwfdhmp/duck)." >> $project_root/README.md
@@ -366,7 +368,6 @@ function classCreate() {
 
 
     echo "Successfully created class $name"
-    exit 0
 }
 
 function compile() {
