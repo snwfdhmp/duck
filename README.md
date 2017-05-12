@@ -83,7 +83,7 @@ help             duck help                  shows this message
 
 You can now begin coding. Yes, it's as easy. Let's recap :
 
-```shell
+```bash
 mkdir MyProject
 cd MyProject
 duck init
