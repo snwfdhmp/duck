@@ -100,18 +100,18 @@ If you currently aren't using any [architecture/managing tool](http://github.com
 
 Name | Description
 --- | ---
-`.duck` | project preferences
-`build` | app builds
-`config` | configuration files
-`doc` | documentation
-`junk` | trash
-`logs` | logs for compilation, unit test, versioning, etc 
-`src` | source code
+`.duck/` | duck's project **preferences**
+`backups/` | **backups** dir (use `duck tar`)
+`build/` | your project **builds** (versioned)
+`config/` | **configuration** dir
+`doc/` | **documentation**
+`junk/` | **trash**/junk code
+`logs/` | **logs** for compilation, unit test, versioning, etc 
+`src/` | The **source code**, organized in classes. This dir also includes unit tests builds (`src/tests/`)
 
 # [Deploy the Duck architecture]() ![logo][logo-xs]
 
 You can simply *deploy* **Duck architecture** by running `duck deploy`
-
 
 # [How is my code organized ?]()
 
