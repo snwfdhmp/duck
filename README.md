@@ -67,19 +67,19 @@ help             duck help                  shows this message
 
 # [Get started]() ![logo][logo-xs]
 
-1. Create a folder for your project if you don't have one already. (and place yourself in)
+1. **Create a folder for your project** if you don't have one already. (and place yourself in)
 
 ![logo][gif-mkdir]
 
-2. Let's initialize a new [duck]() project with `duck init`
+2. Let's initialize a **new [duck]() project with `duck init`**
 
 ![logo][gif-init]
 
-3. Now we will deploy **Duck Architecture** using `duck deploy`
+3. Now we will **deploy *Duck Architecture*** using `duck deploy`
 
 ![logo][gif-deploy]
 
-4. Let's code !
+4. **Let's code !**
 
 ## [Duck architecture]()
 
