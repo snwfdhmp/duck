@@ -98,15 +98,15 @@ You can still use it to understand how duck works, but the 7 seconds method is m
 
 ![logo][gif-mkdir]
 
-2. Let's initialize a **new [duck]() project with `duck init`**
+### 2. Let's initialize a **new [duck]() project with `duck init`**
 
 ![logo][gif-init]
 
-3. Now we will **deploy *Duck Architecture*** using `duck deploy`
+### 3. Now we will **deploy *Duck Architecture*** using `duck deploy`
 
 ![logo][gif-deploy]
 
-4. **Let's code !**
+### 4. **Let's code !**
 
 You can now begin coding. Yes, it's as simple. Let's recap :
 
