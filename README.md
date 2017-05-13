@@ -13,7 +13,8 @@ This is still *development phase*, but the tool is **already ready to be used**.
   * [Features](#features)
   * [Command usage](#command-usage)
 * [Getting started](#getting-started)
-  * [Quick start]()
+  * [7 seconds start](#7-seconds-start)
+  * [Quick start](#quick-start)
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture--)
@@ -31,13 +32,15 @@ This is still *development phase*, but the tool is **already ready to be used**.
 # [Presentation](#presentation)
 ## [Features](#features)
 
-  - **Easy to configure** [more informations](#configure)
+  - Huge **[time saving](#)** (see here [start coding a new project in 7 seconds](#7-seconds-start))
 
-  - **Class management** (create, delete, list)
+  - Insanely **simple configuration** ([more informations](#configure))
 
-  - **Code organization** (Duck architecture) [more informations](#duck-architecture)
+  - Simple **class interface** (create, delete, list)
 
-  - **Junk code management**
+  - Automatic **code organization** (Duck architecture) [more informations](#duck-architecture)
+
+  - **Junk code** managing
 
   - **Versioning** (tag-version) *example : beta-0.1.4 release-1.2*
 
@@ -68,7 +71,28 @@ help             duck help                  shows this message
 
 # [Getting started]() ![logo][logo-xs]
 
-## [Quick start]()
+There are many ways to start a new development project. One of them is to use Duck to create all needed files and folders to your project.
+
+Duck always automates the maximum he can, asking something only if he cannot predict what will be the answer. However, you can still configure it to make it behave in the way you would exactly want it to.
+
+## [7 seconds start]()
+
+*The following steps are recommended if you want to create a **new project**.*
+
+Since **[Duck]() is built to save your time**, we though that providing a way to do all this stuff in **one command** would be a good thing.
+
+![logo][duck-fast]
+
+`duck deploy ProjectName`. Yeah, as simple. And it works **from anywhere** on an os with duck installed.
+
+You will then be asked a *name* for your *project*. Hit Enter if *'ProjectName'* is the name you want. 
+
+## [Quick Start]()
+
+*The following steps are recommended if you want to **use duck in an existing project** (or different kind).*
+
+This tutorial is the "classic tutorial". Since I implemented `duck deploy projectName` (see [7 seconds start](#7-seconds-start)), I'm wondering if this is still useful (and the answer is probably no).
+You can still use it to understand how duck works, but the 7 seconds method is much better.
 
 1. **Create a folder for your project** if you don't have one already. (and place yourself in)
 
@@ -214,7 +238,7 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 
 You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/master/LICENSE.txt)
 
-
+[duck-fast]: http://media.giphy.com/media/3og0IBl9zPCFv1tOb6/giphy.gif "duck deploy MyProject"
 [duck-overview]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/duck-overview.png "Duck overview"
 [gif-mkdir]:http://media.giphy.com/media/xUPGcKV7oHQQQSsueA/giphy.gif "mkdir MyProject;cd MyProject"
 [gif-init]:http://media.giphy.com/media/l0Iye57FiXyRsKPew/giphy.gif "duck init"
