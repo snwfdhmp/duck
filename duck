@@ -29,7 +29,6 @@ fi
 
 if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo "No duck configuration file found in $storage (duck.conf). Creating one (permissions : 750)"
-    echo
 
     echo "#!/bin/bash" > $storage/duck.conf
     echo 'build_dir=build' >> $storage/duck.conf
@@ -56,7 +55,6 @@ if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
 fi
 
 function project_storage() {
-    echo "$project_root" >> tmp.logs
     echo "$project_root/.duck"
 }
 
@@ -134,7 +132,6 @@ function init() {
 
     old_pwd=$(pwd)
     cd $project_root
-    echo "Set pwd" >> "$old_pwd/tmp.logs"
     project_root=$(pwd)
     cd "$old_pwd"
 
@@ -162,7 +159,9 @@ if [ -z "$project_root" ]; then
     exit 1
 fi
 
- echo "Duck: Project '$project_name' has been correctly initialized in '$project_root'."
+if [ "$action" = "init" ]; then
+    echo "Duck: Project '$project_name' has been correctly initialized in '$project_root'."
+fi
 
 }
 
@@ -205,7 +204,8 @@ function deploy() {
         echo "git: Created repository"
     fi
 
-    echo "Duck: Project $project_name succesfully deployed"
+    echo "Duck: Project $project_name successfully deployed using Duck Architecture."
+    
 }
 
 

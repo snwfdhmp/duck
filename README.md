@@ -214,7 +214,7 @@ Project name | Your **project name** is used in logs, class creation, unit testi
 
 You can find duck's license [here](https://www.github.com/snwfdhmp/duck/raw/master/LICENSE.txt)
 
-
+[duck-fast]: http://www.giphy.com/gifs/3og0IBl9zPCFv1tOb6 "duck deploy MyProject"
 [duck-overview]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/duck-overview.png "Duck overview"
 [gif-mkdir]:http://media.giphy.com/media/xUPGcKV7oHQQQSsueA/giphy.gif "mkdir MyProject;cd MyProject"
 [gif-init]:http://media.giphy.com/media/l0Iye57FiXyRsKPew/giphy.gif "duck init"
