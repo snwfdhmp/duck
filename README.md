@@ -79,7 +79,7 @@ Duck always automates the maximum he can, asking something only if he cannot pre
 
 *The following steps are recommended if you want to create a **new project**.*
 
-<h4>Since **[Duck]() is built to save your time**</h4>, we though that providing a way to do all this stuff in **one command** would be a good thing.
+Since **[Duck]() is built to save your time**, we though that providing a way to do all this stuff in **one command** would be a good thing.
 
 ![logo][duck-fast]
 
