@@ -6,7 +6,7 @@
 
 This is still *development phase*, but the tool is **already ready to be used**.
 
-# Table of contents
+## Table of contents
 
 * [Presentation](#presentation)
   * [What is Duck ?]()
