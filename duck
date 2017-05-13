@@ -6,6 +6,8 @@
 # Under MIT License
 # Please include a link to my repo when you share
 
+initialized=0
+
 DUCK_VERSION="0.7"
 
 storage="/etc" #default mac app storage
@@ -30,7 +32,6 @@ if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo
 
     echo "#!/bin/bash" > $storage/duck.conf
-    echo "(project_storage)=$(pwd)" >> $storage/duck.conf
     echo 'build_dir=build' >> $storage/duck.conf
     echo 'backups_dir=backups' >> $storage/duck.conf
     echo 'config_dir=config' >> $storage/duck.conf
@@ -50,13 +51,12 @@ if [ ! $(ls "$storage/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
     echo 'base_suffix=-1' >> $storage/duck.conf
     echo 'default_env=dev' >> $storage/duck.conf
     echo 'default_qc_message="Quick commit"' >> $storage/duck.conf
-    echo "project_name=$project_name" >> $storage/duck.conf
-    echo "project_root=$project_root" >> $storage/duck.conf
 
     chmod 750 $storage/duck.conf
 fi
 
 function project_storage() {
+    echo "$project_root" >> tmp.logs
     echo "$project_root/.duck"
 }
 
@@ -75,22 +75,38 @@ function configInit() {
             echo "$new_config_path : no such file."
             exit 1
         fi
-        default_conf=new_config_path
+        default_conf=$new_config_path
     fi
 
     cp $default_conf $(project_storage)/duck.conf
     if [ -z "$project_name" ]; then 
-        echo "Enter a name for this project : "
-        read project_name
+        set_project_name
     fi
     if [ -z "$project_root" ]; then
-        echo "Enter the path for this project : ."
+        echo "Enter the path for this project : "
         read project_root
+        echo $project_root >> "$(project_storage)/duck.conf"
     fi
     chmod 750 $(project_storage)/duck.conf
 }
 
+function set_project_name() {
+    default_name=$(basename "$project_root")
+    echo -n "Duck: Project name (hit enter to use '$default_name') : "
+    read project_name
+    if [ "$project_name" = "" ]; then
+        echo "Duck: Using predicted : $default_name"
+        project_name="$default_name"
+    fi
+    echo "project_name=$project_name" >> $(project_storage)/duck.conf
+}
+
+
 function init() {
+    if [ $initialized -eq 1 ]; then
+        echo "Duck: /!\\ Trying to re-init"
+        return 1
+    fi
     if [ -z "$project_root" ]; then
         project_root="."
     fi
@@ -98,13 +114,12 @@ function init() {
     if [ ! -d "$(project_storage)" ]; then
         if [ $action = "init" ]; then
             if [ ! -d $project_root ]; then
-                echo "Duck: $project_root doesn't exist yet, we'll create it for you."
+                echo "Duck: Directory '$project_root' doesn't exist yet, we'll create it for you."
                 mkdir $project_root
                 chmod 750 $project_root
             fi
-            echo "Duck: New project : creation of .duck storage"
-            mkdir .duck
-            chmod 750 .duck
+            mkdir $(project_storage)
+            chmod 750 $(project_storage)
         else
             project_root="../$project_root"
             if [ ! -d "$project_root/.duck" ]; then
@@ -119,31 +134,27 @@ function init() {
 
     old_pwd=$(pwd)
     cd $project_root
+    echo "Set pwd" >> "$old_pwd/tmp.logs"
     project_root=$(pwd)
     cd "$old_pwd"
 
 
     if [ ! $(ls "$(project_storage)/duck.conf" > /dev/null 2> /dev/null;echo $?) -eq 0 ]; then
         if [ ! "$action" = "init" ]; then
-           echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
-       fi
-       configInit
-   fi
+         echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
+     fi
+     configInit
+ fi
 
-   . $storage/duck.conf
-   . $(project_storage)/duck.conf
 
-   if [ -z "$project_name" ]; then
+ . $storage/duck.conf
+ . "$(project_storage)/duck.conf"
+
+ if [ -z "$project_name" ]; then
     if [ ! "$action" = "init" ]; then
-        echo "No name has been set for this projet yet."
+        echo "No name has been set for this project yet."
     fi
-    default_name=$(basename $(pwd))
-    echo "Enter a name [ENTER for '$default_name'] : "
-    read project_name
-    if [ -z "$project_name" || $project_name = "" ]; then
-        project_name=default_name
-    fi
-    echo "project_name=$project_name" >> $storage/duck.conf
+    set_project_name
 fi
 
 if [ -z "$project_root" ]; then
@@ -151,12 +162,18 @@ if [ -z "$project_root" ]; then
     exit 1
 fi
 
+ echo "Duck: Project '$project_name' has been correctly initialized in '$project_root'."
+
 }
 
 function deploy() {
+    if [ ! -z "$project_root" ]; then
+        action="init"
+    fi
+
     init
 
-    if [ -z $project_root ]; then
+    if [ -z "$project_root" ]; then
         project_root="."
     fi
 
@@ -182,13 +199,13 @@ function deploy() {
     echo ".duck" > $project_root/.gitignore
     echo ".DS_Store" > $project_root/.gitignore
     
-    if [ ! "$(git init > /dev/null;echo $?)" = "0" ]; then
+    if [ ! "$(git init $project_root > /dev/null;echo $?)" = "0" ]; then
         echo "Error creating GitHub repository"
     else
         echo "git: Created repository"
     fi
 
-    echo "duck: Succesfully deployed architecture for project $project_name"
+    echo "Duck: Project $project_name succesfully deployed"
 }
 
 
@@ -573,8 +590,8 @@ fi
 while [ "$1" != "" ]; do
     case $1 in
         deploy)                 action="deploy"
-                                shift
-                                project_root="$1"
+shift
+project_root="$1"
 ;;
 init)                   action="init"
 shift
