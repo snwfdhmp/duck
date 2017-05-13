@@ -102,7 +102,7 @@ You can still use it to understand how duck works, but the 7 seconds method is m
 
 ![logo][gif-init]
 
-### 3. Now we will **deploy *Duck Architecture*** using `duck deploy`
+### 3. Now we will **deploy *[Duck Architecture]()*** using `duck deploy`
 
 ![logo][gif-deploy]
 
