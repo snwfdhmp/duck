@@ -73,7 +73,7 @@ help             duck help                  shows this message
 
 There are many ways to start a new development project. One of them is to use Duck to create all needed files and folders to your project.
 
-Duck always automates the maximum he can, asking something only if he cannot predict what will be the answer. However, you can still configure it to make it behave in the way you would exactly want it to.
+Duck always automates the maximum he can, asking something only if he cannot predict what will be the answer. However, you can configure it to make it behave the way you want it to.
 
 ## [7 seconds start]()
 
