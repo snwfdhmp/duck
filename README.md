@@ -94,7 +94,7 @@ You will then be asked a *name* for your *project*. Hit Enter if *'ProjectName'*
 This tutorial is the "classic tutorial". Since I implemented `duck deploy projectName` (see [7 seconds start](#7-seconds-start)), I'm wondering if this is still useful (and the answer is probably no).
 You can still use it to understand how duck works, but the 7 seconds method is much better.
 
-1. **Create a folder for your project** if you don't have one already. (and place yourself in)
+### 1. **Create a folder for your project** if you don't have one already. (and place yourself in)
 
 ![logo][gif-mkdir]
 
