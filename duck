@@ -99,10 +99,15 @@ function set_project_name() {
     echo "project_name=$project_name" >> $(project_storage)/duck.conf
 }
 
+function report() {
+    echo "Thank you for reporting !"
+    echo "You have to open an issue on the repo to report : http://github.com/snwfdhmp/duck"
+}
+
 
 function init() {
     if [ $initialized -eq 1 ]; then
-        echo "Duck: /!\\ Trying to re-init"
+        echo "Duck: FATAL ERROR : Trying to re-init (please 'duck report')"
         return 1
     fi
     if [ -z "$project_root" ]; then
@@ -141,6 +146,7 @@ function init() {
          echo "No project configuration file found in $(project_storage) (duck.conf). Creating one (permissions : 750)"
      fi
      configInit
+     initialized=1
  fi
 
 
