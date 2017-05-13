@@ -2,17 +2,18 @@
 
 # [Introduction]() ![logo][logo-xs]
 
-[Duck]() provides **short syntax** to shortcut common actions on your **C++ projects**.
+[Duck]() provides **short syntax** to manage your **C++ projects**.
 
 This is still *development phase*, but the tool is **already ready to be used**.
 
 # Table of contents
 
-* [Introduction](#)
 * [Presentation](#presentation)
+  * [What is Duck ?]()
   * [Features](#features)
   * [Command usage](#command-usage)
-* [Get started](#how-does-it-work--)
+* [Getting started](#getting-started)
+  * [Quick start]()
   * [Duck architecture](#duck-architecture)
   * [Project organization](#project-organization)
   * [Deploy the Duck Architecture](#deploy-the-duck-architecture--)
@@ -65,7 +66,9 @@ help             duck help                  shows this message
 
 ```
 
-# [Get started]() ![logo][logo-xs]
+# [Getting started]() ![logo][logo-xs]
+
+## [Quick start]()
 
 1. **Create a folder for your project** if you don't have one already. (and place yourself in)
 

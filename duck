@@ -91,11 +91,18 @@ function configInit() {
 }
 
 function init() {
-    project_root="."
+    if [ -z "$project_root" ]; then
+        project_root="."
+    fi
 
     if [ ! -d "$(project_storage)" ]; then
         if [ $action = "init" ]; then
-            echo "New project : creation of .duck storage"
+            if [ ! -d $project_root ]; then
+                echo "Duck: $project_root doesn't exist yet, we'll create it for you."
+                mkdir $project_root
+                chmod 750 $project_root
+            fi
+            echo "Duck: New project : creation of .duck storage"
             mkdir .duck
             chmod 750 .duck
         else
@@ -566,11 +573,14 @@ fi
 while [ "$1" != "" ]; do
     case $1 in
         deploy)                 action="deploy"
+                                shift
+                                project_root="$1"
 ;;
 init)                   action="init"
 shift
 project_name=$1
 ;;
+
 config)                 shift
 case $1 in
     get | view | show)          action="configShow"
