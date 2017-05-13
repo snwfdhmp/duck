@@ -34,17 +34,17 @@ This is still *development phase*, but the tool is **already ready to be used**.
 
   - Huge **[time saving](#)** (see here [start coding a new project in 7 seconds](#7-seconds-start))
 
-  - Insanely **simple configuration** ([more informations](#configure))
+  - Insanely **[simple configuration](#)** ([more informations](#configure))
 
-  - Simple **class interface** (create, delete, list)
+  - Simple **[class interface](#)** (create, delete, list)
 
-  - Automatic **code organization** (Duck architecture) [more informations](#duck-architecture)
+  - Automatic **[code organization](#)** (Duck architecture) [more informations](#duck-architecture)
 
-  - **Junk code** managing
+  - **[Junk code](#)** managing
 
-  - **Versioning** (tag-version) *example : beta-0.1.4 release-1.2*
+  - **[Versioning](#)** (tag-version) *example : beta-0.1.4 release-1.2*
 
-  - (incomming) **Unit tests automation** (dependencies management, class-test, specialised tests)
+  - (incomming) **[Unit tests automation](#)** (dependencies management, class-test, specialised tests)
 
 ## [Command usage]()
 
