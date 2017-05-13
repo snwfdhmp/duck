@@ -108,7 +108,7 @@ You can still use it to understand how duck works, but the 7 seconds method is m
 
 ### 4. **Let's code !**
 
-You can now begin coding. Yes, it's as simple. Let's recap :
+You can now start coding. Yes, it's as simple. Let's recap :
 
 ```
 mkdir MyProject
@@ -117,9 +117,9 @@ duck init
 duck deploy
 ```
 
-## [Duck architecture]()
+## [Duck architecture](#duck-architecture)
 
-**Duck** is based on the *complete* and *easy-to-install* **Duck architecture**.
+**Duck** is based on the *complete* and *easy-to-install* **[Duck architecture](#duck-architecture)**.
 
 If you currently aren't using any [architecture/managing tool](http://github.com/snwfdhmp/duck) for your project, you may want to **deploy [Duck architecture](#how-does-duck-work--)** to ***organize*** your **source code**, **ressources**, **builds**, **unit tests**, **classes**, or whatever.
 
