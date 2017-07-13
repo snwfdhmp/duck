@@ -126,7 +126,7 @@ func GetScheme(label string) []string{
 	}
 
 	//if nothing found, return an error
-	return []string {"echo This command doesn't exists"} //@todo handle errors better
+	return []string {"echo "+RED+"Unknown command '"+label+"'"+END_STYLE} //@todo handle errors better
 }
 
 func ExistsConfIn(dir string) bool{
