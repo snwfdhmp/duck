@@ -160,7 +160,7 @@ func ParseCommand(label string) []*exec.Cmd {
     	arr := reg.FindAllString(cmd, -1)
 
 		//logging
-		fmt.Println(len(arr), arr)
+		//fmt.Println(len(arr), arr)
 
 		tmp := exec.Command(arr[0], arr[1:]...)
 		commands = append(commands, tmp)
