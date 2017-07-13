@@ -103,12 +103,14 @@ func SplitCommand(command string) []string {
 	reg := regexp.MustCompile(delimeter)
 	arr := reg.FindAllString(command, -1)
 
-	for _, arg := range arr {
+	for i, arg := range arr {
 		if(arg[0] == '"' && arg[len(arg)-1] == '"') {
-			fmt.Println("Positif !")
+			arg = arg[1:len(arg)-1]
+			arr[i]=arg
 		}
 		//arr[i] = strings.Replace(arg, "\"", "", -1)
 	}
 
+	fmt.Println(arr)
 	return arr
 }
