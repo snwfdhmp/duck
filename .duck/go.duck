@@ -25,7 +25,7 @@
 			"Description":"add all files to git and commit $1",
 			"Commands":[
 				"git add *",
-				"git commit -m \"$1\""
+				"git commit -a -m \"$1\""
 			],
 			"Aliases":["qc"]
 		}
