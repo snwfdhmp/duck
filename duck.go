@@ -107,6 +107,12 @@ func CommandHandler(cmd string) {
 		conf.Init()
 		Console()
 		break
+	case "help": //prints help
+		usage.PrintAll()
+		break
+	case "man": //prints manual
+		usage.Man()
+		break
 	case "version": //print duck version
 		fmt.Println(conf.APP_NAME, DUCK_VERSION)
 		break
