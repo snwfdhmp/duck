@@ -8,6 +8,9 @@ import (
 "./configuration"
 )
 
+//@todo add support of (args ...string)
+//  for command handlers to enhance
+//  the duck console usage
 
 const (
 	DUCK_VERSION = "b0.1"

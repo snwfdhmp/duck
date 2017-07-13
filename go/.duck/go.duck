@@ -18,7 +18,7 @@
 		{
 			"Label":"commit",
 			"Description":"add all files to git and commits $1",
-			"Commands":["git commit -a -m \"$1\""]
+			"Commands":["git add *","git commit -m \"$1\""]
 		}
 	]
 }
