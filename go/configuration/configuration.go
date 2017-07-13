@@ -6,6 +6,7 @@ import (
 "os"
 "os/exec"
 "strings"
+"regexp"
 )
 
 type Configuration struct {
@@ -154,10 +155,11 @@ func ParseCommand(label string) []*exec.Cmd {
 		}
 
 		//split into array
-		arr := strings.Split(cmd, " ")
+		//arr := strings.Split(cmd, " ")
+		arr := regSplit(cmd, "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'")
 
 		//logging
-		//fmt.Println(arr)
+		fmt.Println(len(arr), arr)
 
 		tmp := exec.Command(arr[0], arr[1:]...)
 		commands = append(commands, tmp)
@@ -176,9 +178,30 @@ func ExistsConfIn(dir string) bool{
 	}
 }
 
-func  checkErr(err error) {
+
+func checkErr(err error) {
 	if (err != nil) {
 		panic(err)
 	}
 }
 
+/**
+ * Split a string using regular expression as delimiter
+ *  made by Yurii
+ * 	from https://stackoverflow.com/questions/4466091/split-string-using-regular-expression-in-go]
+ * @param  {string} text             [the string to be splitted]
+ * @param  {string} delimeter        [the regexp used as a delimiter]
+ * @return {[]string}           	[the array of strings]
+ */
+func regSplit(text string, delimeter string) []string{
+    reg := regexp.MustCompile(delimeter)
+    indexes := reg.FindAllString(text, -1)
+    // laststart := 0
+    // result := make([]string, len(indexes) + 1)
+    // for i, element := range indexes {
+    //         result[i] = text[laststart:element[0]]
+    //         laststart = element[1]
+    // }
+    // result[len(indexes)] = text[laststart:len(text)]
+    return indexes
+}
