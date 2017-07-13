@@ -57,7 +57,7 @@ func GetCommandArrFromInput(label string) []*exec.Cmd {
 }
 
 func InitTags() {
-	//declare each tag
+	//declare each Tag
 	Tags = []Tag {
 		Tag {
 			Label : "$main",
@@ -72,7 +72,6 @@ func InitTags() {
 			Value : conf.GetName(),
 		},
 	}
-
 }
 
 //replace tags in command

@@ -46,6 +46,7 @@ const (
 	APP_NAME=YELLOW+"duck"+END_STYLE
 )
 
+//@todo: delete that shit and but add a similar func to parser
 func Run(command string) {
 	Init()
 	switch(command) {
@@ -61,6 +62,11 @@ func Run(command string) {
 	}
 }
 
+/**
+ * @brief      Reads the configuration files
+ *
+ * @return     bool: status (ok|not ok)
+ */
 func Init() bool {
 	dir, _ := os.Getwd()
 
@@ -76,6 +82,7 @@ func Init() bool {
 	return true
 }
 
+//load a JSON file into its correctly typed interface
 func LoadFileJson(path string, object interface{}) bool{
 	file, err := os.Open(path)
 	if(os.IsNotExist(err)) {
@@ -90,6 +97,7 @@ func LoadFileJson(path string, object interface{}) bool{
 	return true
 }
 
+//load project conf file into Conf
 func LoadProjectConfig(dir string) bool{
 	path := dir+"/.duck/project.conf"
 	LoadFileJson(path, &Conf)
@@ -97,6 +105,7 @@ func LoadProjectConfig(dir string) bool{
 	return true
 }
 
+//load LangFile (@todo "duckling") to Lang
 func LoadLangFile(dir string, lang string) {
 	path := dir+"/.duck/"+lang+".duck"
 	LoadFileJson(path, &Lang)

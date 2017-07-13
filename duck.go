@@ -20,6 +20,7 @@ const (
 
 // @todo use this struct to store informations
 //  on commands
+
 // type CommandDescriptor struct {
 // 	Name string
 // 	Desc string
