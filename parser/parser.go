@@ -103,7 +103,15 @@ func SplitCommand(command string) []string {
 	reg := regexp.MustCompile(delimeter)
 	arr := reg.FindAllString(command, -1)
 
+
 	for i, arg := range arr {
+
+		//delete extremities quotes
+		// ex : git, commit, -m, "Message to be displayed"
+		//   => git, commit, -m, Message to be displayed
+		//
+		// it avoids extra quotes when the argument is exported
+		//  into other files or services (such as git)
 		if(arg[0] == '"' && arg[len(arg)-1] == '"') {
 			arg = arg[1:len(arg)-1]
 			arr[i]=arg
