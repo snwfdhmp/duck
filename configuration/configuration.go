@@ -4,9 +4,6 @@ import (
 "fmt"
 "encoding/json"
 "os"
-"os/exec"
-"strings"
-"regexp"
 )
 
 type Configuration struct {
@@ -19,10 +16,12 @@ type Configuration struct {
 	Main string
 }
 
+//@todo rename Schemes to Ducklings ("caneton" in French (duck's children))
 type Scheme struct {
 	Label string
 	Commands []string
 	Description string
+	Aliases []string
 }
 
 type LangFile struct {
@@ -104,12 +103,32 @@ func LoadLangFile(dir string, lang string) {
 }
 
 func GetScheme(label string) []string{
+	//looking for the commands corresponding to the label
 	for _, val := range Lang.Schemes {
-		if(val.Label == label) {
+		if(val.Label == label) { // if scheme's label is input, return it
 			return val.Commands
+		} else { //else look in its aliases
+			for _, alias := range val.Aliases {
+				if(alias == label) {
+					return val.Commands
+				}
+			}
 		}
 	}
-	return []string {"echo"} //@todo handle errors
+
+	//if nothing found, return an error
+	return []string {"echo This command doesn't exists"} //@todo handle errors better
+}
+
+func ExistsConfIn(dir string) bool{
+	DUCK_DIR := ".duck"
+
+	duckPath := dir+"/"+DUCK_DIR
+	if _, err := os.Stat(duckPath); os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
 }
 
 func GetLang() string {
@@ -130,54 +149,6 @@ func GetProjectRoot() string {
 
 func GetMainPath() string {
 	return Conf.ProjectRoot + "/" + Conf.Main
-}
-
-func ParseCommand(label string) []*exec.Cmd {
-	//read config files
-	Init()
-
-	//look for command in schemes
-	content := GetScheme(label)
-
-	var commands []*exec.Cmd
-
-	for _, cmd := range content {
-	//replace tags in command
-		cmd = strings.Replace(cmd, "$main", GetMainPath(), -1)
-		cmd = strings.Replace(cmd, "$path", GetProjectRoot(), -1)
-		cmd = strings.Replace(cmd, "$name", GetName(), -1)
-
-		for i := 1; i <= 9; i++ {
-			sel := fmt.Sprintf("$%d", i)
-			if(strings.Index(cmd, sel) != -1) {
-				cmd = strings.Replace(cmd, sel, os.Args[i+1], -1)
-			}
-		}
-
-		//split into array using regexp (to let quoted string be 1 arg, as in shell)
-		delimeter := "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'"
-    	reg := regexp.MustCompile(delimeter)
-    	arr := reg.FindAllString(cmd, -1)
-
-		//logging
-		//fmt.Println(len(arr), arr)
-
-		tmp := exec.Command(arr[0], arr[1:]...)
-		commands = append(commands, tmp)
-	}
-	return commands
-}
-
-
-func ExistsConfIn(dir string) bool{
-	DUCK_DIR := ".duck"
-
-	duckPath := dir+"/"+DUCK_DIR
-	if _, err := os.Stat(duckPath); os.IsNotExist(err) {
-		return false
-	} else {
-		return true
-	}
 }
 
 

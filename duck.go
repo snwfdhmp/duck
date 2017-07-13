@@ -6,6 +6,7 @@ import (
 "bufio"
 "./commands/init"
 "./configuration"
+"./parser"
 )
 
 //@todo add support of (args ...string)
@@ -64,7 +65,7 @@ func usage() {
  */
 func RunCustomCmd(input string) {
 	//get commands array from <lang>.duck
-	commands := conf.ParseCommand(input)
+	commands := parser.GetCommandArrFromInput(input)
 
 	//log number of commands
 	//fmt.Println(len(commands), "commands")
@@ -112,8 +113,6 @@ func CommandHandler(cmd string) {
 	//managing shortcuts
 	if(cmd == "sh" || cmd == "shell") {
 		cmd = "console"
-	} else if (cmd == "c"){
-		cmd = "compile"
 	}
 
 	//handling command
