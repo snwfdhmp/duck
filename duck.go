@@ -7,6 +7,8 @@ import (
 "./commands/init"
 "./configuration"
 "./parser"
+"./usage"
+"io/ioutil"
 )
 
 //@todo add support of (args ...string)
@@ -16,49 +18,6 @@ import (
 const (
 	DUCK_VERSION = "dev 1"
 )
-
-
-// @todo use this struct to store informations
-//  on commands
-
-// type CommandDescriptor struct {
-// 	Name string
-// 	Desc string
-// }
-
-/**
- * This function defines the command's usage template
- *  (every command usage should be printed using this
- *  function in order to be correctly displayed)
- * @param  {string} name    	[name of the command]
- * @param  {string} desc    	[description of the command]
- */
-func usageCommand(name string, desc string) {
-	fmt.Printf("%s\t\t%s\n", name, desc)
-}
-
-/**
- * Prints duck usage
- */
-func usage() {
-	//print head
-	fmt.Println("usage : "+conf.APP_NAME+" <command>"+conf.END_STYLE+"\n")
-	fmt.Println("Available commands :\n")
-	usageCommand("command","description")
-	usageCommand("-------","-----------")
-
-	//print general commands
-	usageCommand("init", "init a new duck repo")
-	usageCommand("config", "read a little bit of the config")
-	usageCommand("console", "open duck console")
-	usageCommand("version", "print duck's version")
-
-	//print custom commands
-	conf.Init()
-	for _, val := range conf.Lang.Schemes {
-		usageCommand(val.Label, val.Description)
-	}
-}
 
 /**
  * Execute a user custom's command
@@ -72,8 +31,24 @@ func RunCustomCmd(input string) {
 	//fmt.Println(len(commands), "commands")
 
 	for _, cmd := range commands {
-		output, _ := cmd.Output()
-		fmt.Print(string(output))
+		/**
+		 * pipe stdout and stderr
+		 * to handle error nicely
+		 * and being able to print
+		 * command errors to user
+		 */
+		stdout, err := cmd.StdoutPipe();checkErr(err)
+		stderr, err := cmd.StderrPipe();checkErr(err)
+
+		err = cmd.Start();checkErr(err)
+
+		//print stdout and stderr
+		output, err := ioutil.ReadAll(stdout);checkErr(err)
+		slurp, err := ioutil.ReadAll(stderr);checkErr(err)
+		fmt.Print(conf.RED+string(slurp)+conf.END_STYLE)
+		fmt.Print(conf.GREEN+string(output)+conf.END_STYLE)
+
+		cmd.Wait()
 	}
 
 }
@@ -133,7 +108,7 @@ func CommandHandler(cmd string) {
 		Console()
 		break
 	case "version": //print duck version
-		fmt.Println("duck", DUCK_VERSION)
+		fmt.Println(conf.APP_NAME, DUCK_VERSION)
 		break
 	case "quit": //quit
 		fmt.Println(conf.BLUE+"See you soon"+conf.END_STYLE)
@@ -150,9 +125,15 @@ func CommandHandler(cmd string) {
 func main() {
 	//if no args, print usage and exit with error
 	if(len(os.Args) < 2) {
-		usage()
+		usage.PrintAll()
 		os.Exit(1)
 	}
 	//give control to CommandHandler
 	CommandHandler(os.Args[1])
+}
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

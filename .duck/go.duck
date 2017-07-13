@@ -3,7 +3,7 @@
 		{
 			"Label":"compile",
 			"Description":"compile project",
-			"Commands":["go build -o $path/$name $path/$main"],
+			"Commands":["go build -o $name $main"],
 			"Aliases":["build"]
 		},
 		{
