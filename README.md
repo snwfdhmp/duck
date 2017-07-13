@@ -1,12 +1,12 @@
-#Duck ![logo][logo-xs]
+# Duck ![logo][logo-xs]
 
-##Note to readers
+## Note to readers
 
 This README isn't complete yet as duck is still in early development phase. Please note that duck is still useable.
 
 We apologize for the lack of informations on this readme.
 
-##Installation
+## Installation
 
 We do not provide any installation script yet. However, you can compile duck :
 
@@ -14,7 +14,7 @@ We do not provide any installation script yet. However, you can compile duck :
 go build duck.go
 ```
 
-##Usage
+## Usage
 
 Assuming duck has been compiled to your current working directory, you can use it by running:
 
@@ -22,7 +22,7 @@ Assuming duck has been compiled to your current working directory, you can use i
 ./duck <action> args
 ```
 
-##Make a duckling
+## Make a duckling
 
 Ducklings are duck's most interesting part.
 They are automated commands configured by yourself to fit your development environment perfectly.
@@ -30,11 +30,11 @@ They are automated commands configured by yourself to fit your development envir
 Even if you'd normally build a duckling yourself, we provide some ducklings examples in <code>/.duck/go.duck</code> (Schemes' elements)
 
 
-##Contributing
+## Contributing
 
 Duck is open to contributors, feel free to open issues as well.
 
-##Author
+## Author
 
 - [snwfdhmp](http://github.com/snwfdhmp) (I'm currently the only one on this project.)
 
