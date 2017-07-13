@@ -107,5 +107,7 @@ func SplitCommand(command string) []string {
 		arg = strings.Replace(arg, "\"", "", -1)
 	}
 
+	fmt.Println(arr)
+
 	return arr
 }
