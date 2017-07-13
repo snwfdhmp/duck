@@ -30,6 +30,7 @@ They are automated commands configured by yourself to fit your development envir
 Even if you'd normally build a duckling yourself, we provide some ducklings examples in <code>.duck/go.duck</code> (Schemes' elements)
 
 <code>.duck/go.duck</code>
+
 ```json
 {
 	"Schemes":[
