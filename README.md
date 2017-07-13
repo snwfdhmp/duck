@@ -31,7 +31,7 @@ Even if you'd normally build a duckling yourself, we provide some ducklings exam
 
 <code>.duck/go.duck</code>
 
-```json
+```
 {
 	"Schemes":[
 		{
