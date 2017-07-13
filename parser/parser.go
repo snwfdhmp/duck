@@ -103,9 +103,9 @@ func SplitCommand(command string) []string {
 	reg := regexp.MustCompile(delimeter)
 	arr := reg.FindAllString(command, -1)
 
-	for _, arg :=range arr {
+	for i, arg :=range arr {
 		fmt.Println("Before", arg)
-		arg = strings.Replace(arg, "\"", "", -1)
+		arr[i] = strings.Replace(arg, "\"", "", -1)
 		fmt.Println("After", arg)
 	}
 
