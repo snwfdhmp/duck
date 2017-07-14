@@ -1,12 +1,12 @@
 package parser
 
 import (
-"../configuration"
-"os/exec"
-"strings"
-"regexp"
-"fmt"
-"os"
+	"../configuration"
+	"fmt"
+	"os"
+	"os/exec"
+	"regexp"
+	"strings"
 )
 
 type Tag struct {
@@ -42,13 +42,11 @@ func GetCommandArrFromInput(label string) []*exec.Cmd {
 		cmd = ParseTags(cmd)
 		cmd = ParseDollarParams(cmd)
 
-		arr := SplitCommand(cmd)
-
 		//logging
 		//fmt.Println(len(arr), arr)
 
 		//create the command
-		tmp := exec.Command(arr[0], arr[1:]...)
+		tmp := exec.Command("sh", "-c", cmd)
 
 		//append it to the slice
 		commands = append(commands, tmp)
@@ -58,18 +56,18 @@ func GetCommandArrFromInput(label string) []*exec.Cmd {
 
 func InitTags() {
 	//declare each Tag
-	Tags = []Tag {
-		Tag {
-			Label : "$main",
-			Value : conf.GetMainPath(),
+	Tags = []Tag{
+		Tag{
+			Label: "$main",
+			Value: conf.GetMainPath(),
 		},
-		Tag {
-			Label : "$path",
-			Value : conf.GetProjectRoot(),
+		Tag{
+			Label: "$path",
+			Value: conf.GetProjectRoot(),
 		},
-		Tag {
-			Label : "$name",
-			Value : conf.GetName(),
+		Tag{
+			Label: "$name",
+			Value: conf.GetName(),
 		},
 	}
 }
@@ -89,7 +87,7 @@ func ParseTags(command string) string {
 func ParseDollarParams(command string) string {
 	for i := 1; i <= 9; i++ {
 		sel := fmt.Sprintf("$%d", i)
-		if(strings.Index(command, sel) != -1) {
+		if strings.Index(command, sel) != -1 {
 			command = strings.Replace(command, sel, os.Args[i+1], -1)
 		}
 	}
@@ -103,7 +101,6 @@ func SplitCommand(command string) []string {
 	reg := regexp.MustCompile(delimeter)
 	arr := reg.FindAllString(command, -1)
 
-
 	for i, arg := range arr {
 
 		//delete extremities quotes
@@ -112,9 +109,9 @@ func SplitCommand(command string) []string {
 		//
 		// it avoids extra quotes when the argument is exported
 		//  into other files or services (such as git)
-		if(arg[0] == '"' && arg[len(arg)-1] == '"') {
-			arg = arg[1:len(arg)-1]
-			arr[i]=arg
+		if arg[0] == '"' && arg[len(arg)-1] == '"' {
+			arg = arg[1 : len(arg)-1]
+			arr[i] = arg
 		}
 		//arr[i] = strings.Replace(arg, "\"", "", -1)
 	}
