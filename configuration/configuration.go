@@ -5,7 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 )
+
+type AppConfiguration struct {
+	Repos []string
+}
 
 type Configuration struct {
 	ProjectRoot  string
@@ -31,6 +36,7 @@ type Duckfile struct {
 }
 
 var (
+	App         AppConfiguration
 	Conf        Configuration
 	Ducklings   []Duckling
 	verboseMode bool
@@ -75,11 +81,17 @@ func Init() bool {
 		return false
 	}
 
+	LoadAppConfig()
+
 	LoadProjectConfig(dir)
 
 	LoadDuckfiles()
 
 	return true
+}
+
+func LoadAppConfig() {
+	LoadFileJson("/etc/duck.conf", &App)
 }
 
 //load a JSON file into its correctly typed interface
@@ -130,13 +142,43 @@ func LoadDuckfiles() {
 	}
 }
 
+func InstallDuckling(ducklings []string) {
+	Init()
+	if len(ducklings) == 0 {
+		InstallDuckling(Conf.Ducklings)
+		return
+	}
+	for _, arg := range ducklings {
+		fmt.Print("\rinstall", BLUE+arg+END_STYLE, "...")
+		for _, repo := range App.Repos {
+			path := arg + ".duckling"
+			cmd := exec.Command("wget", repo+path, "--output-document", ".ducklings/"+path)
+			err := cmd.Run()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			} else {
+				fmt.Println("\rinstalled", BLUE+arg+END_STYLE, "from", YELLOW+repo+END_STYLE)
+				break
+			}
+		}
+	}
+}
+
+func PrintRepos() {
+	Init()
+	for _, repo := range App.Repos {
+		fmt.Println(repo)
+	}
+	fmt.Println("total:", len(App.Repos))
+}
+
 func PrintDucklings() {
 	Init()
 	for _, duckling := range Conf.Ducklings {
 		fmt.Println(duckling)
-		count++
 	}
-	fmt.Println("total:", count)
+	fmt.Println("total:", len(Conf.Ducklings))
 	verboseMode = true
 	LoadDuckfiles()
 	verboseMode = false

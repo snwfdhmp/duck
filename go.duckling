@@ -1,0 +1,18 @@
+{
+	"Ducklings":[
+		{
+			"Label":"compile",
+			"Description":"compile project",
+			"Commands":["go build -o $name $main"],
+			"Aliases":["build", "c"]
+		},
+		{
+			"Label":"create",
+			"Description":"create necessary files for a new package",
+			"Commands":[
+				"mkdir $1",
+				"touch $1/$1.go"
+				]
+		}
+	]
+}

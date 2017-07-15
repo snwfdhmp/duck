@@ -118,6 +118,12 @@ func CommandHandler(cmd string) {
 	case "help": //prints help
 		usage.PrintAll()
 		break
+	case "repo-list":
+		conf.PrintRepos()
+		break
+	case "install":
+		conf.InstallDuckling(os.Args[2:])
+		break
 	case "man": //prints manual
 		usage.Man()
 		break
