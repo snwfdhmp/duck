@@ -1,9 +1,9 @@
 package InitCmd
 
 import (
+	"../../configuration"
 	"fmt"
 	"os"
-	"../../configuration"
 )
 
 func Run() bool {
@@ -12,7 +12,7 @@ func Run() bool {
 
 	dir, _ := os.Getwd()
 
-	if(conf.ExistsConfIn(dir)) {
+	if conf.ExistsConfIn(dir) {
 		fmt.Println("error: this directory already has a duck repo.")
 		return false
 	}
@@ -21,12 +21,11 @@ func Run() bool {
 	err := os.Mkdir(DUCK_DIR, DUCK_PERM)
 	checkErr(err)
 
-	fmt.Println("downloading ")
 	return true
 }
 
 func checkErr(err error) {
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 }

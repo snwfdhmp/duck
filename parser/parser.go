@@ -32,7 +32,7 @@ func GetCommandArrFromInput(label string) []*exec.Cmd {
 	conf.Init()
 
 	//look for command in schemes
-	content := conf.GetScheme(label)
+	content := conf.GetCommands(label)
 
 	//create a slice that will contain the final
 	// list of commands
