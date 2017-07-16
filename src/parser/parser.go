@@ -38,8 +38,12 @@ func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 	var commands []*exec.Cmd
 
 	for _, cmd := range content {
+		shouldContinue := true
 		cmd = ParseTags(cmd)
-		cmd = ParseDollarParams(cmd, label[1:]...)
+		cmd, shouldContinue = ParseDollarParams(cmd, label[1:]...)
+		if shouldContinue != true {
+			return []*exec.Cmd{}
+		}
 
 		//logging
 		//fmt.Println(len(arr), arr)
@@ -83,15 +87,19 @@ func ParseTags(command string) string {
 
 //iterates through array to replace $1..$9 with real $1..$9
 //	(like shell)
-func ParseDollarParams(command string, args ...string) string {
+func ParseDollarParams(command string, args ...string) (string, bool) {
 	for i := 1; i <= 9; i++ {
 		sel := fmt.Sprintf("$%d", i)
 		if strings.Index(command, sel) != -1 {
+			if len(args) < i {
+				fmt.Printf(conf.BLUE+"$%d "+conf.RED+"argument was not provided.\n"+conf.END_STYLE, i)
+				return "", false
+			}
 			command = strings.Replace(command, sel, args[i-1], -1)
 		}
 	}
 
-	return command
+	return command, true
 }
 
 func SplitCommand(command string) []string {
