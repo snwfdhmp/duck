@@ -10,7 +10,7 @@ echo "Extracting ..."
 cd ./$name
 tar -xzf ./duck.tar
 echo "Building sources ..."
-go build -o duck duck.go
+go build -o duck src/duck.go
 echo "Installing duck ..."
 sudo mv duck /usr/local/bin/duck
 echo "Installing default configuration file ..."
