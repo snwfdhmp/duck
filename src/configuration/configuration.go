@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"os/exec"
 	"strings"
@@ -39,7 +40,8 @@ type Duckling struct {
 }
 
 type Duckfile struct {
-	Ducklings []Duckling
+	Dependencies []string
+	Ducklings    []Duckling
 }
 
 var (
@@ -81,6 +83,17 @@ func Run(command string) {
  * @return     bool: status (ok|not ok)
  */
 func Init() bool {
+
+	if LoadProject() == false {
+		return false
+	}
+
+	LoadDuckfiles()
+
+	return true
+}
+
+func LoadProject() bool {
 	dir, _ := os.Getwd()
 
 	if !ExistsConfIn(dir) {
@@ -91,9 +104,6 @@ func Init() bool {
 	LoadAppConfig()
 
 	LoadProjectConfig(dir)
-
-	LoadDuckfiles()
-
 	return true
 }
 
@@ -164,10 +174,11 @@ func LoadDuckfiles() {
 
 func InstallDuckling(args ...string) {
 	//params
-	if !Init() {
+	if !LoadProject() {
 		return
 	}
 	globalMode := false
+	forceMode := false
 	var ducklings []string
 	var errors []string
 	for _, arg := range args {
@@ -181,19 +192,33 @@ func InstallDuckling(args ...string) {
 			globalMode = true
 			fmt.Println("installing globally:", globalMode)
 			break
+		case "-f":
+			forceMode = true
+			break
 		default:
 			fmt.Println(RED+"Unknown parameter", BLUE+arg+END_STYLE)
 			break
 		}
 	}
+
 	if len(ducklings) == 0 {
 		if len(Conf.Ducklings) > 0 {
-			InstallDuckling(Conf.Ducklings...)
+			for _, duckling := range Conf.Ducklings {
+				args = append(args, duckling)
+			}
+			InstallDuckling(args...)
 		} else {
 			fmt.Println(RED + "No ducklings to install" + END_STYLE)
 		}
 		return
 	}
+
+	//print enabled modes
+	if forceMode == true {
+		fmt.Println(BLUE+"-f"+END_STYLE, ": force dependencies to install", GREEN+"(active)"+END_STYLE)
+	}
+
+	//for each requested duckling
 	for _, arg := range ducklings {
 		fmt.Print("\rinstall ", BLUE+arg+END_STYLE, "...")
 		installed := false
@@ -206,11 +231,34 @@ func InstallDuckling(args ...string) {
 
 		for i, repo := range App.Repos {
 			fmt.Print("\rinstall ", BLUE+arg+END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
-			cmd = exec.Command("curl", repo.URL+path, "-o", Conf.ProjectRoot+"/.ducklings/"+path, "-f")
+			filePath := Conf.ProjectRoot + "/.ducklings/" + path
+
+			url := repo.URL + path + "?" + fmt.Sprintf("%d", rand.Int())
+			//fmt.Println("Fetching", url)
+			//
+			cmd = exec.Command("curl", url, "-o", filePath, "-f")
 			err := cmd.Run()
 			if err != nil {
 				continue
 			} else {
+				var tmp Duckfile
+				LoadFileJson(filePath, &tmp)
+				for _, dep := range tmp.Dependencies {
+					resolved := false
+					if forceMode == false {
+						//check if the dependency is already satisfied
+						for _, available := range Conf.Ducklings {
+							if available == dep {
+								resolved = true
+								break
+							}
+						}
+					}
+					if resolved == false {
+						fmt.Println("\r"+YELLOW+"installing dependency", BLUE+dep+END_STYLE)
+						InstallDuckling(dep)
+					}
+				}
 				installed = true
 				fmt.Println("\r"+GREEN+"installed", BLUE+arg, GREEN+"from", YELLOW+repo.Name+END_STYLE)
 				break
@@ -237,6 +285,32 @@ func InstallDuckling(args ...string) {
 	for _, msg := range errors {
 		fmt.Println(msg)
 	}
+}
+
+func UninstallDuckling(args ...string) bool {
+	if !LoadProject() {
+		return false
+	}
+
+	var newDucklings []string
+
+	for _, duckling := range Conf.Ducklings {
+		found := false
+		for _, arg := range args {
+			if duckling == arg {
+				fmt.Println(YELLOW+"Deleting", BLUE+duckling+END_STYLE)
+				found = true
+				break
+			}
+		}
+		if found == false {
+			newDucklings = append(newDucklings, duckling)
+		}
+	}
+
+	Conf.Ducklings = newDucklings
+	Conf.Write()
+	return true
 }
 
 func PrintRepos() {

@@ -44,9 +44,17 @@ func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 		if shouldContinue != true {
 			return []*exec.Cmd{}
 		}
-
 		//logging
 		//fmt.Println(len(arr), arr)
+
+		arrCmd := SplitCommand(cmd)
+		if arrCmd[0] == "@" {
+			toAdd := GetCommandArrFromInput(arrCmd[1:]...)
+			for _, tmp := range toAdd {
+				commands = append(commands, tmp)
+			}
+			continue
+		}
 
 		//create the command
 		tmp := exec.Command("sh", "-c", cmd)

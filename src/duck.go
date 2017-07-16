@@ -137,6 +137,13 @@ func CommandHandler(cmd ...string) bool {
 			conf.InstallDuckling()
 		}
 		break
+	case "uninstall":
+		if len(cmd) >= 2 {
+			conf.UninstallDuckling(cmd[1:]...)
+		} else {
+			fmt.Println(conf.RED + "Not enough arguments" + conf.END_STYLE)
+		}
+		break
 	case "man": //prints manual
 		usage.Man()
 		break
