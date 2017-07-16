@@ -18,6 +18,15 @@
 			"Aliases":["gp"]
 		},
 		{
+			"Label":"commit-push",
+			"Description":"add *; commit $1; push",
+			"Commands":[
+				"@ commit $1",
+				"@ push"
+			],
+			"Aliases":["gcp"]
+		},
+		{
 			"Label":"quick-commit",
 			"Description":"add all files to git and commit 'quick-commit'",
 			"Commands":[
