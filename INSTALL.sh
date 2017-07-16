@@ -5,19 +5,18 @@ name="duck_install_$RANDOM"
 mkdir $name
 
 echo -e "\033[1;33mDownloading sources ..."
-curl https://raw.githubusercontent.com/snwfdhmp/duck/master/duck.tar.gz -o ./$name/duck.tar -f > /dev/null 2> /dev/null
+curl https://raw.githubusercontent.com/snwfdhmp/duck/master/latest.tar.gz -o ./$name/duck.tar -f > /dev/null 2> /dev/null
 echo "Extracting ..."
 cd ./$name
 tar -xzf ./duck.tar
 echo "Building sources ..."
 go build -o duck duck.go
 echo "Installing duck ..."
-mkdir $HOME/bin 2> /dev/null
-mv duck $HOME/bin/duck
+sudo mv duck /usr/local/bin/duck
 echo "Installing default configuration file ..."
-cp duck.conf /etc/duck.conf
+sudo cp duck.conf /etc/duck.conf
 echo "Creating alias '@' for 'duck' ..."
-ln -s $HOME/bin/duck $HOME/bin/@ 2> /dev/null
+ln -s /usr/local/bin/duck /usr/local/bin/@ 2> /dev/null
 echo "Cleaning ..."
 cd ..
 rm -rf ./$name
