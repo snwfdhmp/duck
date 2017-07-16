@@ -1,5 +1,2 @@
-#!/bin/bash
-
-# wget 
-cp /Users/Martin/Dev/projets/duck/duck.tar.gz ./
-tar -xvzf duck.tar.gz
+chmod +x INSTALL.sh
+./INSTALL.sh
