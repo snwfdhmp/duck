@@ -164,6 +164,9 @@ func LoadDuckfiles() {
 
 func InstallDuckling(args ...string) {
 	//params
+	if !Init() {
+		return
+	}
 	globalMode := false
 	var ducklings []string
 	var errors []string
@@ -183,7 +186,6 @@ func InstallDuckling(args ...string) {
 			break
 		}
 	}
-	Init()
 	if len(ducklings) == 0 {
 		if len(Conf.Ducklings) > 0 {
 			InstallDuckling(Conf.Ducklings...)
