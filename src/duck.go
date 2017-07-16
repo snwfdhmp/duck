@@ -16,7 +16,7 @@ import (
 //  the duck console usage
 
 const (
-	DUCK_VERSION = "dev 1"
+	DUCK_VERSION = "alpha1"
 )
 
 /**
