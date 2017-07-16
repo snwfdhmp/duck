@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./commands/init"
+	// "./commands/init"
 	"./configuration"
 	"./parser"
 	"./usage"
@@ -23,9 +23,9 @@ const (
  * Execute a user custom's command
  * @param {string} input [the user input]
  */
-func RunCustomCmd(input string) {
+func RunCustomCmd(input ...string) {
 	//get commands array from <lang>.duck
-	commands := parser.GetCommandArrFromInput(input)
+	commands := parser.GetCommandArrFromInput(input...)
 
 	//log number of commands
 	//fmt.Println(len(commands), "commands")
@@ -80,8 +80,12 @@ func Console() {
 			continue
 		}
 
-		//handle input
-		CommandHandler(input)
+		command := parser.SplitCommand(input)
+
+		//handle input, break if needed
+		if !CommandHandler(command...) {
+			break
+		}
 	}
 }
 
@@ -89,24 +93,29 @@ func Console() {
  * Will route any command supported by duck or custom conf
  *  to the function that handles it
  * @param {string} cmd 			[the command asked]
+ * @todo better args
  */
-func CommandHandler(cmd string) {
+func CommandHandler(cmd ...string) bool {
+	shouldBreak := false //should we stop execution ?
+
 	//managing shortcuts
-	if cmd == "sh" || cmd == "shell" {
-		cmd = "console"
+	if cmd[0] == "sh" || cmd[0] == "shell" {
+		cmd[0] = "console"
+	} else if cmd[0] == "q" {
+		cmd[0] = "quit"
 	}
 
 	//handling command
-	switch cmd {
+	switch cmd[0] {
 	case "init": //init a new duck repo
-		InitCmd.Run()
+		conf.AskConf()
 		break
-	case "config": //print a config property @todo add command to modify
-		if len(os.Args) < 3 {
+	case "config": //print a config property (@todo add command to modify
+		if len(cmd) < 2 {
 			fmt.Println("Not enough arguments")
 			os.Exit(1)
 		}
-		conf.Run(os.Args[2])
+		conf.Run(cmd[1])
 		break
 	case "console": //launch duck console
 		conf.Init()
@@ -122,7 +131,11 @@ func CommandHandler(cmd string) {
 		conf.PrintRepos()
 		break
 	case "install":
-		conf.InstallDuckling(os.Args[2:])
+		if len(cmd) >= 2 {
+			conf.InstallDuckling(cmd[1:]...)
+		} else {
+			conf.InstallDuckling()
+		}
 		break
 	case "man": //prints manual
 		usage.Man()
@@ -132,11 +145,14 @@ func CommandHandler(cmd string) {
 		break
 	case "quit": //quit
 		fmt.Println(conf.BLUE + "See you soon" + conf.END_STYLE)
+		shouldBreak = true
 		break
 	default: //if input is none of the "general" commands, use custom ones
-		RunCustomCmd(cmd)
+		RunCustomCmd(cmd...)
 		break
 	}
+
+	return !shouldBreak
 }
 
 /**
@@ -149,7 +165,7 @@ func main() {
 		os.Exit(1)
 	}
 	//give control to CommandHandler
-	CommandHandler(os.Args[1])
+	CommandHandler(os.Args[1:]...)
 }
 
 func checkErr(err error) {

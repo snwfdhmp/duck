@@ -3,7 +3,6 @@ package parser
 import (
 	"../configuration"
 	"fmt"
-	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -27,12 +26,12 @@ var Tags []Tag
  *
  * @return     { An array of shell command objects }
  */
-func GetCommandArrFromInput(label string) []*exec.Cmd {
+func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 	//read config files
 	conf.Init()
 
 	//look for command in schemes
-	content := conf.GetCommands(label)
+	content := conf.GetCommands(label[0])
 
 	//create a slice that will contain the final
 	// list of commands
@@ -40,7 +39,7 @@ func GetCommandArrFromInput(label string) []*exec.Cmd {
 
 	for _, cmd := range content {
 		cmd = ParseTags(cmd)
-		cmd = ParseDollarParams(cmd)
+		cmd = ParseDollarParams(cmd, label[1:]...)
 
 		//logging
 		//fmt.Println(len(arr), arr)
@@ -84,11 +83,11 @@ func ParseTags(command string) string {
 
 //iterates through array to replace $1..$9 with real $1..$9
 //	(like shell)
-func ParseDollarParams(command string) string {
+func ParseDollarParams(command string, args ...string) string {
 	for i := 1; i <= 9; i++ {
 		sel := fmt.Sprintf("$%d", i)
 		if strings.Index(command, sel) != -1 {
-			command = strings.Replace(command, sel, os.Args[i+1], -1)
+			command = strings.Replace(command, sel, args[i-1], -1)
 		}
 	}
 
@@ -115,7 +114,5 @@ func SplitCommand(command string) []string {
 		}
 		//arr[i] = strings.Replace(arg, "\"", "", -1)
 	}
-
-	fmt.Println(arr)
 	return arr
 }

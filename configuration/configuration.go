@@ -4,12 +4,19 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
+	"strings"
 )
 
+type Repo struct {
+	Name string
+	URL  string
+}
+
 type AppConfiguration struct {
-	Repos []string
+	Repos []Repo
 }
 
 type Configuration struct {
@@ -90,6 +97,18 @@ func Init() bool {
 	return true
 }
 
+func (p *Configuration) Write() {
+	var root string
+	if len(Conf.ProjectRoot) == 0 {
+		root, _ = os.Getwd()
+		fmt.Println("Taking", root, "as project path")
+	} else {
+		root = Conf.ProjectRoot
+	}
+	b, _ := json.Marshal(*p)
+	ioutil.WriteFile(root+"/.duck/project.conf", b, 0644)
+}
+
 func LoadAppConfig() {
 	LoadFileJson("/etc/duck.conf", &App)
 }
@@ -136,39 +155,92 @@ func LoadDuckfiles() {
 		var Duckfile Duckfile
 		LoadFileJson(path, &Duckfile)
 		for _, tmp := range Duckfile.Ducklings {
-			verbose(BLUE + " importing " + duckling + "/" + tmp.Label + END_STYLE)
+			str := BLUE + " - " + tmp.Label + END_STYLE
+			verbose(str)
 			Ducklings = append(Ducklings, tmp)
 		}
 	}
 }
 
-func InstallDuckling(ducklings []string) {
+func InstallDuckling(args ...string) {
+	//params
+	globalMode := false
+	var ducklings []string
+	var errors []string
+	for _, arg := range args {
+		if arg[0] != '-' {
+			ducklings = append(ducklings, arg)
+			continue
+		}
+
+		switch arg {
+		case "-g":
+			globalMode = true
+			fmt.Println("installing globally:", globalMode)
+			break
+		default:
+			fmt.Println(RED+"Unknown parameter", BLUE+arg+END_STYLE)
+			break
+		}
+	}
 	Init()
 	if len(ducklings) == 0 {
-		InstallDuckling(Conf.Ducklings)
+		if len(Conf.Ducklings) > 0 {
+			InstallDuckling(Conf.Ducklings...)
+		} else {
+			fmt.Println(RED + "No ducklings to install" + END_STYLE)
+		}
 		return
 	}
 	for _, arg := range ducklings {
-		fmt.Print("\rinstall", BLUE+arg+END_STYLE, "...")
-		for _, repo := range App.Repos {
-			path := arg + ".duckling"
-			cmd := exec.Command("wget", repo+path, "--output-document", ".ducklings/"+path)
+		fmt.Print("\rinstall ", BLUE+arg+END_STYLE, "...")
+		installed := false
+
+		cmd := exec.Command("mkdir", Conf.ProjectRoot+"/.ducklings")
+		cmd.Run()
+		path := arg + ".duckling"
+		cmd = exec.Command("mkdir", Conf.ProjectRoot+"/.ducklings/"+strings.Split(path, "/")[0])
+		cmd.Run()
+
+		for i, repo := range App.Repos {
+			fmt.Print("\rinstall ", BLUE+arg+END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
+			cmd = exec.Command("curl", repo.URL+path, "-o", Conf.ProjectRoot+"/.ducklings/"+path, "-f")
 			err := cmd.Run()
 			if err != nil {
-				fmt.Println(err)
 				continue
 			} else {
-				fmt.Println("\rinstalled", BLUE+arg+END_STYLE, "from", YELLOW+repo+END_STYLE)
+				installed = true
+				fmt.Println("\r"+GREEN+"installed", BLUE+arg, GREEN+"from", YELLOW+repo.Name+END_STYLE)
 				break
 			}
 		}
+		if installed == false {
+			msg := RED + "Not found " + BLUE + arg + RED + " in any repository." + END_STYLE
+			errors = append(errors, msg)
+			continue
+		}
+
+		found := false
+		for _, active := range Conf.Ducklings {
+			if arg == active {
+				found = true
+				break
+			}
+		}
+		if found != true {
+			Conf.Ducklings = append(Conf.Ducklings, arg)
+			Conf.Write()
+		}
+	}
+	for _, msg := range errors {
+		fmt.Println(msg)
 	}
 }
 
 func PrintRepos() {
 	Init()
 	for _, repo := range App.Repos {
-		fmt.Println(repo)
+		fmt.Println(BLUE+repo.Name+END_STYLE, YELLOW+repo.URL+END_STYLE)
 	}
 	fmt.Println("total:", len(App.Repos))
 }
@@ -237,9 +309,32 @@ func checkErr(err error) {
 
 func AskConf() {
 	var NewConf Configuration
+	DUCK_DIR := ".duck"
+	DUCK_PERM := os.FileMode(0740)
 
-	NewConf.Name = askProperty("Project name")
-	fmt.Println("Name :", NewConf.Name)
+	dir, _ := os.Getwd()
+
+	if ExistsConfIn(dir) {
+		fmt.Println("error: this directory already has a duck repo.")
+		return
+	}
+
+	fmt.Println("initializing a new repo in", dir)
+
+	err := os.Mkdir(DUCK_DIR, DUCK_PERM)
+
+	checkErr(err)
+
+	NewConf.ProjectRoot = dir
+	NewConf.Name = askProperty("Name: ")
+	NewConf.Lang = askProperty("Lang: ")
+	NewConf.VersionMajor = "1.0"
+	NewConf.VersionMinor = "0"
+	NewConf.Env = "dev"
+	NewConf.Ducklings = []string{}
+	NewConf.Main = askProperty("Main: ")
+
+	NewConf.Write()
 }
 
 func getRidNewLine(str string) string {
