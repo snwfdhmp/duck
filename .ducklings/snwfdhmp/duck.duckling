@@ -1,0 +1,20 @@
+{
+	"Dependencies":[
+		"snwfdhmp/go",
+		"snwfdhmp/git"
+	],
+	"Ducklings":[
+		{
+			"Label":"publish",
+			"Description":"publish a new version of duck",
+			"Commands":[
+				"@ mkdir $path/release",
+				"@ build",
+				"cp $path/$name $path/release/$1",
+				"tar -czf latest.tar.gz src",
+				"@ commit \"release: $1\"",
+				"@ push"
+			]
+		}
+	]
+}

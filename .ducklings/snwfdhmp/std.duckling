@@ -1,0 +1,35 @@
+{
+	"Ducklings":[
+		{
+			"Label":"exec",
+			"Description":"execute binaries",
+			"Commands":["$path/$name"],
+			"Aliases":["e", "execute"]
+		},
+		{
+			"Label":"release",
+			"Description":"build a new release",
+			"Commands":[
+				"@ mkdir $path/release",
+				"@ build",
+				"cp $path/$name $path/release/$1"
+				],
+			"Aliases":["rel"]
+		},
+		{
+			"Label":"mkdir",
+			"Description":"mkdir a directory if it doesn't exist",
+			"Commands":[
+				"ls -d $1 > /dev/null 2> /dev/null || mkdir $1"
+				],
+			"Aliases":["md"]
+		},
+		{
+			"Label":"hi",
+			"Description":"prints 'hello'",
+			"Commands":[
+				"echo hello"
+				]
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"Dependencies":[
+		"snwfdhmp/std"
+	],
+	"Ducklings":[
+		{
+			"Label":"junk",
+			"Description":"'j <path>' moves <path> to .junk",
+			"Commands":[
+				"@ mkdir $path/.junk",
+				"mv $1 $path/.junk"
+			],
+			"Aliases":["j"]
+		},
+		{
+			"Label":"free",
+			"Description":"Empty the .junk directory",
+			"Commands":[
+				"rm -r $path/.junk/*"
+			],
+			"Aliases":["f"]
+		}
+	]
+}
