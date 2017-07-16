@@ -1,4 +1,4 @@
-# Duck ![logo][logo-xs]
+# [Duck]() ![logo][logo-xs]
 
 ## Note to readers
 
