@@ -10,9 +10,7 @@ We apologize for the lack of informations on this readme.
 
 Duck installation is easy :
 
-```bash
-curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
-```
+`curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash`
 
 ## Usage
 
