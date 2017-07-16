@@ -14,7 +14,7 @@ go build -o duck src/duck.go
 echo "Installing duck ..."
 sudo mv duck /usr/local/bin/duck
 echo "Installing default configuration file ..."
-sudo cp duck.conf /etc/duck.conf
+sudo cp src/duck.conf /etc/duck.conf
 echo "Creating alias '@' for 'duck' ..."
 ln -s /usr/local/bin/duck /usr/local/bin/@ 2> /dev/null
 echo "Cleaning ..."
