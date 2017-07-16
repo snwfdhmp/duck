@@ -17,7 +17,7 @@ curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
 ## Usage
 
 ```bash
-@ <action> args
+duck *action* *[args]*
 ```
 
 ## Getting started
