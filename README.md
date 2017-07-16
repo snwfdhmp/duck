@@ -8,18 +8,42 @@ We apologize for the lack of informations on this readme.
 
 ## Installation
 
-We do not provide any installation script yet. However, you can compile duck :
+Duck installation is easy :
 
 ```bash
-go build duck.go
+curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
 ```
 
 ## Usage
 
-Assuming duck has been compiled to your current working directory, you can use it by running:
-
 ```bash
-./duck <action> args
+@ <action> args
+```
+
+## Getting started
+
+Create a new directory for your projects
+
+```
+$ mkdir my-project
+$ cd my-project
+```
+Init a duck repo in this directory
+
+```
+$ duck init
+Name: tictactoe
+Lang: go
+Main: game.go
+```
+
+Install the ducklings you want (see a list of ducklings [here](#))
+
+```
+$ duck install snwfdhmp/std
+$ duck install snwfdhmp/go
+$ duck install snwfdhmp/cpp
+$ duck install snwfdhmp/junk
 ```
 
 ## Make a duckling
@@ -47,21 +71,6 @@ Even if you'd normally build a duckling yourself, we provide some ducklings exam
 				"mkdir $1",
 				"touch $1/$1.go"
 				]
-		},
-		{
-			"Label":"run",
-			"Description":"run binaries",
-			"Commands":["$path/$name"],
-			"Aliases":["r"]
-		},
-		{
-			"Label":"commit",
-			"Description":"add all files to git and commit $1",
-			"Commands":[
-				"git add *",
-				"git commit -a -m '$1'"
-			],
-			"Aliases":["qc"]
 		}
 	]
 }
