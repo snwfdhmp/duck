@@ -46,15 +46,15 @@ $ duck install snwfdhmp/junk
 ## Make a duckling
 
 Ducklings are duck's most interesting part.
-They are automated commands configured by yourself to fit your development environment perfectly.
+They are highly hackable jobs you configure to fit your development environment perfectly.
 
-Even if you'd normally build a duckling yourself, we provide some ducklings examples in <code>.duck/go.duck</code> (Schemes' elements)
+We provide some ducklings examples in <code>.duckling/</code>
 
-<code>.duck/go.duck</code>
+<code>.duckling/go.duckling</code>
 
 ```json
 {
-	"Schemes":[
+	"Ducklings":[
 		{
 			"Label":"compile",
 			"Description":"compile project",
