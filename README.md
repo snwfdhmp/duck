@@ -4,9 +4,7 @@
 
 [Duck]() is a **developer tool** which brings **abstraction** to the **terminal**.
 
-### Compiling
-
-Lang: C++
+### Compiling (C++)
 
 `g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall`
 
@@ -14,9 +12,7 @@ becomes
 
 `@ build`
 
-### Adding package
-
-Lang: Go
+### Adding package (Go)
 
 ```
 mkdir myNewPackage
@@ -27,9 +23,7 @@ becomes
 
 `@ pack myNewPackage`
 
-### Commit
-
-Lang: Git
+### Commit (git)
 
 ```
 git add *
