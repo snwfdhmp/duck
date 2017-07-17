@@ -1,4 +1,4 @@
-# [Duck]() ![logo][logo-xs]
+![head][head]
 
 ## Introduction
 
@@ -185,3 +185,4 @@ Duck is open to contributors, feel free to open issues as well.
 
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/logo-xs.png "Logo"
+[head]: https://www.github.com/snwfdhmp/duck/raw/master/ressources/img/head.png "Head"
