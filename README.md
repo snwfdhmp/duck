@@ -57,7 +57,9 @@ Installing [duck]() is a very **easy** step.
 
 Once you have `curl` and `go` installed, just run :
 
-`curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash`
+```bash
+curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
+```
 
 This will download the installation script and execute it. Ensure to have sudo permissions.
 
