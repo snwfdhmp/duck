@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Duck is a developer tool which brings abstraction to the terminal.
+[Duck]() is a **developer tool** which brings **abstraction** to the **terminal**.
 
 ### Compiling
 
