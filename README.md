@@ -74,7 +74,7 @@ You can use different $tags in a ling
 | *$main* | Your project's main file | `main.go` |
 | *$name* | Your project's name | `myAwesomeProject` |
 | *$path* | Path to your project | `/home/snwfdhmp/my-project` |
-| *$1*, *$2*, ..., *$9* | Commands arguments (like in shell) | `@ create toto` => `mkdir toto` |
+| *$1*, *$2*, ..., *$9* | Commands arguments (like in shell) | `@ create toto` => `mkdir toto && touch toto/toto.go` |
 
 Example lings using tags :
 
