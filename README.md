@@ -55,7 +55,7 @@ $ @ gcp "My message"
 
 | name | installation process |
 | --- | --- |
-| curl | `sudo apt-get install curl` or `brew install curl` |
+| curl | `apt install curl` or `brew install curl` or whatever |
 | go | [official tutorial](https://golang.org/doc/install) |
 
 
