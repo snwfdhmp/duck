@@ -59,18 +59,14 @@ Lings are duck's most interesting part.
 They are custom commands you build to avoid repeating commands.
 
 Examples :
-| This | Will execute this |
-| --- | --- |
-| ```
-@ pack MyPackage
-``` |
-```
-mkdir MyPackage
-touch MyPackage/MyPackage.go
-```
-|
 
-We provide some ducklings examples in <code>.duckling/</code>
+| This | Will execute |
+| --- | --- |
+| `@ pack MyPackage` | `mkdir MyPackage && touch MyPackage/MyPackage.go` |
+
+
+
+
 
 <code>.duckling/go.duckling</code>
 
