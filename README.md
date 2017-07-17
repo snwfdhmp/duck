@@ -21,7 +21,9 @@ touch myNewPackage/myNewPackage.go
 
 becomes
 
-`@ pack myNewPackage`
+```
+[@]() pack myNewPackage
+```
 
 ### Commit (git)
 
@@ -34,7 +36,7 @@ git push origin master
 becomes :
 
 ```
-@ gcp "My message"
+[@]() gcp "My message"
 ```
 
 ## Dependencies
