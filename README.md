@@ -8,11 +8,13 @@
 
 ### C++ : compile
 
+
+#### before
 ```
 $ g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall
 ```
 
-becomes
+#### after
 
 ```
 $ @ build
@@ -20,12 +22,14 @@ $ @ build
 
 ### Go : create packages
 
+#### before
+
 ```
 $ mkdir myNewPackage
 $ touch myNewPackage/myNewPackage.go
 ```
 
-becomes
+#### after
 
 ```
 $ @ pack myNewPackage
@@ -33,13 +37,15 @@ $ @ pack myNewPackage
 
 ### git: add, commit, push
 
+#### before
+
 ```
 $ git add *
 $ git commit -a -m "My message"
 $ git push origin master
 ```
 
-becomes :
+#### after
 
 ```
 $ @ gcp "My message"
