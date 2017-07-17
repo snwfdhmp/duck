@@ -16,7 +16,12 @@ We apologize for the lack of informations on this readme.
 
 ## One-line Installation
 
+When you have `curl` and `go` installed, you can install duck easily by executing the following line into a shell.
+
 `curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash`
+
+This will download the installation script and execute it.
+Be sure to have sudo permissions.
 
 ## Usage
 
