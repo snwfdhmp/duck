@@ -65,14 +65,16 @@ Examples :
 | `@ pack MyPackage` | `mkdir MyPackage && touch MyPackage/MyPackage.go` |
 | `@ gcp "My message"` | `git add * && git commit -a -m "My message" && git push` |
 
+### Tags
+
 You can use different $tags in a ling
 
 | Tag | Description | Example |
 | --- | --- | --- |
-| $main | Your project's main file | `main.go` |
-| $name | Your project's name | `myAwesomeProject` |
-| $path | Path to your project | `/home/snwfdhmp/my-project` |
-| $1, $2, ..., $9 | Commands arguments (like in shell) | `@ create toto` => `mkdir toto` |
+| *$main* | Your project's main file | `main.go` |
+| *$name* | Your project's name | `myAwesomeProject` |
+| *$path* | Path to your project | `/home/snwfdhmp/my-project` |
+| *$1*, *$2*, ..., *$9* | Commands arguments (like in shell) | `@ create toto` => `mkdir toto` |
 
 Example lings using tags :
 
@@ -81,12 +83,15 @@ Example lings using tags :
 | `@ build` | `go build -o $path/$name` |
 | `@ junk fileToThrow.txt` | `mv fileToThrow.txt $path/.junk` |
 
+### Sample package
 
-<code>.duckling/go.duckling</code>
+Packages contain lings
+
+<code>.duck/pkg/go.pkg</code>
 
 ```json
 {
-	"Ducklings":[
+	"Lings":[
 		{
 			"Label":"compile",
 			"Description":"compile project",
