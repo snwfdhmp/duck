@@ -68,10 +68,10 @@ Examples :
 You can use different $tags in a ling
 
 | Tag | Description | Example |
-| $main | Your project's main file | `main.go`
-| $name | Your project's name | `myAwesomeProject`
-| $path | Path to your project | `/home/snwfdhmp/my-project`
-| $1, $2, ..., $9 | Commands arguments (like in shell) | `@ create toto` => $1=`toto
+| $main | Your project's main file | `main.go` |
+| $name | Your project's name | `myAwesomeProject` |
+| $path | Path to your project | `/home/snwfdhmp/my-project` |
+| $1, $2, ..., $9 | Commands arguments (like in shell) | `@ create toto` => $1=`toto |
 
 Example lings using tags :
 
