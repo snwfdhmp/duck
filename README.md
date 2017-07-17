@@ -20,8 +20,7 @@ When you have `curl` and `go` installed, you can install duck easily by executin
 
 `curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash`
 
-This will download the installation script and execute it.
-Be sure to have sudo permissions.
+This will download the installation script and execute it. Ensure to have sudo permissions.
 
 ## Usage
 
@@ -45,7 +44,7 @@ Lang: go
 Main: game.go
 ```
 
-Install the ducklings you want (see a list of ducklings [here](#))
+Install the packages you want (see the official repo [here](https://github.com/snwfdhmp/duck-core))
 
 ```
 $ duck install snwfdhmp/std
@@ -54,10 +53,22 @@ $ duck install snwfdhmp/cpp
 $ duck install snwfdhmp/junk
 ```
 
-## Make a duckling
+## Make a ling
 
-Ducklings are duck's most interesting part.
-They are highly hackable jobs you configure to fit your development environment perfectly.
+Lings are duck's most interesting part.
+They are custom commands you build to avoid repeating commands.
+
+Examples :
+| This | Will execute this |
+| --- | --- |
+| ```
+@ pack MyPackage
+``` |
+```
+mkdir MyPackage
+touch MyPackage/MyPackage.go
+```
+|
 
 We provide some ducklings examples in <code>.duckling/</code>
 
