@@ -1,10 +1,45 @@
 # [Duck]() ![logo][logo-xs]
 
-## Note to readers
+## Introduction
 
-This README isn't complete yet as duck is still in early development phase. Please note that duck is still useable.
+Duck is a developer tool which brings abstraction to the terminal.
 
-We apologize for the lack of informations on this readme.
+### Compiling
+
+Lang: C++
+
+`g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall`
+
+becomes
+
+`@ build`
+
+### Adding package
+
+Lang: Go
+
+```
+mkdir myNewPackage
+touch myNewPackage/myNewPackage.go
+```
+
+becomes
+
+`@ pack myNewPackage`
+
+### Commit
+
+Lang: Git
+
+```
+git add *
+git commit -a -m "My message"
+git push origin master
+```
+
+becomes :
+
+`@ gcp "My message"
 
 ## Dependencies
 
