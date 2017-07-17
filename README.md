@@ -65,8 +65,14 @@ This will download the installation script and execute it. Ensure to have sudo p
 
 ## Usage
 
-`duck <action> [args]`
+duck is available under the alias `@` to speed up the command-writing process.
 
+`@ <action> [args]`
+
+| command | description | example |
+| --- | --- | --- |
+| install | install a package | `install snwfdhmp/std` |
+| init | add duck to your project | `@ init` |
 
 ## Getting started
 
