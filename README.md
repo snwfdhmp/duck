@@ -7,40 +7,40 @@
 ### Compiling (C++)
 
 ```
-g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall
+$ g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall
 ```
 
 becomes
 
 ```
-@ build
+$ @ build
 ```
 
 ### Adding package (Go)
 
 ```
-mkdir myNewPackage
-touch myNewPackage/myNewPackage.go
+$ mkdir myNewPackage
+$ touch myNewPackage/myNewPackage.go
 ```
 
 becomes
 
 ```
-@ pack myNewPackage
+$ @ pack myNewPackage
 ```
 
 ### Commit (git)
 
 ```
-git add *
-git commit -a -m "My message"
-git push origin master
+$ git add *
+$ git commit -a -m "My message"
+$ git push origin master
 ```
 
 becomes :
 
 ```
-@ gcp "My message"
+$ @ gcp "My message"
 ```
 
 ## Dependencies
@@ -58,7 +58,7 @@ Installing [duck]() is a very **easy** step.
 Once you have `curl` and `go` installed, just run :
 
 ```bash
-curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
+$ curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
 ```
 
 This will download the installation script and execute it. Ensure to have sudo permissions.
