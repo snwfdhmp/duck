@@ -6,13 +6,15 @@
 
 ### Compiling (C++)
 
-`g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall`
+```
+g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall
+```
 
 becomes
 
 ```
 @ build
-``
+```
 
 ### Adding package (Go)
 
