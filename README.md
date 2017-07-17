@@ -4,7 +4,9 @@
 
 [Duck]()![logo][logo-xs] is a **developer tool** which brings **abstraction** to the **terminal**.
 
-### Compiling (C++)
+## Examples usage
+
+### C++ : compile
 
 ```
 $ g++ -o ./binary1.4.3 main.cpp Logger.cpp AnotherFile.cpp MyClass.cpp -lm -Wall
@@ -16,7 +18,7 @@ becomes
 $ @ build
 ```
 
-### Adding package (Go)
+### Go : create packages
 
 ```
 $ mkdir myNewPackage
@@ -29,7 +31,7 @@ becomes
 $ @ pack myNewPackage
 ```
 
-### Commit (git)
+### git: add, commit, push
 
 ```
 $ git add *
