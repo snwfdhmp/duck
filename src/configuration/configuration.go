@@ -314,7 +314,7 @@ func InstallPkg(args ...string) {
 			break
 		}
 		if installed == false {
-			msg := RED + "Not found " + BLUE + pkg + RED + " in any repository." + END_STYLE
+			msg := RED + "\rNot found " + BLUE + pkg + RED + " in any repository." + END_STYLE
 			errors = append(errors, msg)
 			continue
 		}

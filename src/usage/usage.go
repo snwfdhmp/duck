@@ -34,10 +34,6 @@ func Load() {
 			Desc: "open duck console",
 		},
 		CmdUsg{
-			Name: "version",
-			Desc: "print duck's version",
-		},
-		CmdUsg{
 			Name: "help",
 			Desc: "print duck's help",
 		},
@@ -46,8 +42,24 @@ func Load() {
 			Desc: "print duck's extended help",
 		},
 		CmdUsg{
+			Name: "repo-list",
+			Desc: "print a list of installed repositories",
+		},
+		CmdUsg{
+			Name: "install",
+			Desc: "install a package (ex: 'snwfdhmp/std')",
+		},
+		CmdUsg{
+			Name: "uninstall",
+			Desc: "uninstall a package",
+		},
+		CmdUsg{
 			Name: "lings",
 			Desc: "print project's loaded ducklings",
+		},
+		CmdUsg{
+			Name: "version",
+			Desc: "print duck's version",
 		},
 	}
 	//custom commands

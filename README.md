@@ -6,25 +6,17 @@ This README isn't complete yet as duck is still in early development phase. Plea
 
 We apologize for the lack of informations on this readme.
 
-## Installation
+## Dependencies
 
-### Dependencies
+| name | installation process |
+| --- | --- |
+| curl | `sudo apt-get install curl` or `brew install curl` |
+| go | [official tutorial](https://golang.org/doc/install) |
 
-Duck requires curl and go to be installed. To install go please follow [this link](https://golang.org/doc/install). Curl can be easily installed with most package manager like :
 
-`sudo apt-get install curl`
+## One-line Installation
 
-or
-
-`brew install curl`
-
-### Duck
-
-Duck installation is easy :
-
-```
-curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
-```
+`curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash`
 
 ## Usage
 
