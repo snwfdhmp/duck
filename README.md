@@ -71,8 +71,10 @@ duck is available under the alias `@` to speed up the command-writing process.
 
 | command | description | example |
 | --- | --- | --- |
-| install | install a package | `install snwfdhmp/std` |
 | init | add duck to your project | `@ init` |
+| install | install a package | `@ install snwfdhmp/std` |
+| lings | view loaded lings | `@ lings` |
+| exec | execute your project last compiled binaries | `@ exec` |
 
 ## Getting started
 
