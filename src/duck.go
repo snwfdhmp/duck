@@ -122,7 +122,7 @@ func CommandHandler(cmd ...string) bool {
 		Console()
 		break
 	case "lings":
-		conf.PrintDucklings()
+		conf.PrintPackages()
 		break
 	case "help": //prints help
 		usage.PrintAll()
@@ -132,9 +132,9 @@ func CommandHandler(cmd ...string) bool {
 		break
 	case "install":
 		if len(cmd) >= 2 {
-			conf.InstallDuckling(cmd[1:]...)
+			conf.InstallPkg(cmd[1:]...)
 		} else {
-			conf.InstallDuckling()
+			conf.InstallPkg()
 		}
 		break
 	case "uninstall":

@@ -53,7 +53,7 @@ func Load() {
 	//custom commands
 	conf.Init()
 	var tmp CmdUsg
-	for _, val := range conf.Ducklings {
+	for _, val := range conf.Lings {
 		tmp = CmdUsg{
 			Name:    val.Label,
 			Desc:    val.Description,
