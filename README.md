@@ -33,7 +33,9 @@ git push origin master
 
 becomes :
 
-`@ gcp "My message"`
+```
+@ gcp "My message"
+``
 
 ## Dependencies
 
