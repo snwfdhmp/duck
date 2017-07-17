@@ -76,6 +76,8 @@ duck is available under the alias `@` to speed up the command-writing process.
 | lings | view loaded lings | `@ lings` |
 | exec | execute your project last compiled binaries | `@ exec` |
 
+To see the list of all available commands, type `@ help`
+
 ## Getting started
 
 Create a new directory for your projects
@@ -87,7 +89,7 @@ $ cd my-project
 Init a duck repo in this directory
 
 ```
-$ duck init
+$ @ init
 Name: tictactoe
 Lang: go
 Main: game.go
@@ -96,10 +98,10 @@ Main: game.go
 Install the packages you want (see the official repo [here](https://github.com/snwfdhmp/duck-core))
 
 ```
-$ duck install snwfdhmp/std
-$ duck install snwfdhmp/go
-$ duck install snwfdhmp/cpp
-$ duck install snwfdhmp/junk
+$ @ install snwfdhmp/std
+$ @ install snwfdhmp/go
+$ @ install snwfdhmp/cpp
+$ @ install snwfdhmp/junk
 ```
 
 ## Make a ling
@@ -136,24 +138,36 @@ Example lings using tags :
 
 Packages contain lings
 
+You can build packages to import/export lings.
+
 <code>.duck/pkg/go.pkg</code>
 
 ```json
 {
+	"Dependencies":[],
 	"Lings":[
 		{
-			"Label":"compile",
+			"Label":"build",
 			"Description":"compile project",
 			"Commands":["go build -o $name $main"],
-			"Aliases":["build"]
+			"Aliases":["b"]
 		},
 		{
-			"Label":"create",
-			"Description":"create necessary files for a new package",
+			"Label":"pack",
+			"Description":"create a new package",
 			"Commands":[
 				"mkdir $1",
 				"touch $1/$1.go"
-				]
+				],
+			"Aliases":["p"]
+		},
+		{
+			"Label":"run",
+			"Description":"go run your project",
+			"Commands":[
+				"go run $main"
+				],
+			"Aliases":["r"]
 		}
 	]
 }
