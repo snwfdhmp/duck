@@ -63,9 +63,22 @@ Examples :
 | This | Will execute |
 | --- | --- |
 | `@ pack MyPackage` | `mkdir MyPackage && touch MyPackage/MyPackage.go` |
+| `@ gcp "My message"` | `git add * && git commit -a -m "My message" && git push` |
 
+You can use different $tags in a ling
 
+| Tag | Description | Example |
+| $main | Your project's main file | `main.go`
+| $name | Your project's name | `myAwesomeProject`
+| $path | Path to your project | `/home/snwfdhmp/my-project`
+| $1, $2, ..., $9 | Commands arguments (like in shell) | `@ create toto` => $1=`toto
 
+Example lings using tags :
+
+| This | Will execute |
+| --- | --- |
+| `@ build` | `go build -o $path/$name` |
+| `@ junk fileToThrow.txt` | `mv fileToThrow.txt $path/.junk` |
 
 
 <code>.duckling/go.duckling</code>
