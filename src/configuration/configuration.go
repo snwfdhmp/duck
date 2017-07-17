@@ -128,6 +128,11 @@ func (p *Configuration) Write() {
 	ioutil.WriteFile(root+"/.duck/project.conf", b, 0644)
 }
 
+func (a *AppConfiguration) Write() {
+	b, _ := json.Marshal(*a)
+	ioutil.WriteFile("/etc/duck.conf", b, 0644)
+}
+
 /**
  * Load App Config from /etc/duck.conf
  *  into App
@@ -362,7 +367,7 @@ func UninstallDuckling(args ...string) bool {
 		//search for it into command args
 		for _, arg := range args {
 			if pkg == arg { //if found don't add it to future list
-				fmt.Println(YELLOW+"Deleting", BLUE+pkg+END_STYLE)
+				fmt.Println(GREEN+"deleted", RED+pkg+END_STYLE)
 				found = true
 				break
 			}
@@ -481,6 +486,21 @@ func AskConf() {
 	NewConf.Main = askProperty("Main: ")
 
 	NewConf.Write()
+}
+
+/**
+ * Add a new repo to App conf
+ * @param {string} repo  The repo
+ */
+func AddRepo(name string, url string) {
+	//Load project repos
+	LoadProject()
+
+	//push new repo
+	App.Repos = append(App.Repos, Repo{Name: name, URL: url})
+
+	//write changes
+	App.Write()
 }
 
 func getRidNewLine(str string) string {

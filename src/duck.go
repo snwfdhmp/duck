@@ -144,6 +144,12 @@ func CommandHandler(cmd ...string) bool {
 			fmt.Println(conf.RED + "Not enough arguments" + conf.END_STYLE)
 		}
 		break
+	case "repo-add":
+		if len(cmd) != 3 {
+			fmt.Println(conf.RED + "usage: @ repo-add <name> <url>" + conf.END_STYLE)
+		} else {
+			conf.AddRepo(cmd[1], cmd[2])
+		}
 	case "man": //prints manual
 		usage.Man()
 		break
