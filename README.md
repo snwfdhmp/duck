@@ -61,6 +61,7 @@ $ @ gcp "My message"
 
 ## One-line Installation
 
+
 Installing [duck]() is a very **easy** step.
 
 Once you have `curl` and `go` installed, just run :
