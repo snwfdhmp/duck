@@ -10,7 +10,7 @@ wget https://raw.githubusercontent.com/snwfdhmp/duck/master/build/latest.tar.gz 
 echo "Extracting ..."
 tar -xzf ./duck.tar
 echo "Building sources ..."
-go build -o duck duck_install/cmd/duck
+go build -o duck duck_install/cmd/duck/duck.go
 echo "Installing duck ..."
 sudo mv duck /usr/local/bin/duck
 echo "Installing default configuration file ..."
