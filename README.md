@@ -59,10 +59,24 @@ $ @ gcp "My message"
 | go | [official tutorial](https://golang.org/doc/install) |
 
 
+## Installation
+
+
+- Download the latest version of duck [here](https://github.com/snwfdhmp/duck/releases)
+
+- Move it into /usr/local/bin and name it `duck`
+
+- Run `ln -s /usr/local/bin/duck /usr/local/bin/@` to add `@` support
+
+- Download the `project.conf` in ressources/duck.conf (on the repo) and put it in /etc/duck/duck.conf
+
+- Start using duck !
+
 ## One-line Installation
 
+> Currently not available
 
-Installing [duck]() is a very **easy** step.
+Installing [duck]() from sources is a very **easy** step.
 
 Once you have `curl` and `go` installed, just run :
 

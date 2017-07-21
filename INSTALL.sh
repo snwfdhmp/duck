@@ -22,3 +22,5 @@ cd ..
 rm -rf ./$name
 echo -e "Done ! Try '\033[1;36mduck version\033[1;33m' or '\033[1;31m@\033[1;36m version\033[1;33m'"
 echo -e "\033[1;32mHave fun using duck\033[0;0m"
+
+go get github.com/snwfdhmp/duck/...
