@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"../configuration"
 	"fmt"
+	"github.com/snwfdhmp/duck/pkg/configuration"
 	"os/exec"
 	"regexp"
 	"strings"

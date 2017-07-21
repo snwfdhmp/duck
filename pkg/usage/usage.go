@@ -1,8 +1,8 @@
 package usage
 
 import (
-	"../configuration"
 	"fmt"
+	"github.com/snwfdhmp/duck/pkg/configuration"
 )
 
 /**
