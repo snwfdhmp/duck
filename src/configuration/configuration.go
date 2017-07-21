@@ -206,7 +206,85 @@ func LoadPackages() {
 	}
 }
 
-func InstallPkg(args ...string) {
+func isInstalled(pkg string) bool {
+	for _, tmp := range Conf.Packages { //if dep is in Conf.Packages
+		if tmp == pkg {
+			return true //exit for loop
+		}
+	}
+	return false
+}
+
+func InstallPkg(pkg string, forceMode bool) {
+	fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "...")
+	installed := false
+
+	//create PkgLocation directory
+	cmd := exec.Command("mkdir", Conf.ProjectRoot+"/"+Conf.PkgLocation)
+	cmd.Run()
+
+	//build file path for pkg (ex: snwfdhmp/go => snwfdhmp/go.pkg)
+	path := pkg + ".pkg"
+
+	//create pkg @author directory
+	cmd = exec.Command("mkdir", Conf.ProjectRoot+"/"+Conf.PkgLocation+"/"+strings.Split(path, "/")[0])
+	cmd.Run()
+
+	//foreach repo in /etc/duck.conf
+	for i, repo := range App.Repos {
+		fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
+		filePath := BuildPkgPath(pkg)
+
+		url := repo.URL + path + "?" + fmt.Sprintf("%d", rand.Int())
+		//fmt.Println("Fetching", url)
+
+		//download from url to filePath with "-f" enabling exit error when 404
+		cmd = exec.Command("curl", url, "-o", filePath, "-f")
+		err := cmd.Run()
+
+		//if no
+		if err != nil {
+			continue
+		}
+
+		//Load file into Pkg object
+		var tmp Pkg
+		LoadFileJson(filePath, &tmp)
+
+		for _, dep := range tmp.Dependencies {
+			if forceMode == false || !isInstalled(dep) {
+				//check if the dependency is already satisfied
+				fmt.Println("\r"+YELLOW+"installing dependency", BLUE+dep+END_STYLE)
+				InstallPkg(dep, false)
+			}
+		}
+
+		installed = true
+		fmt.Println("\r"+GREEN+"installed", BLUE+pkg, GREEN+"from", YELLOW+repo.Name+END_STYLE)
+		break
+	}
+	if installed == false {
+		fmt.Println(RED + "\rnot found " + BLUE + pkg + RED + " in any repository." + END_STYLE)
+		return
+	}
+
+	//if the pkg was already in Conf.Packages, exit
+	found := false
+	for _, active := range Conf.Packages {
+		if pkg == active {
+			found = true
+			break
+		}
+	}
+
+	//else push it into Conf.Packages & write changes
+	if found == false {
+		Conf.Packages = append(Conf.Packages, pkg)
+		Conf.Write()
+	}
+}
+
+func InstallPkgs(args ...string) {
 	//stop if no duck conf or project conf
 	if !LoadProject() {
 		return
@@ -248,7 +326,7 @@ func InstallPkg(args ...string) {
 			for _, pkg := range Conf.Packages {
 				args = append(args, pkg)
 			}
-			InstallPkg(args...)
+			InstallPkgs(args...)
 		} else { //or print error if project hasn't pkgs
 			fmt.Println(RED + "No ducklings to install" + END_STYLE)
 		}
@@ -262,82 +340,7 @@ func InstallPkg(args ...string) {
 
 	//for each requested pkg
 	for _, pkg := range pkgs {
-		fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "...")
-		installed := false
-
-		//create PkgLocation directory
-		cmd := exec.Command("mkdir", Conf.ProjectRoot+"/"+Conf.PkgLocation)
-		cmd.Run()
-
-		//build file path for pkg (ex: snwfdhmp/go => snwfdhmp/go.pkg)
-		path := pkg + ".pkg"
-
-		//create pkg @author directory
-		cmd = exec.Command("mkdir", Conf.ProjectRoot+"/"+Conf.PkgLocation+"/"+strings.Split(path, "/")[0])
-		cmd.Run()
-
-		//foreach repo in /etc/duck.conf
-		for i, repo := range App.Repos {
-			fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
-			filePath := BuildPkgPath(pkg)
-
-			url := repo.URL + path + "?" + fmt.Sprintf("%d", rand.Int())
-			//fmt.Println("Fetching", url)
-
-			//download from url to filePath with "-f" enabling exit error when 404
-			cmd = exec.Command("curl", url, "-o", filePath, "-f")
-			err := cmd.Run()
-
-			//if no
-			if err != nil {
-				continue
-			}
-
-			//Load file into Pkg object
-			var tmp Pkg
-			LoadFileJson(filePath, &tmp)
-
-			for _, dep := range tmp.Dependencies {
-				resolved := false
-				if forceMode == false {
-					//check if the dependency is already satisfied
-					for _, available := range Conf.Packages { //if dep is in Conf.Packages
-						if available == dep {
-							resolved = true //exit for loop
-							break
-						}
-					}
-				}
-				if resolved == false {
-					fmt.Println("\r"+YELLOW+"installing dependency", BLUE+dep+END_STYLE)
-					InstallPkg(dep)
-				}
-			}
-
-			installed = true
-			fmt.Println("\r"+GREEN+"installed", BLUE+pkg, GREEN+"from", YELLOW+repo.Name+END_STYLE)
-			break
-		}
-		if installed == false {
-			msg := RED + "\rNot found " + BLUE + pkg + RED + " in any repository." + END_STYLE
-			errors = append(errors, msg)
-			continue
-		}
-
-		//if the pkg was already in Conf.Packages, exit
-		found := false
-		for _, active := range Conf.Packages {
-			if pkg == active {
-				found = true
-				break
-			}
-		}
-
-		//else push it into Conf.Packages & write changes
-		if found == false {
-			Conf.Packages = append(Conf.Packages, pkg)
-			Conf.Write()
-		}
+		InstallPkg(pkg, forceMode)
 	}
 
 	//print every error encountered
@@ -353,7 +356,7 @@ func InstallPkg(args ...string) {
  *
  * @return     { exitSuccess }
  */
-func UninstallDuckling(args ...string) bool {
+func UninstallPkgs(args ...string) bool {
 	if !LoadProject() {
 		return false
 	}

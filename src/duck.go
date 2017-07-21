@@ -132,14 +132,14 @@ func CommandHandler(cmd ...string) bool {
 		break
 	case "install":
 		if len(cmd) >= 2 {
-			conf.InstallPkg(cmd[1:]...)
+			conf.InstallPkgs(cmd[1:]...)
 		} else {
-			conf.InstallPkg()
+			conf.InstallPkgs()
 		}
 		break
 	case "uninstall":
 		if len(cmd) >= 2 {
-			conf.UninstallDuckling(cmd[1:]...)
+			conf.UninstallPkgs(cmd[1:]...)
 		} else {
 			fmt.Println(conf.RED + "Not enough arguments" + conf.END_STYLE)
 		}

@@ -71,6 +71,10 @@ $ curl https://raw.githubusercontent.com/snwfdhmp/duck/master/INSTALL.sh | bash
 
 This will download the installation script and execute it. Ensure to have sudo permissions.
 
+## Manual Installation
+
+This will come later.
+
 ## Usage
 
 duck is available under the alias `@` to speed up the command-writing process.
