@@ -1,3 +1,0 @@
-40dcfe28ed8a5ce71c94e5d1f50afe695e20ceea295f6b1d5ea000470e6ef098  duck_0.1.1-alpha_linux_amd64.tar.gz
-96d3c21a049fd71abe5fc0617d47c27897c7088089a935adaa6e1b9f84553365  duck_0.1.1-alpha_linux_armv6.tar.gz
-7bb5d95ac0f24773872de567fa24b51e8738a6372021fb9f06aa4ed0b78d7ed7  duck_0.1.1-alpha_macOS_amd64.tar.gz
