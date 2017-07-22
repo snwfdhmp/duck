@@ -61,6 +61,8 @@ $ @ gcp "My message"
 
 ## Installation
 
+> We use [Goreleaser](https://github.com/goreleaser/goreleaser) for releases.
+
 
 - Download the latest version of duck [here](https://github.com/snwfdhmp/duck/releases)
 
@@ -211,6 +213,9 @@ Duck is open to contributors, feel free to open issues as well.
 
 - [snwfdhmp](http://github.com/snwfdhmp) (I'm currently the only one on this project.)
 
+## Thanks to
+
+- [GoReleaser](https://github.com/goreleaser/goreleaser) used for releases management
 
 
 [logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/doc/ressources/img/logo-xs.png "Logo"

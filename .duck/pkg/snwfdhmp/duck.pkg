@@ -9,21 +9,7 @@
 			"Label":"publish",
 			"Description":"publish a new version of duck",
 			"Commands":[
-				"mkdir duck_install",
-				"cp -R cmd pkg ressources duck_install",
-				"tar -czf build/latest.tar.gz duck_install",
-				"rm -rf duck",
-				"cp build/latest.tar.gz build/$1.tar.gz",
-				"@ commit-push \"release: $1\"",
-				"git tag -f -m \"release: $1\" -u snwfdhmp -s $1",
-				"git push origin --tags"
-			]
-		},
-		{
-			"Label":"cross-compile",
-			"Description":"process cross-compilation of the project",
-			"Commands":[
-				"env GOOS=linux GOARCH=arm go build -v github.com/snwfdhmp/duck/cmd/duck && mv duck cross-compile/linux-arm"
+				"git tag -a $1 -m '$1' && git push origin $1 && curl -sL https://git.io/goreleaser | bash",
 			]
 		}
 	]
