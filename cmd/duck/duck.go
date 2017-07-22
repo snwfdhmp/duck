@@ -111,41 +111,33 @@ func CommandHandler(cmd ...string) bool {
 	switch cmd[0] {
 	case "init": //init a new duck repo
 		conf.AskConf()
-		break
 	case "config": //print a config property (@todo add command to modify
 		if len(cmd) < 2 {
 			fmt.Println("Not enough arguments")
 		} else {
 			conf.Run(cmd[1])
 		}
-		break
 	case "console": //launch duck console
 		conf.Init()
 		Console()
-		break
 	case "lings":
 		conf.PrintPackages()
-		break
 	case "help": //prints help
 		usage.PrintAll()
-		break
 	case "repo-list":
 		conf.PrintRepos()
-		break
 	case "install":
 		if len(cmd) >= 2 {
 			conf.InstallPkgs(cmd[1:]...)
 		} else {
 			conf.InstallPkgs()
 		}
-		break
 	case "uninstall":
 		if len(cmd) >= 2 {
 			conf.UninstallPkgs(cmd[1:]...)
 		} else {
 			fmt.Println(logger.RED + "Not enough arguments" + logger.END_STYLE)
 		}
-		break
 	case "repo-add":
 		if len(cmd) != 3 {
 			fmt.Println(logger.RED + "usage: @ repo-add <name> <url>" + logger.END_STYLE)
@@ -154,17 +146,13 @@ func CommandHandler(cmd ...string) bool {
 		}
 	case "man": //prints manual
 		usage.Man()
-		break
 	case "version": //print duck version
 		fmt.Println(logger.APP_NAME, DuckVersion) //actual tool version
-		break
 	case "quit": //quit
 		fmt.Println(logger.BLUE + "See you soon" + logger.END_STYLE)
 		shouldBreak = true
-		break
 	default: //if input is none of the "general" commands, use custom ones
 		RunCustomCmd(cmd...)
-		break
 	}
 
 	return !shouldBreak

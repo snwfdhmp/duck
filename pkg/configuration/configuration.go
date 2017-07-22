@@ -315,13 +315,10 @@ func InstallPkgs(args ...string) {
 		case "-g": //not doing anything yet
 			globalMode = true
 			fmt.Println("installing globally:", globalMode)
-			break
 		case "-f": //will force reinstall dependencies for every pkg
 			forceMode = true
-			break
 		default:
 			fmt.Println(logger.RED+"Unknown parameter", logger.BLUE+arg+logger.END_STYLE)
-			break
 		}
 	}
 
