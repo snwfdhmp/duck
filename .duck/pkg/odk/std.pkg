@@ -1,0 +1,14 @@
+{
+	"Dependencies":[
+	],
+	"Lings":[
+		{
+			"Label":"start",
+			"Description":"start odk servers",
+			"Commands":[
+				"$path/boot-services 3"
+			],
+			"Aliases":["s"]
+		}
+	]
+}

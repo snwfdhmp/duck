@@ -1,0 +1,19 @@
+# .goreleaser.yml
+# Build customization
+builds:
+  - main: cmd/duck/duck.go
+    binary: duck
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm
+# Archive customization
+archive:
+  format: tar.gz
+  replacements:
+    darwin: macOS
+  files:
+    - LICENSE
+    - ressources/duck.conf

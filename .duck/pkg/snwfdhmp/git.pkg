@@ -1,0 +1,47 @@
+{
+	"Lings":[
+		{
+			"Label":"commit",
+			"Description":"add all files to git and commit $1",
+			"Commands":[
+				"git add *",
+				"git commit -a -m \"$1\""
+			],
+			"Aliases":["gc"]
+		},
+		{
+			"Label":"push",
+			"Description":"push to git repo",
+			"Commands":[
+				"git push"
+			],
+			"Aliases":["gp"]
+		},
+		{
+			"Label":"commit-push",
+			"Description":"add *; commit $1; push",
+			"Commands":[
+				"@ commit \"$1\"",
+				"@ push"
+			],
+			"Aliases":["gcp"]
+		},
+		{
+			"Label":"quick-commit",
+			"Description":"add all files to git and commit 'quick-commit'",
+			"Commands":[
+				"@ commit \"quick-commit\""
+			],
+			"Aliases":["qc"]
+		},
+		{
+			"Label":"quick-commit-push",
+			"Description":"quick-commit then push",
+			"Commands":[
+				"@ quick-commit",
+				"@ push"
+			],
+			"Aliases":["qcp"]
+		}
+	]
+}
