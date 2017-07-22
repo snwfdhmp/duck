@@ -61,9 +61,6 @@ $ @ gcp "My message"
 
 ## Installation
 
-> We use [Goreleaser](https://github.com/goreleaser/goreleaser) for releases.
-
-
 - Download the latest version of duck [here](https://github.com/snwfdhmp/duck/releases)
 
 - Move it into /usr/local/bin and name it `duck`
@@ -98,26 +95,31 @@ This will come later.
 
 duck is available under the alias `@` to speed up the command-writing process.
 
+> if `@` is not available for you, run `ln -s $(which duck) /usr/local/bin/@`
+
 `@ <action> [args]`
 
-| command | description | example |
+| command | description |
 | --- | --- | --- |
-| init | add duck to your project | `@ init` |
-| install | install a package | `@ install snwfdhmp/std` |
-| lings | view loaded lings | `@ lings` |
-| exec | execute your project last compiled binaries | `@ exec` |
+| `@ init` | add duck to your project |  |
+| `@ install pkg` | download and install package pkg |
+| `@ lings` | view loaded lings |
+| `@ exec` | run your project |
+| `@ repo-list` | print a list of installed repositories |
+| `@ mkdir` | mkdir a directory if it doesn't exist |
+| `@ buid` | build your project |
 
 To see the list of all available commands, type `@ help`
 
 ## Getting started
 
-Create a new directory for your projects
+### Create a new directory for your projects
 
 ```
 $ mkdir my-project
 $ cd my-project
 ```
-Init a duck repo in this directory
+### Init a duck repo in this directory
 
 ```
 $ @ init
@@ -126,7 +128,8 @@ Lang: go
 Main: game.go
 ```
 
-Install the packages you want (see the official repo [here](https://github.com/snwfdhmp/duck-core))
+### Install the packages you want
+> see the official repo [here](https://github.com/snwfdhmp/duck-core) to discover packages
 
 ```
 $ @ install snwfdhmp/std
@@ -137,7 +140,7 @@ $ @ install snwfdhmp/junk
 
 ## Make a ling
 
-Lings are duck's most interesting part.
+*Lings* are duck's **most interesting part**.
 They are custom commands you build to avoid repeating commands.
 
 Examples :
@@ -171,7 +174,9 @@ Packages contain lings
 
 You can build packages to import/export lings.
 
-<code>.duck/pkg/go.pkg</code>
+Create a file in YOURPROJECT/.duck/YOURNAME/PKGNAME.pkg
+
+<code>.duck/pkg/snwfdhmp/go.pkg</code>
 
 ```json
 {
@@ -207,7 +212,9 @@ You can build packages to import/export lings.
 
 ## Contributing
 
-Duck is open to contributors, feel free to open issues as well.
+Duck is currently closed to contributions.
+
+However, please feel free to open issues.
 
 ## Author
 
