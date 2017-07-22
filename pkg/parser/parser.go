@@ -1,6 +1,13 @@
-/*
-	@TODO describe parser with tags
-*/
+//parser will parse every command that duck has to execute
+//it replaces tags to the format $tag and parameters to the
+//format $[1-9]
+//
+//Tags:		Replaced by:
+//$main 	Concat ProjectRoot/Main property of project.conf
+//$path 	ProjectRoot property of project.conf
+//$name 	ProjectName property of project.conf
+//
+//$[1-9]	Argument like in '@ cmd $1 $2 $3 ...'
 package parser
 
 import (
