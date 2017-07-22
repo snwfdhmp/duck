@@ -1,8 +1,12 @@
+/*
+	@TODO describe parser with tags
+*/
 package parser
 
 import (
 	"fmt"
 	"github.com/snwfdhmp/duck/pkg/configuration"
+	"github.com/snwfdhmp/duck/pkg/logger"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -15,17 +19,15 @@ type Tag struct {
 
 var Tags []Tag
 
-/**
- * @brief      Take the command string as input and return
- *             	the list of commands to be executed, after
- *             	having replaced the tags (like "$main", or
- *             	"$path") to their corresponding values
- *
- * @param      label  The command string (ie : "compile" or
- *                      "run")
- *
- * @return     { An array of shell command objects }
- */
+//GetCommandsArrFromInput Take the command string as input and return
+//the list of commands to be executed, after
+//having replaced the tags (like "$main", or
+//"$path") to their corresponding values
+//
+//@param      label  The command string (ie : "compile" or
+//                   "run")
+//
+//@return     { An array of shell command objects }
 func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 	//read config files
 	conf.Init()
@@ -65,6 +67,7 @@ func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 	return commands
 }
 
+//InitTags declares the tags being parsed
 func InitTags() {
 	//declare each Tag
 	Tags = []Tag{
@@ -83,7 +86,7 @@ func InitTags() {
 	}
 }
 
-//replace tags in command
+//ParseTags replace tags in command
 func ParseTags(command string) string {
 	InitTags()
 	for _, tag := range Tags {
@@ -93,14 +96,14 @@ func ParseTags(command string) string {
 	return command
 }
 
-//iterates through array to replace $1..$9 with real $1..$9
+//ParseDollarParams iterates through array to replace $1..$9 with real $1..$9
 //	(like shell)
 func ParseDollarParams(command string, args ...string) (string, bool) {
 	for i := 1; i <= 9; i++ {
 		sel := fmt.Sprintf("$%d", i)
 		if strings.Index(command, sel) != -1 {
 			if len(args) < i {
-				fmt.Printf(conf.BLUE+"$%d "+conf.RED+"argument was not provided.\n"+conf.END_STYLE, i)
+				fmt.Printf(logger.BLUE+"$%d "+logger.RED+"argument was not provided.\n"+logger.END_STYLE, i)
 				return "", false
 			}
 			command = strings.Replace(command, sel, args[i-1], -1)
@@ -110,6 +113,8 @@ func ParseDollarParams(command string, args ...string) (string, bool) {
 	return command, true
 }
 
+//SplitCommand splits the command into an array
+//corresponding to the shell args
 func SplitCommand(command string) []string {
 	//split into array using regexp (to let quoted string be 1 arg, as in shell)
 	delimeter := "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'"

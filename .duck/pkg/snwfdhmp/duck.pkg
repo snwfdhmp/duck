@@ -9,7 +9,7 @@
 			"Label":"publish",
 			"Description":"publish a new version of duck",
 			"Commands":[
-				"git tag -a $1 -m '$1' && git push origin $1 && curl -sL https://git.io/goreleaser | bash",
+				"git tag -a $1 -m '$1' && git push origin $1 && curl -sL https://git.io/goreleaser | bash"
 			]
 		}
 	]

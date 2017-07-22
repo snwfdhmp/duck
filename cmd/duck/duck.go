@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/snwfdhmp/duck/pkg/configuration"
+	"github.com/snwfdhmp/duck/pkg/logger"
 	"github.com/snwfdhmp/duck/pkg/parser"
 	"github.com/snwfdhmp/duck/pkg/usage"
 	"io/ioutil"
@@ -19,10 +20,13 @@ const (
 	DuckVersion = "a1.0.0"
 )
 
-/**
- * Execute a user custom's command
- * @param {string} input [the user input]
- */
+var (
+	log logger.Logger
+)
+
+//RunCustomCmd executes a user custom's command
+//
+//@param {string} input [the user input]
 func RunCustomCmd(input ...string) {
 	//get commands array from <lang>.duck
 	commands := parser.GetCommandArrFromInput(input...)
@@ -38,38 +42,45 @@ func RunCustomCmd(input ...string) {
 		 * command errors to user
 		 */
 		stdout, err := cmd.StdoutPipe()
-		checkErr(err)
+		log.Err(err, "Failed to pipe stdout")
+
 		stderr, err := cmd.StderrPipe()
-		checkErr(err)
+		log.Err(err, "Failed to pipe stderr")
 
 		err = cmd.Start()
-		checkErr(err)
+		log.Fatal(err, "Failed to start command")
+
+		//read stdout and stderr
+		output, err := ioutil.ReadAll(stdout)
+		log.Err(err, "Failed to read stdout")
+
+		slurp, err := ioutil.ReadAll(stderr)
+		log.Err(err, "Failed to read stderr")
 
 		//print stdout and stderr
-		output, err := ioutil.ReadAll(stdout)
-		checkErr(err)
-		slurp, err := ioutil.ReadAll(stderr)
-		checkErr(err)
-		fmt.Print(conf.RED + string(slurp) + conf.END_STYLE)
-		fmt.Print(conf.GREEN + string(output) + conf.END_STYLE)
+		fmt.Print(logger.RED + string(slurp) + logger.END_STYLE)
+		fmt.Print(logger.GREEN + string(output) + logger.END_STYLE)
 
 		cmd.Wait()
 	}
 
 }
 
-/**
- * The console will loop on stdin until
- *  the user inputs "quit"
- */
+//Console will loop on stdin until
+//the user inputs "quit"
 func Console() {
 	var input string                    //will contain input from stdin
 	reader := bufio.NewReader(os.Stdin) //reader initialized for stdin
 
 	for input != "quit" {
 		//read input
-		fmt.Print(conf.APP_NAME + ":" + conf.GetName() + "> ")
-		input, _ = reader.ReadString('\n')
+		fmt.Print(logger.APP_NAME + ":" + conf.GetName() + "> ")
+		input, err := reader.ReadString('\n')
+
+		//if it fails to read input, ask again
+		if log.Err(err, "Failed to read input") {
+			continue
+		}
 
 		//delete the '\n'
 		input = input[:len(input)-1]
@@ -80,7 +91,7 @@ func Console() {
 			continue
 		}
 
-		command := parser.SplitCommand(input)
+		command := parser.SplitCommand(input) //parse command
 
 		//handle input, break if needed
 		if !CommandHandler(command...) {
@@ -89,12 +100,11 @@ func Console() {
 	}
 }
 
-/**
- * Will route any command supported by duck or custom conf
- *  to the function that handles it
- * @param {string} cmd 			[the command asked]
- * @todo better args
- */
+//CommandHandler will route any command supported by duck or custom conf
+//to the function that handles it
+//It takes as param the cmd to run and its params as ellipsis
+//
+//Example : "CommandHandler("install", "-f", "snwfdhmp/std", "snwfdhmp/go")
 func CommandHandler(cmd ...string) bool {
 	shouldBreak := false //should we stop execution ?
 
@@ -113,9 +123,9 @@ func CommandHandler(cmd ...string) bool {
 	case "config": //print a config property (@todo add command to modify
 		if len(cmd) < 2 {
 			fmt.Println("Not enough arguments")
-			os.Exit(1)
+		} else {
+			conf.Run(cmd[1])
 		}
-		conf.Run(cmd[1])
 		break
 	case "console": //launch duck console
 		conf.Init()
@@ -141,12 +151,12 @@ func CommandHandler(cmd ...string) bool {
 		if len(cmd) >= 2 {
 			conf.UninstallPkgs(cmd[1:]...)
 		} else {
-			fmt.Println(conf.RED + "Not enough arguments" + conf.END_STYLE)
+			fmt.Println(logger.RED + "Not enough arguments" + logger.END_STYLE)
 		}
 		break
 	case "repo-add":
 		if len(cmd) != 3 {
-			fmt.Println(conf.RED + "usage: @ repo-add <name> <url>" + conf.END_STYLE)
+			fmt.Println(logger.RED + "usage: @ repo-add <name> <url>" + logger.END_STYLE)
 		} else {
 			conf.AddRepo(cmd[1], cmd[2])
 		}
@@ -154,10 +164,10 @@ func CommandHandler(cmd ...string) bool {
 		usage.Man()
 		break
 	case "version": //print duck version
-		fmt.Println(conf.APP_NAME, DuckVersion) //actual tool version
+		fmt.Println(logger.APP_NAME, DuckVersion) //actual tool version
 		break
 	case "quit": //quit
-		fmt.Println(conf.BLUE + "See you soon" + conf.END_STYLE)
+		fmt.Println(logger.BLUE + "See you soon" + logger.END_STYLE)
 		shouldBreak = true
 		break
 	default: //if input is none of the "general" commands, use custom ones
@@ -179,10 +189,4 @@ func main() {
 	}
 	//give control to CommandHandler
 	CommandHandler(os.Args[1:]...)
-}
-
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
 }

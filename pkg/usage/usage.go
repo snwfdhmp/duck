@@ -3,6 +3,7 @@ package usage
 import (
 	"fmt"
 	"github.com/snwfdhmp/duck/pkg/configuration"
+	"github.com/snwfdhmp/duck/pkg/logger"
 )
 
 /**
@@ -18,6 +19,8 @@ var (
 	Commands []CmdUsg
 )
 
+//Load loads commands descriptions to prepare
+//for a Print
 func Load() {
 	//duck's native commands
 	Commands = []CmdUsg{
@@ -75,13 +78,12 @@ func Load() {
 	}
 }
 
-/**
- * Prints duck usage
- */
+//PrintAll prints duck usage by calling
+//printCommand(cmd) for each cmd in Commands
 func PrintAll() {
 	Load()
 	//print head
-	fmt.Println("usage : " + conf.APP_NAME + " <command>" + conf.END_STYLE + "\n")
+	fmt.Println("usage : " + logger.APP_NAME + " <command>" + logger.END_STYLE + "\n")
 	fmt.Println("Available commands :\n")
 	fmt.Println("command\t\tdescription")
 	fmt.Println("-------\t\t-----------")
@@ -91,27 +93,28 @@ func PrintAll() {
 	}
 }
 
-/**
- * This function defines the command's usage template
- *  (every command usage should be printed using this
- *  function in order to be correctly displayed)
- * @param  {string} name    	[name of the command]
- * @param  {string} desc    	[description of the command]
- */
+//printCommand defines the command's usage template
+//(every command usage should be printed using this
+//function in order to be correctly displayed)
+//
+//@param  {string} name    	[name of the command]
+//@param  {string} desc    	[description of the command]
 func printCommand(cmd CmdUsg) {
 	fmt.Printf("%s\t", cmd.Name)
 	fmt.Printf("\t%s\n", cmd.Desc)
 }
 
-//@todo work on better UI
+//Man prints extended help
 func Man() {
 	Load()
-	fmt.Println(conf.APP_NAME, "help:")
+	fmt.Println(logger.APP_NAME, "help:")
 	for _, cmd := range Commands {
 		ManCommand(cmd)
 	}
 }
 
+//ManCommand prints extended infos
+//about a command
 func ManCommand(cmd CmdUsg) {
 	fmt.Print("\n")
 	fmt.Println("-", cmd.Name)

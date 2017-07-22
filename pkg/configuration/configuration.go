@@ -3,7 +3,9 @@ package conf
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/snwfdhmp/duck/pkg/logger"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -50,22 +52,11 @@ var (
 	Conf        Configuration
 	Lings       []Ling
 	verboseMode bool
+	log         logger.Logger
 )
 
-const (
-	RED    = "\033[1;31m"
-	GREEN  = "\033[1;32m"
-	YELLOW = "\033[1;33m"
-	BLUE   = "\033[1;36m"
-
-	ITALIC = "\033[3m"
-
-	END_STYLE = "\033[0m"
-
-	APP_NAME = YELLOW + "duck" + END_STYLE
-)
-
-//@todo: delete that shit and but add a similar func to parser
+//Run execute the "duck config {command}"
+//command. It just prints config values
 func Run(command string) {
 	Init()
 	switch command {
@@ -78,26 +69,20 @@ func Run(command string) {
 	}
 }
 
-/**
- * @brief      Reads the configuration files
- *
- * @return     bool: status (ok|not ok)
- */
-func Init() bool {
+//Init Load project and packages
+func Init() error {
 
 	if LoadProject() == false {
-		return false
+		return errors.New("cannot load project and/or app configuration")
 	}
 
 	LoadPackages()
 
-	return true
+	return nil
 }
 
-/**
- * Loads App Config and Project Config
- *  into App and Conf
- */
+//LoadProject Loads App Config and Project Config
+//into App and Conf
 func LoadProject() bool {
 	dir, _ := os.Getwd()
 
@@ -112,76 +97,87 @@ func LoadProject() bool {
 	return true
 }
 
-/**
- * @brief      Writer for Conf file
- *
- */
+//Writer is the Writer for Conf file
 func (p *Configuration) Write() {
 	var root string
 	if len(Conf.ProjectRoot) == 0 {
-		root, _ = os.Getwd()
+		root, err := os.Getwd()
+		log.Err(err, "Cannot get current directory")
+
 		fmt.Println("Taking", root, "as project path")
 	} else {
 		root = Conf.ProjectRoot
 	}
-	b, _ := json.Marshal(*p)
+
+	//write file and check err
+	b, err := json.Marshal(*p)
+	log.Fatal(err, "Cannot write config file")
+
 	ioutil.WriteFile(root+"/.duck/project.conf", b, 0644)
 }
 
+//Write writes AppConfiguration to /etc/duck/duck.conf
 func (a *AppConfiguration) Write() {
-	b, _ := json.Marshal(*a)
+	b, err := json.Marshal(*a)
+	log.Fatal(err, "Cannot write app configuration file")
+
 	ioutil.WriteFile("/etc/duck.conf", b, 0644)
 }
 
-/**
- * Load App Config from /etc/duck.conf
- *  into App
- */
+//LoadAppConfig loads duck configuration file
+//from /etc/duck.conf and puts it into App
 func LoadAppConfig() {
 	LoadFileJson("/etc/duck.conf", &App)
 }
 
-//load a JSON file into its correctly typed interface
-func LoadFileJson(path string, object interface{}) bool {
+//LoadFileJson loads a JSON file into its correctly typed interface
+func LoadFileJson(path string, object interface{}) error {
 	//open file
 	file, err := os.Open(path)
 
 	//if it doesn't exist, error
 	if os.IsNotExist(err) {
 		fmt.Println("Error: not found", path, "found")
-		return false
+		return errors.New("not found")
 	}
-	checkErr(err)
+	if log.Err(err, "Cannot load file "+path) {
+		return errors.New("cannot load")
+	}
 
 	//decode it
 	decoder := json.NewDecoder(file)
 
 	//parse it into object
 	err = decoder.Decode(object)
-	checkErr(err)
-	return true
+	if log.Err(err, "Cannot decode "+path) {
+		return errors.New("cannot decode")
+	}
+
+	return nil
 }
 
-/**
- * load Project Configuration (./.duck/project.conf) file into Conf
- */
-func LoadProjectConfig(dir string) bool {
+// LoadProjectConfig loads project configuration (./.duck/project.conf) file into Conf
+func LoadProjectConfig(dir string) error {
 	path := dir + "/.duck/project.conf"
-	LoadFileJson(path, &Conf)
+	err := LoadFileJson(path, &Conf)
+	log.Check(err)
 	//fmt.Println("Loaded conf for project", Conf.Name, "in language", Conf.Lang)
-	return true
+	return nil
 }
 
+//BuildPkgPath returns the normalized path for a package named str
 func BuildPkgPath(str string) string {
 	return Conf.ProjectRoot + "/" + Conf.PkgLocation + "/" + str + ".pkg"
 }
 
+//verbose prints str if verboseMode is active (== true)
 func verbose(str string) {
 	if verboseMode {
 		fmt.Println(str)
 	}
 }
 
+//LoadPackages loads project.conf packages
 func LoadPackages() {
 	//create array that will store every Ling for the project
 	Lings = []Ling{}
@@ -193,19 +189,21 @@ func LoadPackages() {
 
 		//if we're in verbose mode
 		//	print infos about current pkg
-		verbose(YELLOW + "from " + pkg + END_STYLE)
+		verbose(logger.YELLOW + "from " + pkg + logger.END_STYLE)
 
 		var pkg Pkg              //create a pkg object
 		LoadFileJson(path, &pkg) //load the pkg file into it
 
 		//foreach lings in it, add it to our Lings array
 		for _, ling := range pkg.Lings {
-			verbose(BLUE + " - " + ling.Label + END_STYLE) // if verbose, print ling
-			Lings = append(Lings, ling)                    //append ling to Lings array
+			verbose(logger.BLUE + " - " + ling.Label + logger.END_STYLE) // if verbose, print ling
+			Lings = append(Lings, ling)                                  //append ling to Lings array
 		}
 	}
 }
 
+//isInstalled returns whether a package named pkg
+//is currently installed
 func isInstalled(pkg string) bool {
 	for _, tmp := range Conf.Packages { //if dep is in Conf.Packages
 		if tmp == pkg {
@@ -215,8 +213,10 @@ func isInstalled(pkg string) bool {
 	return false
 }
 
+//InstallPkg installs a package
+//forceMode force to reinstall dependencies
 func InstallPkg(pkg string, forceMode bool) {
-	fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "...")
+	fmt.Print("\rinstalling ", logger.BLUE+pkg+logger.END_STYLE, "...")
 	installed := false
 
 	//create PkgLocation directory
@@ -232,7 +232,7 @@ func InstallPkg(pkg string, forceMode bool) {
 
 	//foreach repo in /etc/duck.conf
 	for i, repo := range App.Repos {
-		fmt.Print("\rinstalling ", BLUE+pkg+END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
+		fmt.Print("\rinstalling ", logger.BLUE+pkg+logger.END_STYLE, "... (", i+1, "/", len(App.Repos), ")")
 		filePath := BuildPkgPath(pkg)
 
 		url := repo.URL + path + "?" + fmt.Sprintf("%d", rand.Int())
@@ -242,7 +242,7 @@ func InstallPkg(pkg string, forceMode bool) {
 		cmd = exec.Command("curl", url, "-o", filePath, "-f")
 		err := cmd.Run()
 
-		//if no
+		//if curl failed, try the next repo
 		if err != nil {
 			continue
 		}
@@ -254,17 +254,17 @@ func InstallPkg(pkg string, forceMode bool) {
 		for _, dep := range tmp.Dependencies {
 			if forceMode == false || !isInstalled(dep) {
 				//check if the dependency is already satisfied
-				fmt.Println("\r"+YELLOW+"installing dependency", BLUE+dep+END_STYLE)
+				fmt.Println("\r"+logger.YELLOW+"installing dependency", logger.BLUE+dep+logger.END_STYLE)
 				InstallPkg(dep, false)
 			}
 		}
 
 		installed = true
-		fmt.Println("\r"+GREEN+"installed", BLUE+pkg, GREEN+"from", YELLOW+repo.Name+END_STYLE)
+		fmt.Println("\r"+logger.GREEN+"installed", logger.BLUE+pkg, logger.GREEN+"from", logger.YELLOW+repo.Name+logger.END_STYLE)
 		break
 	}
 	if installed == false {
-		fmt.Println(RED + "\rnot found " + BLUE + pkg + RED + " in any repository." + END_STYLE)
+		fmt.Println(logger.RED + "\rnot found " + logger.BLUE + pkg + logger.RED + " in any repository." + logger.END_STYLE)
 		return
 	}
 
@@ -284,6 +284,11 @@ func InstallPkg(pkg string, forceMode bool) {
 	}
 }
 
+//InstallPkgs install every pkgs
+//This function also receives options
+//Options:
+//	-f	force to reinstall dependencies
+//	-g	(incomming) install globally
 func InstallPkgs(args ...string) {
 	//stop if no duck conf or project conf
 	if !LoadProject() {
@@ -315,7 +320,7 @@ func InstallPkgs(args ...string) {
 			forceMode = true
 			break
 		default:
-			fmt.Println(RED+"Unknown parameter", BLUE+arg+END_STYLE)
+			fmt.Println(logger.RED+"Unknown parameter", logger.BLUE+arg+logger.END_STYLE)
 			break
 		}
 	}
@@ -328,14 +333,14 @@ func InstallPkgs(args ...string) {
 			}
 			InstallPkgs(args...)
 		} else { //or print error if project hasn't pkgs
-			fmt.Println(RED + "No ducklings to install" + END_STYLE)
+			fmt.Println(logger.RED + "No ducklings to install" + logger.END_STYLE)
 		}
 		return
 	}
 
 	//print enabled modes
 	if forceMode == true {
-		fmt.Println(BLUE+"-f"+END_STYLE, ": force dependencies to install", GREEN+"(active)"+END_STYLE)
+		fmt.Println(logger.BLUE+"-f"+logger.END_STYLE, ": force dependencies to install", logger.GREEN+"(active)"+logger.END_STYLE)
 	}
 
 	//for each requested pkg
@@ -349,16 +354,11 @@ func InstallPkgs(args ...string) {
 	}
 }
 
-/**
- * @brief      Remove some .duckpkg from the project.conf
- *
- * @param      args  List of the .duckpkg to uninstall
- *
- * @return     { exitSuccess }
- */
-func UninstallPkgs(args ...string) bool {
+//UninstallPkgs removes some .duckpkg from the project.conf
+//args is the List of the .duckpkg to uninstall
+func UninstallPkgs(args ...string) {
 	if !LoadProject() {
-		return false
+		log.FatalString("Cannot load project")
 	}
 
 	//future list of installed packages
@@ -370,7 +370,7 @@ func UninstallPkgs(args ...string) bool {
 		//search for it into command args
 		for _, arg := range args {
 			if pkg == arg { //if found don't add it to future list
-				fmt.Println(GREEN+"deleted", RED+pkg+END_STYLE)
+				fmt.Println(logger.GREEN+"deleted", logger.RED+pkg+logger.END_STYLE)
 				found = true
 				break
 			}
@@ -382,22 +382,21 @@ func UninstallPkgs(args ...string) bool {
 
 	Conf.Packages = newPackages //change Packages to future list
 	Conf.Write()                //write changes
-	return true
 }
 
-/**
- * @brief      Print every repo configured in /etc/duck.conf
- */
+//PrintRepos prints every repo configured in /etc/duck.conf
 func PrintRepos() {
 	Init()
 
 	//print each repo in App.Repos
 	for _, repo := range App.Repos {
-		fmt.Println(BLUE+repo.Name+END_STYLE, YELLOW+repo.URL+END_STYLE)
+		fmt.Println(logger.BLUE+repo.Name+logger.END_STYLE, logger.YELLOW+repo.URL+logger.END_STYLE)
 	}
 	fmt.Println("total:", len(App.Repos))
 }
 
+//PrintPackagegs returns the list of
+//every package in Conf.Packages
 func PrintPackages() {
 	Init()
 	for _, pkg := range Conf.Packages {
@@ -409,24 +408,28 @@ func PrintPackages() {
 	verboseMode = false
 }
 
+//GetCommands returns the array of commands
+//set up for label by looking in Lings
 func GetCommands(label string) []string {
 	//looking for the commands corresponding to the label
-	for _, val := range Lings {
-		if val.Label == label { // if scheme's label is input, return it
-			return val.Commands
+	for _, ling := range Lings {
+		if ling.Label == label { // if scheme's label is input, return it
+			return ling.Commands
 		} else { //else look in its aliases
-			for _, alias := range val.Aliases {
+			for _, alias := range ling.Aliases {
 				if alias == label {
-					return val.Commands
+					return ling.Commands
 				}
 			}
 		}
 	}
 
 	//if nothing found, return an error
-	return []string{"echo " + RED + "Unknown command '" + label + "'" + END_STYLE} //@todo handle errors better
+	return []string{"echo " + logger.RED + "Unknown command '" + label + "'" + logger.END_STYLE} //@todo handle errors better
 }
 
+//ExistsConfIn returns whether there's a .duck
+//in the current directory
 func ExistsConfIn(dir string) bool {
 	DUCK_DIR := ".duck"
 
@@ -454,12 +457,8 @@ func GetMainPath() string {
 	return Conf.ProjectRoot + "/" + Conf.Main
 }
 
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
+//AskConf asks the user for configuration
+//values to init or modify a project conf
 func AskConf() {
 	var NewConf Configuration
 	DUCK_DIR := ".duck"
@@ -476,7 +475,7 @@ func AskConf() {
 
 	err := os.Mkdir(DUCK_DIR, DUCK_PERM)
 
-	checkErr(err)
+	log.Fatal(err, "Cannot create "+DUCK_DIR+" in "+dir)
 
 	NewConf.ProjectRoot = dir
 	NewConf.Name = askProperty("Name: ")
@@ -513,6 +512,8 @@ func getRidNewLine(str string) string {
 func askProperty(prompt string) string {
 	reader := bufio.NewReader(os.Stdin) //reader initialized for stdin
 	fmt.Print(prompt)
-	tmp, _ := reader.ReadString('\n')
+	tmp, err := reader.ReadString('\n')
+	log.Fatal(err, "Cannot read")
+
 	return getRidNewLine(tmp)
 }
