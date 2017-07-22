@@ -1,5 +1,4 @@
-.DS_Store
-.duck/project.conf
-duck
+dist
 .junk
-cross-compile
+.DS_Store
+.git
