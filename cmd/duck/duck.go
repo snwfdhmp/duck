@@ -14,10 +14,9 @@ import (
 //@todo add support of (args ...string)
 //  for command handlers to enhance
 //  the duck console usage
-
 const (
 	//DuckVersion current tool version
-	DuckVersion = "v0.1.1"
+	DuckVersion = "v0.1.2"
 )
 
 var (
@@ -69,21 +68,14 @@ func RunCustomCmd(input ...string) {
 //Console will loop on stdin until
 //the user inputs "quit"
 func Console() {
-	var input string                    //will contain input from stdin
-	reader := bufio.NewReader(os.Stdin) //reader initialized for stdin
+	var input string                      //will contain input from stdin
+	scanner := bufio.NewScanner(os.Stdin) //scanner initialized for stdin
 
 	for input != "quit" {
 		//read input
 		fmt.Print(logger.APP_NAME + ":" + conf.GetName() + "> ")
-		input, err := reader.ReadString('\n')
-
-		//if it fails to read input, ask again
-		if log.Err(err, "Failed to read input") {
-			continue
-		}
-
-		//delete the '\n'
-		input = input[:len(input)-1]
+		scanner.Scan()
+		input := scanner.Text()
 
 		//throw error for special cases
 		if input == "config" {
