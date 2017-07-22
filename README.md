@@ -100,7 +100,7 @@ duck is available under the alias `@` to speed up the command-writing process.
 `@ <action> [args]`
 
 | command | description |
-| --- | --- | --- |
+| --- | --- |
 | `@ init` | add duck to your project |  |
 | `@ install pkg` | download and install package pkg |
 | `@ lings` | view loaded lings |
