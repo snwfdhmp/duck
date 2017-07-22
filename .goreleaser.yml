@@ -4,7 +4,6 @@ builds:
   - main: cmd/duck/duck.go
     binary: duck
     goos:
-      - android
       - darwin
       - linux
       - freebsd
