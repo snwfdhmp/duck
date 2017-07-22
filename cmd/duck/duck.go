@@ -17,7 +17,7 @@ import (
 
 const (
 	//DuckVersion current tool version
-	DuckVersion = "a1.0.0"
+	DuckVersion = "v0.1.1"
 )
 
 var (
