@@ -4,16 +4,90 @@ builds:
   - main: cmd/duck/duck.go
     binary: duck
     goos:
+      - android
       - darwin
       - linux
+      - freebsd
+      - netbsd
+      - openbsd
+      - solaris
+      - dragonfly
     goarch:
       - amd64
       - arm
+      - arm64
+      - ppc64
+      - mips
+      - 386
+
+    goarm:
+      - 6
+      - 7
 # Archive customization
 archive:
   format: tar.gz
   replacements:
     darwin: macOS
+    amd64: 64-bit
+    386: 32-bit
   files:
     - LICENSE
     - ressources/duck.conf
+    - README.md
+
+release:
+  # Repo in which the release will be created.
+  # Default is extracted from the origin remote URL.
+  github:
+    owner: snwfdhmp
+    name: duck
+
+  # If set to true, will not auto-publish the release.
+  # Default is false
+  draft: true
+
+# .goreleaser.yml
+brew:
+  # Reporitory to push the tap to.
+  github:
+    owner: snwfdhmp
+    name: homebrew
+
+  # Folder inside the repository to put the formula.
+  # Default is the root folder.
+  folder: duck
+
+  # Caveats for the user of your binary.
+  # Default is empty.
+  caveats: "How to use this binary"
+
+  # Your app's homepage
+  # Default is empty
+  homepage: "https://github.com/snwfdhmp/duck"
+
+  # Your app's description
+  # Default is empty
+  description: "Duck: custom commands to speed up your dev routines"
+
+  # Dependencies of your package
+  dependencies:
+    - curl
+
+  # Packages that conflict with your package
+  # conflicts:
+  #   - svn
+  #   - bash
+
+  # Packages that run as a service. Default is empty.
+  # plist: |
+  #   <?xml version="1.0" encoding="UTF-8"?>
+  #   ...
+
+  # # So you can brew test your formula. Default is empty.  
+  # test: |
+  #   system "#{bin}/program --version"
+  #   ...
+
+  # Custom install script for brew. Default is 'bin.install "program"'
+  install: |
+    bin.install "duck"
