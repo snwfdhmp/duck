@@ -97,7 +97,7 @@ duck is available under the alias `@` to speed up the command-writing process.
 
 > if `@` is not available for you, run `ln -s $(which duck) /usr/local/bin/@`
 
-`@ <action> [args]`
+usage: `@ <action> [args]`
 
 | command | description |
 | --- | --- |
