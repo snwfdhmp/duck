@@ -50,7 +50,6 @@ func (Logger) Fatal(err error, msg string) {
 	if err != nil {
 		fmt.Println(RED + "Fatal: " + msg + END_STYLE)
 		log.Fatalln(err)
-		os.Exit(1)
 	}
 }
 

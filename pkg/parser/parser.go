@@ -50,7 +50,7 @@ func GetCommandArrFromInput(label ...string) []*exec.Cmd {
 		shouldContinue := true
 		cmd = ParseTags(cmd)
 		cmd, shouldContinue = ParseDollarParams(cmd, label[1:]...)
-		if shouldContinue != true {
+		if !shouldContinue {
 			return []*exec.Cmd{}
 		}
 		//logging

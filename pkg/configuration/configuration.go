@@ -116,7 +116,7 @@ func (p *Configuration) Write() {
 	ioutil.WriteFile(root+"/.duck/project.conf", b, 0644)
 }
 
-//Write writes AppConfiguration to /etc/duck/duck.conf
+//Write writes AppConfiguration to /etc/duck.conf
 func (a *AppConfiguration) Write() {
 	b, err := json.Marshal(*a)
 	log.Fatal(err, "Cannot write app configuration file")
