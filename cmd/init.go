@@ -19,6 +19,7 @@ import (
 	"os"
 	"strings"
 
+	"bufio"
 	"github.com/fatih/color"
 	"github.com/go-ini/ini"
 	"github.com/spf13/afero"
@@ -26,7 +27,8 @@ import (
 )
 
 var (
-	force bool
+	force                        bool
+	overwriteEntryInDataIfExists bool = false
 
 	defaultIncludePath = "packages"
 )
@@ -34,15 +36,12 @@ var (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Inits a new duck repo in the current directory",
+	Long: `Inits a new duck repo in the current directory with structure :
+ .duck/
+   packages/
+   conf.ini`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fs := afero.NewOsFs()
 
 		//if force, remove the existing .duck
 		if force {
@@ -109,8 +108,64 @@ to quickly create a Cobra application.`,
 			return
 		}
 
+		err = addProjectToProjectsConfig(name.String(), path.String())
+		if err != nil {
+			color.Red("Could not add project to our database. Error: " + err.Error())
+		}
+
 		color.Green("Init performed successfully")
 	},
+}
+
+func addProjectToProjectsConfig(name, projectPath string) error {
+	config, err := getDuckData()
+
+	projectsSection, err := config.GetSection("projects")
+	if err != nil {
+		return err
+	}
+
+	exists := projectsSection.Haskey(name)
+	for exists && !overwriteEntryInDataIfExists {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("A project named '" + name + "' already exists. Enter another name (or ENTER to overwrite) : ")
+		input, err := reader.ReadString('\n')
+		if err != nil {
+			return err
+		}
+		input = input[:len(input)-1] // pop the '\n'
+		if input == "" {
+			overwriteEntryInDataIfExists = true
+			break
+		} else {
+			name = input
+		}
+
+		exists = projectsSection.Haskey(name)
+	}
+
+	fmt.Println("Adding project '" + name + "' to duck data")
+
+	if !overwriteEntryInDataIfExists {
+		_, err = projectsSection.NewKey(name, projectPath)
+		if err != nil {
+			return err
+		}
+	} else {
+		p, err := projectsSection.GetKey(name)
+		if err != nil {
+			return err
+		}
+		p.SetValue(projectPath)
+	}
+
+	configPath, err := getDuckDataPath()
+	if err != nil {
+		return err
+	}
+
+	err = config.SaveTo(configPath)
+	return err
 }
 
 func init() {

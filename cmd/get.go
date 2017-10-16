@@ -32,13 +32,13 @@ var nocheck bool
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Get a package from the internet",
+	Long: `duck get <package> looks for <package> in your configured
+repositories and download it from the first repository (based on
+repositories array index) where its available.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Package are named following this pattern : 'author/name' (ie: 'snwfdhmp/go')
+To try: duck get snwfdhmp/go`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fs := afero.NewOsFs()
 

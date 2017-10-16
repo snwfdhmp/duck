@@ -15,13 +15,14 @@
 package main
 
 import (
+	"os"
+	"os/exec"
+
 	"github.com/fatih/color"
 	"github.com/go-ini/ini"
 	"github.com/snwfdhmp/duck/cmd"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
-	"os"
-	"os/exec"
 )
 
 var (

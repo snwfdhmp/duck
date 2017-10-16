@@ -32,13 +32,11 @@ var (
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Create a ling",
+	Long: `Permits you to create a new ling (duck command).
+You can use it in two modes :
+    - interactive: 'duck create'
+    - one line: 'duck create <author> <command_name> <shortcut> <commands_to_execute> <help_message>'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := loadProjectConfig()
 		if err != nil {

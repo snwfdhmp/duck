@@ -30,19 +30,17 @@ import (
 var cfgFile string
 
 var (
+	fs         afero.Fs = afero.NewOsFs()
 	projectCfg *ini.File
 )
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "duck",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Developer assistant",
+	Long: `Duck is a developer assistant, it helps you to automate task
+by creating custom commands (called 'lings'), or by managing
+your projects.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
@@ -63,7 +61,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.duck.yaml)")
+	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.duck.json)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -97,8 +95,6 @@ func initConfig() {
 }
 
 func loadProjectConfig() error {
-	fs := afero.NewOsFs()
-
 	exists, err := afero.Exists(fs, ".duck/conf.ini")
 	if err != nil {
 		return err
@@ -127,4 +123,77 @@ func getConfigString(str string) (string, error) {
 		return "", err
 	}
 	return key.String(), nil
+}
+
+func duckGlobalConfPath() (string, error) {
+	// Find home directory.
+	home, err := homedir.Dir()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	path := home + "/.duck"
+
+	exists, err := afero.Exists(fs, path)
+	if err != nil {
+		return "", err
+	}
+	if exists {
+		return path, nil
+	}
+
+	err = fs.Mkdir(path, 0755)
+	if err != nil {
+		return "", err
+	}
+
+	return path, nil
+}
+
+func getDuckDataFromPath(path string) (*ini.File, error) {
+	exists, err := afero.Exists(fs, path)
+	if err != nil {
+		return &ini.File{}, err
+	}
+	if !exists {
+		_, err := fs.Create(path)
+		if err != nil {
+			return &ini.File{}, err
+		}
+	}
+
+	config, err := ini.Load(path)
+	if err != nil {
+		return &ini.File{}, err
+	}
+
+	_, err = config.GetSection("projects")
+	if err != nil {
+		_, err = config.NewSection("projects")
+		if err != nil {
+			return &ini.File{}, err
+		}
+		err := config.SaveTo(path)
+		if err != nil {
+			return &ini.File{}, err
+		}
+	}
+
+	return config, nil
+}
+
+func getDuckData() (*ini.File, error) {
+	configPath, err := getDuckDataPath()
+	if err != nil {
+		return &ini.File{}, err
+	}
+
+	return getDuckDataFromPath(configPath)
+}
+
+func getDuckDataPath() (string, error) {
+	path, err := duckGlobalConfPath()
+
+	return path + "/data.ini", err
 }
