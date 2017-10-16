@@ -125,7 +125,7 @@ func getConfigString(str string) (string, error) {
 	return key.String(), nil
 }
 
-func duckGlobalConfPath() (string, error) {
+func DuckGlobalConfPath() (string, error) {
 	// Find home directory.
 	home, err := homedir.Dir()
 	if err != nil {
@@ -193,7 +193,7 @@ func getDuckData() (*ini.File, error) {
 }
 
 func getDuckDataPath() (string, error) {
-	path, err := duckGlobalConfPath()
+	path, err := DuckGlobalConfPath()
 
 	return path + "/data.ini", err
 }

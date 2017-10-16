@@ -28,6 +28,7 @@ import (
 
 //add -f to force creation of dir
 var nocheck bool
+var globalGet bool
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
@@ -42,28 +43,53 @@ To try: duck get snwfdhmp/go`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fs := afero.NewOsFs()
 
-		err := loadProjectConfig()
-		if err != nil {
-			color.Red("Unable to load project configuration.")
-			color.Red("Error: " + err.Error())
-			return
-		}
+		var pkgsPath string
+		var err error
 
-		pkgs, err := projectCfg.GetSection("packages")
-		if err != nil {
-			color.Red("Unable to get 'packages' section into configuration file")
-			color.Red("Error: " + err.Error())
-			return
-		}
+		if globalGet {
+			path, err := DuckGlobalConfPath()
+			if err != nil {
+				color.Red("Unable to get duck global configuration path. Error: " + err.Error())
+				return
+			}
+			pkgsPath = path + "/packages"
+			exists, err := afero.Exists(fs, pkgsPath)
+			if err != nil {
+				color.Red("Unable to check if global package storage exists. Error: " + err.Error())
+				return
+			}
+			if !exists {
+				fmt.Println("This user does not have a global package storage yet. Creating one ...")
+				err := fs.MkdirAll(pkgsPath, 0755)
+				if err != nil {
+					color.Red("Unable to create global package storage. Error: " + err.Error())
+					return
+				}
+			}
+		} else {
+			err := loadProjectConfig()
+			if err != nil {
+				color.Red("Unable to load project configuration.")
+				color.Red("Error: " + err.Error())
+				return
+			}
 
-		path, err := pkgs.GetKey("directory")
-		if err != nil {
-			color.Red("Unable to get the 'directory' key from 'packages' section into configuration file")
-			color.Red("Error: " + err.Error())
-			return
-		}
+			pkgs, err := projectCfg.GetSection("packages")
+			if err != nil {
+				color.Red("Unable to get 'packages' section into configuration file")
+				color.Red("Error: " + err.Error())
+				return
+			}
 
-		pkgsPath := ".duck/" + path.String()
+			path, err := pkgs.GetKey("directory")
+			if err != nil {
+				color.Red("Unable to get the 'directory' key from 'packages' section into configuration file")
+				color.Red("Error: " + err.Error())
+				return
+			}
+
+			pkgsPath = ".duck/" + path.String()
+		}
 
 		for i := 0; i < len(args); i++ {
 			// if args[i][len(args[i])-1] == "/" { //delete '/' if in last position, should be tested before use
@@ -143,6 +169,7 @@ To try: duck get snwfdhmp/go`,
 func init() {
 	RootCmd.AddCommand(getCmd)
 	getCmd.Flags().BoolVarP(&force, "force", "f", false, "replace package if existing")
+	getCmd.Flags().BoolVarP(&globalGet, "global", "g", false, "install package for user instead of project")
 	getCmd.Flags().BoolVar(&nocheck, "no-check", false, "skip file/folder existance checking")
 
 	// Here you will define your flags and configuration settings.

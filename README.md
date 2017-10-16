@@ -2,7 +2,6 @@
 
 As duck is being rewritten, this documentation might contain incorrect informations. I will get it up to date asap.
 
-
 ![head][head]
 
 ## Introduction

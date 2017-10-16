@@ -42,6 +42,22 @@ func main() {
 	}
 	if !exists {
 		//color.Yellow("Warning: not a duck repository")
+		var globalPkgsPaths []string
+		globalConfPath, err := cmd.DuckGlobalConfPath()
+		if err == nil {
+			globalIncludePath := globalConfPath + "/packages"
+			exists, err := afero.Exists(fs, globalIncludePath)
+			if err == nil && exists {
+				globalPkgsPaths = getPackagesPaths(globalConfPath + "/packages")
+			}
+		}
+
+		duckCommands, err = scanCommands(globalPkgsPaths)
+		if err != nil {
+			color.Red(err.Error())
+		}
+
+		createCobraCommands(duckCommands)
 		cmd.Execute()
 		return
 	}
@@ -63,6 +79,17 @@ func main() {
 	}
 
 	packagesPaths = getPackagesPaths(".duck/" + includePath.String())
+
+	globalConfPath, err := cmd.DuckGlobalConfPath()
+	if err == nil {
+		globalIncludePath := globalConfPath + "/packages"
+		exists, err := afero.Exists(fs, globalIncludePath)
+		if err == nil && exists {
+			globalPkgsPath := getPackagesPaths(globalConfPath + "/packages")
+			packagesPaths = append(packagesPaths, globalPkgsPath...)
+		}
+	}
+
 	duckCommands, err = scanCommands(packagesPaths)
 	if err != nil {
 		color.Red(err.Error())
@@ -113,6 +140,16 @@ func scanCommands(paths []string) ([]duckCommand, error) {
 		sections := cfg.Sections()
 		for j := 0; j < len(sections); j++ {
 			if sections[j].Name() == "DEFAULT" {
+				continue
+			}
+			alreadyExists := false
+			for _, tmp := range cmds {
+				if tmp.Name == sections[j].Name() {
+					alreadyExists = true
+					break
+				}
+			}
+			if alreadyExists {
 				continue
 			}
 			cmds = append(cmds, duckCommand{
