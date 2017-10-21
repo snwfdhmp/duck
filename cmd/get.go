@@ -23,7 +23,6 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 //add -f to force creation of dir
@@ -145,22 +144,51 @@ To try: duck get snwfdhmp/go`,
 				}
 			}
 			defer out.Close()
-			repos := viper.GetStringMap("repos")
 			repoColor := color.New(color.FgCyan).Sprint
 			pkgColor := color.New(color.FgYellow).Sprint
+			installed := false
+
+			repos, err := getRepos()
+			if err != nil {
+				color.Red("Could not load repos : " + err.Error())
+				return
+			}
+			if len(repos) == 0 {
+				fmt.Println("No repository configured. Installing default repository...")
+				_, err = addRepo(DefaultRepoName, DefaultRepoURL)
+				if err != nil {
+					color.Red("Could not add default repo : " + err.Error())
+					return
+				}
+				repos, err = getRepos()
+				if err != nil {
+					color.Red("Could not load repos : " + err.Error())
+					return
+				}
+			}
 			for name, url := range repos {
 				pkgUrl := fmt.Sprintf("%s%s.duckpkg.ini", url, args[i])
 				resp, err := http.Get(pkgUrl) //test errors
 				if err != nil {
 					color.Red("Could not download from '" + pkgUrl + "'")
 					color.Red("Error: " + err.Error())
-					return
+					continue
 				}
 				defer resp.Body.Close()
 
 				_, err = io.Copy(out, resp.Body)
+				if err != nil {
+					color.Red("Could not write file")
+					continue
+				}
 
 				color.Green("Successfully installed '" + pkgColor(args[i]) + color.New(color.FgGreen).Sprint("' from ") + repoColor(name))
+				installed = true
+				break
+			}
+			if !installed {
+				color.Red("Could not install " + pkgColor(args[i]))
+				continue
 			}
 		}
 	},

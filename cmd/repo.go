@@ -18,8 +18,13 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	"github.com/go-ini/ini"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+)
+
+const (
+	DefaultRepoName = "core"
+	DefaultRepoURL  = "http://raw.githubusercontent.com/snwfdhmp/duck-core/master/"
 )
 
 // repoCmd represents the repo command
@@ -30,7 +35,11 @@ var repoCmd = &cobra.Command{
 		repoColor := color.New(color.FgCyan).SprintFunc()
 		urlColor := color.New(color.FgYellow).SprintFunc()
 
-		repos := viper.GetStringMap("repos")
+		repos, err := getRepos()
+		if err != nil {
+			color.Red("Could not load repos : " + err.Error())
+			return
+		}
 		for name, url := range repos {
 			fmt.Println("-", repoColor(name), "=>", urlColor(url))
 		}
@@ -49,4 +58,56 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// repoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func getRepos() (map[string]string, error) {
+	data, err := getDuckData()
+	if err != nil {
+		return nil, err
+	}
+
+	reposSection, err := data.GetSection("repos")
+	if err != nil {
+		reposSection, err = data.NewSection("repos")
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	var repos map[string]string
+	repos = make(map[string]string)
+
+	for _, repo := range reposSection.Keys() {
+		repos[repo.Name()] = repo.Value()
+	}
+
+	return repos, nil
+}
+
+func addRepo(name, url string) (*ini.Key, error) {
+	data, err := getDuckData()
+	if err != nil {
+		return nil, err
+	}
+
+	reposSection, err := data.GetSection("repos")
+	if err != nil {
+		reposSection, err = data.NewSection("repos")
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	key, err := reposSection.NewKey(name, url)
+	if err != nil {
+		return nil, err
+	}
+
+	path, err := getDuckDataPath()
+	if err != nil {
+		return nil, err
+	}
+	err = data.SaveTo(path)
+
+	return key, err
 }
