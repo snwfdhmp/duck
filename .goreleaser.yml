@@ -9,6 +9,7 @@ builds:
       - amd64
       - arm
       - arm64
+    ldflags: -s -w -X cmd.DuckVersion={{.Version}}
 # Archive customization
 archive:
   format: tar.gz
@@ -16,4 +17,3 @@ archive:
     amd64: 64-bit
     darwin: macOS
 
-ldflags: -s -w -X cmd.DuckVersion={{.Version}}
