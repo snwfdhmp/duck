@@ -18,7 +18,10 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+)
+
+const (
+	DuckVersion = "duck 1.0"
 )
 
 // versionCmd represents the version command
@@ -26,8 +29,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Get duck's version",
 	Run: func(cmd *cobra.Command, args []string) {
-		version := viper.GetString("version")
-		fmt.Println(version)
+		fmt.Println(DuckVersion)
 	},
 }
 
