@@ -173,13 +173,16 @@ func createCobraCommands(cmds []duckCommand) {
 			Aliases: []string{cmds[i].Shortcut},
 			Run: func(cmd *cobra.Command, args []string) {
 				i := cmd.DuckCmdIndex
-				execCmd := exec.Command("sh", "-c", cmds[i].Cmd)
+				commonArgs := []string{"-c", cmds[i].Cmd, cmd.Use}
+				args = append(commonArgs, args...)
+				shell := os.Getenv("SHELL")
+				execCmd := exec.Command(shell, args...)
 				execCmd.Stderr = os.Stderr
 				execCmd.Stdout = os.Stdout
 				execCmd.Stdin = os.Stdin
 				err := execCmd.Run()
 				if err != nil {
-					color.Red("An error occured while executing this command. Error: " + err.Error())
+					color.Red("An error occured while executing this command. (" + shell + ") Error: " + err.Error())
 					os.Exit(1)
 				}
 			},
