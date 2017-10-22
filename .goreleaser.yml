@@ -4,11 +4,16 @@ builds:
     goos:
       - darwin
       - linux
+      - freebsd
     goarch:
       - amd64
+      - arm
+      - arm64
 # Archive customization
 archive:
   format: tar.gz
   replacements:
     amd64: 64-bit
     darwin: macOS
+
+ldflags: -s -w -X cmd.DuckVersion={{.Version}}
