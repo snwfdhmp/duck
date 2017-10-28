@@ -42,82 +42,97 @@ var initCmd = &cobra.Command{
    packages/
    conf.ini`,
 	Run: func(cmd *cobra.Command, args []string) {
-
-		//if force, remove the existing .duck
-		if force {
-			err := fs.RemoveAll(".duck")
-			if err != nil {
-				color.Red(err.Error())
-			}
-			fmt.Println("Deleted existing repo")
-		}
-
-		//if not exists, create, else return error
-		exists, err := afero.Exists(fs, ".duck")
-		if err != nil {
-			color.Red(err.Error())
-		}
-		if !exists {
-			err = fs.Mkdir(".duck", 0777)
-			if err != nil {
-				color.Red(err.Error())
-			}
-		} else {
-			fmt.Println("A duck repo already exists here. (-f to force)")
-			return
-		}
-
-		//start config
-		cfg := ini.Empty()
-		project, err := cfg.NewSection("project")
-		if err != nil {
-			color.Red(err.Error())
-			return
-		}
-
 		wd, err := os.Getwd()
 		if err != nil {
 			color.Red(err.Error())
 			return
 		}
 
-		wdArr := strings.Split(wd, "/")
-
-		name, err := project.NewKey("name", wdArr[len(wdArr)-1])
-		fmt.Println("Project name:", name)
-
-		path, err := project.NewKey("path", wd)
-		fmt.Println("Project path:", path)
-
-		packages, err := cfg.NewSection("packages")
-		if err != nil {
-			color.Red(err.Error())
-			return
-		}
-
-		includePath, err := packages.NewKey("directory", defaultIncludePath)
-
-		fmt.Println("Creating packages directory '.duck/" + includePath.String() + "'")
-		err = os.Mkdir(".duck/"+includePath.String(), 0777)
-
-		fmt.Println("Writing configuration to .duck/conf.ini")
-
-		err = cfg.SaveTo(".duck/conf.ini")
-		if err != nil {
-			color.Red(err.Error())
-			return
-		}
-
-		err = addProjectToProjectsConfig(name.String(), path.String())
-		if err != nil {
-			color.Red("Could not add project to our database. Error: " + err.Error())
-		}
-
-		color.Green("Init performed successfully")
+		InitProject(cmd, args, wd, true, force)
 	},
 }
 
-func addProjectToProjectsConfig(name, projectPath string) error {
+func InitProject(cmd *cobra.Command, args []string, path string, verbose bool, forceMode bool) {
+	//if force, remove the existing .duck
+	if forceMode {
+		err := fs.RemoveAll(path + "/.duck")
+		if err != nil {
+			color.Red(err.Error())
+		}
+		if verbose {
+			fmt.Println("Deleted existing repo")
+		}
+	}
+
+	//if not exists, create, else return error
+	exists, err := afero.Exists(fs, path+"/.duck")
+	if err != nil {
+		color.Red(err.Error())
+	}
+	if !exists {
+		err = fs.Mkdir(path+"/.duck", 0777)
+		if err != nil {
+			color.Red(err.Error())
+		}
+	} else {
+		fmt.Println("A duck repo already exists here. (-f to force)")
+		return
+	}
+
+	//start config
+	cfg := ini.Empty()
+	project, err := cfg.NewSection("project")
+	if err != nil {
+		color.Red(err.Error())
+		return
+	}
+
+	wdArr := strings.Split(path, "/")
+
+	name, err := project.NewKey("name", wdArr[len(wdArr)-1])
+	if verbose {
+		fmt.Println("Project name:", name)
+	}
+
+	pathKey, err := project.NewKey("path", path)
+	if verbose {
+		fmt.Println("Project path:", pathKey)
+	}
+
+	packages, err := cfg.NewSection("packages")
+	if err != nil {
+		color.Red(err.Error())
+		return
+	}
+
+	includePath, err := packages.NewKey("directory", defaultIncludePath)
+
+	if verbose {
+		fmt.Println("Creating packages directory '.duck/" + includePath.String() + "'")
+	}
+	err = os.Mkdir(path+"/.duck/"+includePath.String(), 0777)
+
+	if verbose {
+		fmt.Println("Writing configuration to .duck/conf.ini")
+	}
+
+	err = cfg.SaveTo(path + "/.duck/conf.ini")
+	if err != nil {
+		color.Red(err.Error())
+		return
+	}
+
+	err = AddProjectToProjectsConfig(name.String(), pathKey.String())
+	if err != nil {
+		color.Red("Could not add project to our database. Error: " + err.Error())
+	}
+
+	if verbose {
+		color.Green("Init performed successfully")
+	}
+}
+
+func AddProjectToProjectsConfig(name, projectPath string) error {
 	config, err := getDuckData()
 
 	projectsSection, err := config.GetSection("projects")
@@ -127,6 +142,10 @@ func addProjectToProjectsConfig(name, projectPath string) error {
 
 	exists := projectsSection.Haskey(name)
 	for exists && !overwriteEntryInDataIfExists {
+		if projectsSection.Key(name).Value() == projectPath {
+			overwriteEntryInDataIfExists = true
+			break
+		}
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("A project named '" + name + "' already exists. Enter another name (or ENTER to overwrite) : ")
 		input, err := reader.ReadString('\n')
@@ -143,8 +162,6 @@ func addProjectToProjectsConfig(name, projectPath string) error {
 
 		exists = projectsSection.Haskey(name)
 	}
-
-	fmt.Println("Adding project '" + name + "' to duck data")
 
 	if !overwriteEntryInDataIfExists {
 		_, err = projectsSection.NewKey(name, projectPath)
