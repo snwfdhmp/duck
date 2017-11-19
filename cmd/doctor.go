@@ -1,17 +1,3 @@
-// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
@@ -19,19 +5,20 @@ import (
 	"os"
 
 	"github.com/fatih/color"
+	"github.com/snwfdhmp/duck/pkg/projects"
 	"github.com/spf13/cobra"
+)
+
+var (
+	doctorOptions struct {
+		Repair bool
+	}
 )
 
 // doctorCmd represents the doctor command
 var doctorCmd = &cobra.Command{
 	Use:   "doctor",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Gives project's status",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			wd, err := os.Getwd()
@@ -42,26 +29,46 @@ to quickly create a Cobra application.`,
 			args = append(args, wd)
 		}
 
+		var toRun Funcs
+
+		toRun.Add(RunDoctor)
+
+		if doctorOptions.Repair {
+			toRun.Add(RunRepair)
+		}
+
 		if len(args) == 1 {
-			RunDoctor(args[0])
+			toRun.Run(args[0])
 		} else {
 			for _, path := range args {
 				fmt.Println("-", path)
-				RunDoctor(path)
+				toRun.Run(path)
 			}
 		}
 	},
 }
 
+type Funcs []func(string)
+
+func (f *Funcs) Add(fn func(string)) {
+	*f = append(*f, fn)
+}
+
+func (f *Funcs) Run(s string) {
+	for _, fn := range *f {
+		fn(s)
+	}
+}
+
 func RunDoctor(path string) {
-	healthy, err := IsHealthy(path)
+	healthy, err := projects.IsHealthy(path)
 	if err != nil {
 		color.Red("Doctor cannot work :" + err.Error())
 		return
 	}
 
 	if healthy {
-		color.Green("You're in very good health ! :-)")
+		color.Green("You look good ! :-)")
 	} else {
 		color.Magenta("You should repair.")
 	}
@@ -69,6 +76,7 @@ func RunDoctor(path string) {
 
 func init() {
 	RootCmd.AddCommand(doctorCmd)
+	doctorCmd.Flags().BoolVarP(&doctorOptions.Repair, "repair", "r", false, "will repair project if broken")
 
 	// Here you will define your flags and configuration settings.
 

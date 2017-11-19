@@ -1,17 +1,3 @@
-// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
@@ -23,6 +9,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/karrick/godirwalk"
+	"github.com/snwfdhmp/duck/pkg/data"
+	"github.com/snwfdhmp/duck/pkg/projects"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
@@ -57,11 +45,6 @@ to quickly create a Cobra application.`,
 
 		//load projects from data
 		dataHasError := false
-		dataProjects, err := GetDataProjects()
-		if err != nil {
-			color.Red("Could not read projects from data: " + err.Error())
-			dataHasError = true
-		}
 
 		w := new(tabwriter.Writer)
 		w.Init(os.Stdout, 1, 2, 1, ' ', 0)
@@ -69,13 +52,7 @@ to quickly create a Cobra application.`,
 		addedCount := 0
 		projectCount := 0
 
-		dataPath, err := getDuckDataPath()
-		if err != nil {
-			color.Red("Could not read projects from data: " + err.Error())
-			dataHasError = true
-		}
-
-		dataPath = filepath.Dir(dataPath)
+		dataPath := filepath.Dir(data.Path)
 
 		if repairMode {
 			doctorMode = true
@@ -95,7 +72,7 @@ to quickly create a Cobra application.`,
 				output := ""
 
 				if !dataHasError {
-					for _, p := range dataProjects {
+					for _, p := range data.Projects.Keys() {
 						if p.Value() == path {
 							found = true
 							if p.Name() == name {
@@ -109,7 +86,7 @@ to quickly create a Cobra application.`,
 					if !found {
 						output += Red("\tunkwown")
 						if addMode {
-							err := AddProjectToProjectsConfig(name, path)
+							err := data.AddProject(name, path, false, false)
 							if err != nil {
 								output += Red(", cannot add: " + err.Error())
 							} else {
@@ -119,7 +96,7 @@ to quickly create a Cobra application.`,
 						}
 					}
 					if doctorMode {
-						healty, err := IsHealthy(path)
+						healty, err := projects.IsHealthy(path)
 						var doctor string
 						if err != nil {
 							doctor = Red("\tcannot doctor: " + err.Error())
@@ -145,7 +122,7 @@ to quickly create a Cobra application.`,
 		}
 
 		//CLEAR
-		fmt.Printf("                                                                                                                  \r")
+		fmt.Printf("\n")
 		w.Flush()
 
 		msg := "Found " + Yellow(strconv.Itoa(projectCount)) + " projects"

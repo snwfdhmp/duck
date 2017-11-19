@@ -1,33 +1,33 @@
-// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/fatih/color"
-	"github.com/go-ini/ini"
-	"github.com/spf13/afero"
+	"github.com/snwfdhmp/duck/pkg/pkg"
+	"github.com/snwfdhmp/duck/pkg/projects"
 	"github.com/spf13/cobra"
 )
 
 var (
 	reader = bufio.NewReader(os.Stdin)
 )
+
+func readArgsPositionally(args, names []string) map[string]string {
+	res := make(map[string]string, 1)
+
+	for i, n := range names {
+		if len(args) <= i {
+			res[n] = ""
+			continue
+		}
+		res[n] = args[i]
+	}
+	return res
+}
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -38,82 +38,33 @@ You can use it in two modes :
     - interactive: 'duck create'
     - one line: 'duck create <author> <command_name> <shortcut> <commands_to_execute> <help_message>'`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := loadProjectConfig()
-		if err != nil {
-			color.Red("Could not load project configuration : " + err.Error())
-			return
-		}
+		var command map[string]string
+		command = make(map[string]string, 1)
 
-		var author, name, shortcut, command, help string
+		if len(args) == 0 { //if no args, run interactive mode
+			fmt.Println("You are going to create a ling")
 
-		if len(args) == 0 {
-			author, name, shortcut, command, help, err = getArgsFromScanner()
+			command, err = ask(map[string]string{
+				"Enter the author name":                                 "author",
+				"Choose the command name (will be used as 'duck name')": "name",
+				"Enter the command to execute":                          "cmd",
+				"Enter message to be displayed for help":                "help",
+				"Enter a shortcut for your command":                     "shortcut",
+			})
+
+			if err != nil {
+				color.Red("Error: " + err.Error())
+				return
+			}
 		} else if len(args) != 5 {
 			color.Red("Syntax: duck create <author> <command_name> <shortcut> <commands_to_execute> <help_message>")
 			return
-		} else {
-			author, name, shortcut, command, help = args[0], args[1], args[2], args[3], args[4]
+		} else { //if 5 args, run one-line mode
+			command = readArgsPositionally(args, []string{"author", "name", "shortcut", "cmd", "help"})
 		}
 
-		path, err := getConfigString("packages.directory")
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		configPath := ".duck/" + path + "/" + author
-
-		fs := afero.NewOsFs()
-		exists, err := afero.Exists(fs, configPath)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		if !exists {
-			err = fs.Mkdir(configPath, 0777)
-			if err != nil {
-				color.Red("Error: " + err.Error())
-				return
-			}
-		}
-		configPath += "/custom.duckpkg.ini"
-		exists, err = afero.Exists(fs, configPath)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		if !exists {
-			_, err = fs.Create(configPath)
-			if err != nil {
-				color.Red("Error: " + err.Error())
-				return
-			}
-		}
-		config, err := ini.Load(configPath)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		section, err := config.NewSection(name)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		_, err = section.NewKey("cmd", command)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		_, err = section.NewKey("shortcut", shortcut)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		_, err = section.NewKey("help", help)
-		if err != nil {
-			color.Red("Error: " + err.Error())
-			return
-		}
-		err = config.SaveTo(configPath)
+		pkgName := filepath.Join(command["author"], "custom")
+		err = pkg.Create(projects.PackagesPath, pkgName, command)
 		if err != nil {
 			color.Red("Error: " + err.Error())
 			return
@@ -124,7 +75,7 @@ You can use it in two modes :
 }
 
 func readString(text string) (string, error) {
-	fmt.Print(text)
+	fmt.Print(text + ": ")
 	input, err := reader.ReadString('\n')
 	return input[:len(input)-1], err
 }
@@ -143,34 +94,15 @@ func init() {
 	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func getArgsFromScanner() (string, string, string, string, string, error) {
-	fmt.Println("You are going to create a ling")
+func ask(list map[string]string) (map[string]string, error) {
+	answers := make(map[string]string, 1)
+	var err error
 
-	author, err := readString("Enter the author name : ")
-	if err != nil {
-		color.Red("Error: " + err.Error())
-		return "", "", "", "", "", err
+	for text, dst := range list {
+		answers[dst], err = readString(text)
+		if err != nil {
+			return nil, err
+		}
 	}
-	name, err := readString("Choose the command name (will be used as 'duck name') : ")
-	if err != nil {
-		color.Red("Error: " + err.Error())
-		return "", "", "", "", "", err
-	}
-	command, err := readString("Enter the command to execute: ")
-	if err != nil {
-		color.Red("Error: " + err.Error())
-		return "", "", "", "", "", err
-	}
-	help, err := readString("Enter message to be displayed for help: ")
-	if err != nil {
-		color.Red("Error: " + err.Error())
-		return "", "", "", "", "", err
-	}
-	shortcut, err := readString("Enter a shortcut for your command: ")
-	if err != nil {
-		color.Red("Error: " + err.Error())
-		return "", "", "", "", "", err
-	}
-
-	return author, name, shortcut, command, help, nil
+	return answers, nil
 }

@@ -15,179 +15,43 @@
 package main
 
 import (
-	"os"
-	"os/exec"
-
 	"github.com/fatih/color"
-	"github.com/go-ini/ini"
 	"github.com/snwfdhmp/duck/cmd"
+	"github.com/snwfdhmp/duck/pkg/data"
+	"github.com/snwfdhmp/duck/pkg/pkg"
+	"github.com/snwfdhmp/duck/pkg/projects"
 	"github.com/spf13/afero"
-	"github.com/spf13/cobra"
 )
 
 var (
-	fs            afero.Fs
-	packagesPaths []string
-	duckCommands  []duckCommand
+	fs           afero.Fs = afero.NewOsFs()
+	paths        []string
+	duckCommands []pkg.Command
 )
 
-const packagesExtension = ".duckpkg.ini"
-
 func main() {
-	fs = afero.NewOsFs()
-	exists, err := afero.Exists(fs, ".duck/conf.ini")
-	if err != nil {
-		color.Red(err.Error())
-		return
-	}
-	if !exists {
-		//color.Yellow("Warning: not a duck repository")
-		var globalPkgsPaths []string
-		globalConfPath, err := cmd.DuckGlobalConfPath()
-		if err == nil {
-			globalIncludePath := globalConfPath + "/packages"
-			exists, err := afero.Exists(fs, globalIncludePath)
-			if err == nil && exists {
-				globalPkgsPaths = getPackagesPaths(globalConfPath + "/packages")
-			}
-		}
-
-		duckCommands, err = scanCommands(globalPkgsPaths)
-		if err != nil {
-			color.Red(err.Error())
-		}
-
-		createCobraCommands(duckCommands)
-		cmd.Execute()
-		return
-	}
-
-	cfg, err := ini.Load(".duck/conf.ini")
-	if err != nil {
-		color.Red(err.Error())
-		return
-	}
-	cfgPackages, err := cfg.GetSection("packages")
-	if err != nil {
-		color.Red(err.Error())
-		return
-	}
-	includePath, err := cfgPackages.GetKey("directory")
-	if err != nil {
-		color.Red(err.Error())
-		return
-	}
-
-	packagesPaths = getPackagesPaths(".duck/" + includePath.String())
-
-	globalConfPath, err := cmd.DuckGlobalConfPath()
-	if err == nil {
-		globalIncludePath := globalConfPath + "/packages"
-		exists, err := afero.Exists(fs, globalIncludePath)
-		if err == nil && exists {
-			globalPkgsPath := getPackagesPaths(globalConfPath + "/packages")
-			packagesPaths = append(packagesPaths, globalPkgsPath...)
-		}
-	}
-
-	duckCommands, err = scanCommands(packagesPaths)
-	if err != nil {
-		color.Red(err.Error())
-	}
-
-	createCobraCommands(duckCommands)
-
-	cmd.Execute()
-}
-
-func getPackagesPaths(includePath string) []string {
+	var err error
 	var paths []string
-	//color.Yellow("Including from: " + includePath)
-	fi, err := afero.ReadDir(fs, includePath)
-	if err != nil {
-		color.Red(err.Error())
-		return []string{}
+
+	sources := map[string]bool{
+		projects.PackagesPath: (!projects.HasErrors && projects.IsInside),
+		data.PackagesPath:     !data.HasErrors,
 	}
-	var path string
-	for i := 0; i < len(fi); i++ {
-		path = includePath + "/" + fi[i].Name()
-		if fi[i].IsDir() {
-			paths = append(paths, getPackagesPaths(path)...)
+
+	for target, condition := range sources {
+		if !condition {
 			continue
 		}
-		if path[len(path)-len(packagesExtension):] == packagesExtension {
-			paths = append(paths, path)
-		}
-	}
-	return paths
-}
 
-type duckCommand struct {
-	Name      string
-	Shortcut  string
-	Cmd       string
-	ShortHelp string
-	LongHelp  string
-}
-
-func scanCommands(paths []string) ([]duckCommand, error) {
-	var cmds []duckCommand
-	for i := 0; i < len(paths); i++ {
-		cfg, err := ini.Load(paths[i])
-		if err != nil {
-			color.Red(err.Error())
-		}
-		sections := cfg.Sections()
-		for j := 0; j < len(sections); j++ {
-			if sections[j].Name() == "DEFAULT" {
-				continue
-			}
-			alreadyExists := false
-			for _, tmp := range cmds {
-				if tmp.Name == sections[j].Name() {
-					alreadyExists = true
-					break
-				}
-			}
-			if alreadyExists {
-				continue
-			}
-			cmds = append(cmds, duckCommand{
-				Name:      sections[j].Name(),
-				Cmd:       sections[j].Key("cmd").String(),
-				Shortcut:  sections[j].Key("shortcut").String(),
-				ShortHelp: sections[j].Key("help").String(),
-				LongHelp:  sections[j].Key("longHelp").String(),
-			})
-		}
+		paths = append(paths, target)
 	}
-	return cmds, nil
-}
 
-func createCobraCommands(cmds []duckCommand) {
-	for i := 0; i < len(cmds); i++ {
-		var tmpCmd = &cobra.Command{
-			Use:     cmds[i].Name,
-			Short:   cmds[i].ShortHelp,
-			Long:    cmds[i].LongHelp,
-			Aliases: []string{cmds[i].Shortcut},
-			Run: func(cmd *cobra.Command, args []string) {
-				i := cmd.DuckCmdIndex
-				commonArgs := []string{"-c", cmds[i].Cmd, cmd.Use}
-				args = append(commonArgs, args...)
-				shell := os.Getenv("SHELL")
-				execCmd := exec.Command(shell, args...)
-				execCmd.Stderr = os.Stderr
-				execCmd.Stdout = os.Stdout
-				execCmd.Stdin = os.Stdin
-				err := execCmd.Run()
-				if err != nil {
-					color.Red("An error occured while executing this command. (" + shell + ") Error: " + err.Error())
-					os.Exit(1)
-				}
-			},
-			DuckCmdIndex: i,
-		}
-		cmd.RootCmd.AddCommand(tmpCmd)
+	duckCommands, err := pkg.ReadDirs(paths)
+	if err != nil {
+		color.Red(err.Error())
 	}
+
+	pkg.CreateCobraCommands(cmd.RootCmd, duckCommands)
+
+	cmd.Execute()
 }

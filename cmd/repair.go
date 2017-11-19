@@ -1,17 +1,3 @@
-// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
@@ -19,19 +5,18 @@ import (
 	"os"
 
 	"github.com/fatih/color"
+	"github.com/snwfdhmp/duck/pkg/projects"
 	"github.com/spf13/cobra"
 )
 
 // repairCmd represents the repair command
 var repairCmd = &cobra.Command{
 	Use:   "repair",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Repair project",
+	Long: `Repair project.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Usage: duck repair <dir1> <dir2> ...
+Default : current working directory`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			wd, err := os.Getwd()
@@ -54,7 +39,7 @@ to quickly create a Cobra application.`,
 }
 
 func RunRepair(path string) {
-	healthy, err := IsHealthy(path)
+	healthy, err := projects.IsHealthy(path)
 	if err != nil {
 		color.Red("Doctor cannot work :" + err.Error())
 		return
@@ -66,7 +51,7 @@ func RunRepair(path string) {
 	}
 
 	RepairProject(path)
-	healthy, err = IsHealthy(path)
+	healthy, err = projects.IsHealthy(path)
 	if err != nil {
 		color.Red("Doctor verify repair worked :" + err.Error())
 		return
@@ -79,7 +64,7 @@ func RunRepair(path string) {
 }
 
 func init() {
-	RootCmd.AddCommand(repairCmd)
+	//RootCmd.AddCommand(repairCmd)
 
 	// Here you will define your flags and configuration settings.
 
