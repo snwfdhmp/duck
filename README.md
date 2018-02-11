@@ -2,7 +2,7 @@
 
 As duck is being rewritten, this documentation might contain incorrect informations. I will get it up to date asap.
 
-![head][head]
+<!-- ![head][head] -->
 
 ## Introduction
 
@@ -229,5 +229,5 @@ However, please feel free to open issues.
 - [GoReleaser](https://github.com/goreleaser/goreleaser) used for releases management
 
 
-[logo-xs]: https://www.github.com/snwfdhmp/duck/raw/master/doc/ressources/img/logo-xs.png "Logo"
+[logo-xs]: ressources/logo-xs.png "Logo"
 [head]: https://www.github.com/snwfdhmp/duck/raw/master/doc/ressources/img/head.png "Head"
